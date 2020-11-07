@@ -1,0 +1,10 @@
+C:\Users\engin\Desktop\Dev\AltınOyunuCSharp\AltınOyunuCSharp\obj\Debug\AltınOyunuCSharp.csprojAssemblyReference.cache
+C:\Users\engin\Desktop\Dev\AltınOyunuCSharp\AltınOyunuCSharp\obj\Debug\AltınOyunuCSharp.Form1.resources
+C:\Users\engin\Desktop\Dev\AltınOyunuCSharp\AltınOyunuCSharp\obj\Debug\AltınOyunuCSharp.Properties.Resources.resources
+C:\Users\engin\Desktop\Dev\AltınOyunuCSharp\AltınOyunuCSharp\obj\Debug\AltınOyunuCSharp.csproj.GenerateResource.cache
+C:\Users\engin\Desktop\Dev\AltınOyunuCSharp\AltınOyunuCSharp\obj\Debug\AltınOyunuCSharp.csproj.CoreCompileInputs.cache
+C:\Users\engin\Desktop\Dev\AltınOyunuCSharp\AltınOyunuCSharp\bin\Debug\AltınOyunuCSharp.exe.config
+C:\Users\engin\Desktop\Dev\AltınOyunuCSharp\AltınOyunuCSharp\bin\Debug\AltınOyunuCSharp.exe
+C:\Users\engin\Desktop\Dev\AltınOyunuCSharp\AltınOyunuCSharp\bin\Debug\AltınOyunuCSharp.pdb
+C:\Users\engin\Desktop\Dev\AltınOyunuCSharp\AltınOyunuCSharp\obj\Debug\AltınOyunuCSharp.exe
+C:\Users\engin\Desktop\Dev\AltınOyunuCSharp\AltınOyunuCSharp\obj\Debug\AltınOyunuCSharp.pdb
