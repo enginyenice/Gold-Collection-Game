@@ -34,8 +34,9 @@ namespace AltınOyunuCSharp.Game.Map.Abstract
         void AddPrivateGold(int PrivateGoldField); // Gizli altın ekle
         bool GameOver(); // Oyun bitti mi.
         string GetMap(); // Haritayı String döndür.
+        string[,] GetMatrisMap(); // Haritayı Matris döndür.
         void SetMap(int xCord, int YCord,string data); // Haritaya veri ekle
-        string getPoint(int xCord, int yCord); // Karenin içindeki değeri getirir
+        string GetPoint(int xCord, int yCord); // Karenin içindeki değeri getirir
         void AddPlayer(int xCord, int YCord,string PlayerCode);
     }
 }
