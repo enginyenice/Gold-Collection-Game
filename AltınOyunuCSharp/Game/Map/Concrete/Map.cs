@@ -9,16 +9,32 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
 {
     class Map : IMap
     {
-        private int[,] map;
+        private string[,] map;
+        
         private int mapSquare;
+
+
+        int gameOrder = 1;
+        public int getGameOrder()
+        {
+            return gameOrder;
+        }
+        public void setGameOrder()
+        {
+            if (gameOrder > 3)
+                gameOrder = 1;
+            else
+                gameOrder++;
+        }
+        
         public Map(int m,int n)
         {
-            int[,] _map = new int[m, n];
+            string[,] _map = new string[m, n];
             for(int i = 0; i< m; i++)
             {
                 for (int k = 0; k < n; k++)
                 {
-                    _map[i, k] = 0;
+                    _map[i, k] = String.Empty;
                 }
             }
             mapSquare = m * n;
@@ -35,9 +51,9 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
                 GoldDetected:
                 int randomX = rastgele.Next(map.GetLength(0));
                 int randomY = rastgele.Next(map.GetLength(1));
-                if(map[randomX,randomY] == 0)
+                if(getPoint(randomX,randomY) == String.Empty)
                 {
-                    map[randomX, randomY] = (rastgele.Next(1, 4) * 5);
+                    SetMap(randomX, randomY, (rastgele.Next(1, 4) * 5).ToString());
                     goldField = i;
                 } else
                 {
@@ -60,9 +76,9 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
             PrivateGoldDetected:
                 int randomX = rastgele.Next(map.GetLength(0));
                 int randomY = rastgele.Next(map.GetLength(1));
-                if (map[randomX, randomY] == 0)
+                if (getPoint(randomX, randomY) == String.Empty)
                 {
-                    map[randomX, randomY] = 50+(rastgele.Next(1, 4) * 5);
+                    SetMap(randomX, randomY, "G-" + (rastgele.Next(1, 4) * 5));
                     goldField = i;
                 }
                 else
@@ -89,9 +105,17 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
             }
             return mapText;
         }
-        public void SetMap(int xCord, int YCord)
+        public string getPoint(int xCord,int yCord)
         {
-            throw new NotImplementedException();
+            return map[xCord, yCord];
+        }
+        public void SetMap(int xCord, int YCord, string data)
+        {
+            map[xCord, YCord] = data;
+        }
+        public void AddPlayer(int xCord, int YCord, string PlayerCode)
+        {
+            SetMap(xCord, YCord, PlayerCode);
         }
     }
 }
