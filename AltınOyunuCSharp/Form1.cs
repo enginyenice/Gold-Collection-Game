@@ -20,8 +20,8 @@ namespace AltınOyunuCSharp
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            int m = 4;
-            int n = 4;
+            int m = 10;
+            int n = 10;
             Map map = new Map(m,n);
 
             map.AddPlayer(0, 0, "A"); //Player A
@@ -31,8 +31,7 @@ namespace AltınOyunuCSharp
 
 
 
-            map.AddGold(20);
-            map.AddPrivateGold(20);
+            map.AddGold(20,10);
             Console.WriteLine(map.GetMap());
             
         }

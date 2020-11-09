@@ -30,8 +30,8 @@ namespace AltınOyunuCSharp.Game.Map.Abstract
 
     public interface IMap
     {
-        void AddGold(int rate); // Kaç adet altın eklenecek.
-        void AddPrivateGold(int rate); // Kaç adet gizli altın eklenecek.
+        public void AddGold(int GoldRate, int PrivateGoldRate); // Kaç adet altın eklenecek. Yüzde kaçı gizli
+        void AddPrivateGold(int PrivateGoldField); // Gizli altın ekle
         bool GameOver(); // Oyun bitti mi.
         string GetMap(); // Haritayı String döndür.
         void SetMap(int xCord, int YCord,string data); // Haritaya veri ekle

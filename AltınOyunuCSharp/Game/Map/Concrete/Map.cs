@@ -12,21 +12,11 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
         private string[,] map;
         
         private int mapSquare;
-
+        private List<string> goldCords; //Altın kordinatları var
+        private List<string> PrivateGoldCords; //Gizli altın kordinatları var
 
         int gameOrder = 1;
-        public int getGameOrder()
-        {
-            return gameOrder;
-        }
-        public void setGameOrder()
-        {
-            if (gameOrder > 3)
-                gameOrder = 1;
-            else
-                gameOrder++;
-        }
-        
+
         public Map(int m,int n)
         {
             string[,] _map = new string[m, n];
@@ -40,9 +30,12 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
             mapSquare = m * n;
             map = _map;
         }
-        public void AddGold(int rate)
+        public void AddGold(int GoldRate,int PrivateGoldRate)
         {
-            int goldField = (mapSquare * rate) / 100;
+            int goldField = (mapSquare * GoldRate) / 100;
+            int privateGoldField = (goldField * PrivateGoldRate) / 100;
+            goldField = goldField - privateGoldField;
+
             Random rastgele = new Random();
             
 
@@ -54,24 +47,25 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
                 if(getPoint(randomX,randomY) == String.Empty)
                 {
                     SetMap(randomX, randomY, (rastgele.Next(1, 4) * 5).ToString());
-                    goldField = i;
+                    goldCords.Add(randomX + "," + randomY);
+                    //goldField = i;
                 } else
                 {
                     goto GoldDetected;
                 }
 
             }
+            AddPrivateGold(privateGoldField);
 
 
 
         }
-        public void AddPrivateGold(int rate)
+        public void AddPrivateGold(int PrivateGoldField)
         {
-            int goldField = (mapSquare * rate) / 100;
             Random rastgele = new Random();
 
 
-            for (int i = goldField; i > 0; i--)
+            for (int i = PrivateGoldField; i > 0; i--)
             {
             PrivateGoldDetected:
                 int randomX = rastgele.Next(map.GetLength(0));
@@ -79,7 +73,7 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
                 if (getPoint(randomX, randomY) == String.Empty)
                 {
                     SetMap(randomX, randomY, "G-" + (rastgele.Next(1, 4) * 5));
-                    goldField = i;
+                    PrivateGoldCords.Add(randomX + "," + randomY);
                 }
                 else
                 {
@@ -117,5 +111,18 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
         {
             SetMap(xCord, YCord, PlayerCode);
         }
+
+        public int getGameOrder()
+        {
+            return gameOrder;
+        }
+        public void setGameOrder()
+        {
+            if (gameOrder > 3)
+                gameOrder = 1;
+            else
+                gameOrder++;
+        }
+
     }
 }
