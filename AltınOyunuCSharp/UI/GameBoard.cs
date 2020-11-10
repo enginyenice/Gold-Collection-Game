@@ -34,24 +34,62 @@ namespace AltınOyunuCSharp
         private void GameBoard_Load(object sender, EventArgs e)
         {
             GenerateButtonMap();
+
+            aPlayer.SearchForGold(map);
+            bPlayer.SearchForGold(map);
+            cPlayer.SearchForGold(map);
+            Console.WriteLine("xxxxxxxxxxxxx");
+            map.GetGoldList().ForEach(Console.WriteLine);
+
+
+
+
+
+            
+            // Tüm Logların Çıktısı //
+
+            Console.WriteLine("A Player All Log");
+            Console.WriteLine("-----------------------");
+            aPlayer.GetLog().ForEach(Console.WriteLine);
+            Console.WriteLine("-----------------------");
+
+            Console.WriteLine("B Player All Log");
+            Console.WriteLine("-----------------------");
+            bPlayer.GetLog().ForEach(Console.WriteLine);
+            Console.WriteLine("-----------------------");
+
+            Console.WriteLine("C Player All Log");
+            Console.WriteLine("-----------------------");
+            cPlayer.GetLog().ForEach(Console.WriteLine);
+            Console.WriteLine("-----------------------");
+
+            Console.WriteLine("D Player All Log");
+            Console.WriteLine("-----------------------");
+            dPlayer.GetLog().ForEach(Console.WriteLine);
+            Console.WriteLine("-----------------------");
+            // Tüm Logların Çıktısı //
+            
         }
+
+
+
 
         private void GenerateButtonMap()
         {
-            int lockWidthHeight = 30;
+            int lockWidthHeight = 60;
             string[,] mapMatris = map.GetMatrisMap();
             Button[,] buttonMatrix = new Button[mapMatris.GetLength(0), mapMatris.GetLength(1)];
-            for (int y = 0; y < mapMatris.GetLength(1); y++)
+            for (int y = 0; y < mapMatris.GetLength(0); y++)
             {
                 for (int x = 0; x < mapMatris.GetLength(1); x++)
                 {
                     buttonMatrix[y, x] = new Button()
                     {
-                        Width = Height = lockWidthHeight,
-                        Text = mapMatris[y, x].ToString(),
+                        Width = lockWidthHeight,
+                        Height = lockWidthHeight,
+                        Text = mapMatris[y, x].ToString()+"["+y+","+x+"]",
                         Enabled = false,
-                        Location = new Point(y * lockWidthHeight + 10,
-                                              x * lockWidthHeight + 10),  // <-- You might want to tweak this
+                        Location = new Point(x * lockWidthHeight + 10, y * lockWidthHeight + 10),  // x,y şeklinde 
                         Parent = panel1,
                     };
                     /*

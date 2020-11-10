@@ -47,10 +47,14 @@
             this.MoveLenghtTxT = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.StartGameBtn = new System.Windows.Forms.Button();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.cGoldShowTxT = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -68,7 +72,7 @@
             this.CordXTxT.Name = "CordXTxT";
             this.CordXTxT.Size = new System.Drawing.Size(100, 20);
             this.CordXTxT.TabIndex = 1;
-            this.CordXTxT.Text = "20";
+            this.CordXTxT.Text = "5";
             this.CordXTxT.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.CordXTxT_KeyPress);
             // 
             // CordY
@@ -77,7 +81,7 @@
             this.CordY.Name = "CordY";
             this.CordY.Size = new System.Drawing.Size(100, 20);
             this.CordY.TabIndex = 3;
-            this.CordY.Text = "20";
+            this.CordY.Text = "5";
             this.CordY.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.CordYTxT_KeyPress);
             // 
             // label2
@@ -134,7 +138,7 @@
             this.PrivateGoldTxT.Name = "PrivateGoldTxT";
             this.PrivateGoldTxT.Size = new System.Drawing.Size(100, 20);
             this.PrivateGoldTxT.TabIndex = 3;
-            this.PrivateGoldTxT.Text = "20";
+            this.PrivateGoldTxT.Text = "50";
             this.PrivateGoldTxT.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.PrivateGoldTxT_KeyPress);
             // 
             // GoldTxT
@@ -143,7 +147,7 @@
             this.GoldTxT.Name = "GoldTxT";
             this.GoldTxT.Size = new System.Drawing.Size(100, 20);
             this.GoldTxT.TabIndex = 1;
-            this.GoldTxT.Text = "20";
+            this.GoldTxT.Text = "90";
             this.GoldTxT.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.GoldTxT_KeyPress);
             // 
             // label4
@@ -239,25 +243,57 @@
             // 
             // StartGameBtn
             // 
-            this.StartGameBtn.Location = new System.Drawing.Point(12, 212);
+            this.StartGameBtn.Location = new System.Drawing.Point(500, 112);
             this.StartGameBtn.Name = "StartGameBtn";
-            this.StartGameBtn.Size = new System.Drawing.Size(482, 23);
+            this.StartGameBtn.Size = new System.Drawing.Size(238, 94);
             this.StartGameBtn.TabIndex = 7;
             this.StartGameBtn.Text = "Oyunu Başlat";
             this.StartGameBtn.UseVisualStyleBackColor = true;
             this.StartGameBtn.Click += new System.EventHandler(this.StartGameBtn_Click);
             // 
-            // Form1
+            // groupBox5
+            // 
+            this.groupBox5.BackColor = System.Drawing.SystemColors.MenuBar;
+            this.groupBox5.Controls.Add(this.label8);
+            this.groupBox5.Controls.Add(this.cGoldShowTxT);
+            this.groupBox5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.groupBox5.Location = new System.Drawing.Point(500, 12);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(238, 94);
+            this.groupBox5.TabIndex = 6;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Oyuncu Özellikleri";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(18, 32);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(14, 13);
+            this.label8.TabIndex = 0;
+            this.label8.Text = "C";
+            // 
+            // cGoldShowTxT
+            // 
+            this.cGoldShowTxT.Location = new System.Drawing.Point(117, 29);
+            this.cGoldShowTxT.Name = "cGoldShowTxT";
+            this.cGoldShowTxT.Size = new System.Drawing.Size(100, 20);
+            this.cGoldShowTxT.TabIndex = 1;
+            this.cGoldShowTxT.Text = "2";
+            this.cGoldShowTxT.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cGoldShowTxT_KeyPress);
+            // 
+            // Start
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(503, 250);
+            this.ClientSize = new System.Drawing.Size(743, 250);
+            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.StartGameBtn);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Name = "Form1";
+            this.Name = "Start";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
@@ -268,6 +304,8 @@
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -293,6 +331,9 @@
         private System.Windows.Forms.TextBox MoveLenghtTxT;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button StartGameBtn;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox cGoldShowTxT;
     }
 }
 

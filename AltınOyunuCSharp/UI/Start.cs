@@ -25,16 +25,43 @@ namespace AltınOyunuCSharp
         public DPlayer dPlayer;
         private void Form1_Load(object sender, EventArgs e)
         {
-            /*
-            int m = 10;
-            int n = 10;
-            Map map = new Map(m,n);
-
-
-            Console.WriteLine(map.GetMap());
-            */
         }
 
+        private void StartGameBtn_Click(object sender, EventArgs e)
+        {
+            int cordX = Int32.Parse(CordXTxT.Text);
+            int cordY = Int32.Parse(CordXTxT.Text);
+            int cost = Int32.Parse(CostTxT.Text);
+            int moveLenght = Int32.Parse(MoveLenghtTxT.Text);
+            int goldRate = Int32.Parse(GoldTxT.Text);
+            int privateGoldRate = Int32.Parse(PrivateGoldTxT.Text);
+            int startGold = Int32.Parse(StartGoldTxT.Text);
+            int cGoldShow = Int32.Parse(cGoldShowTxT.Text);
+
+            this.map = new Map(cordX, cordY);
+
+
+            // Player Modelleri //
+            this.aPlayer = new APlayer(startGold, "A", 0, 0, cost, moveLenght);
+            this.bPlayer = new BPlayer(startGold, "B", 0, (cordX - 1), cost, moveLenght);
+            this.cPlayer = new CPlayer(startGold, "C", (cordY - 1), 0, cost, moveLenght, cGoldShow);
+            this.dPlayer = new DPlayer(startGold, "D", (cordY - 1), (cordX - 1), cost, moveLenght);
+
+
+            // Map Player Yerleşimi
+            this.map.AddPlayer(0, 0, "A"); //Player A
+            this.map.AddPlayer(0, (cordX - 1), "B"); //Player B
+            this.map.AddPlayer((cordY - 1), 0, "C"); //Player C
+            this.map.AddPlayer((cordY - 1), (cordX - 1), "D"); //Player D
+
+            //Map Altın Yerleşimi
+            this.map.AddGold(goldRate, privateGoldRate);
+            Console.WriteLine(this.map.GetMap());
+            //Oyun Ekranının Açılması
+            GameBoard gameBoard = new GameBoard(this.map, this.aPlayer, this.bPlayer, this.cPlayer, this.dPlayer);
+            this.Hide();
+            gameBoard.Show();
+        }
 
 
 
@@ -93,40 +120,15 @@ namespace AltınOyunuCSharp
                 e.Handled = true;
             }
         }
-
-        private void StartGameBtn_Click(object sender, EventArgs e)
+        private void cGoldShowTxT_KeyPress(object sender, KeyPressEventArgs e)
         {
-            int cordX = Int32.Parse(CordXTxT.Text);
-            int cordY = Int32.Parse(CordXTxT.Text);
-            int cost = Int32.Parse(CostTxT.Text);
-            int moveLenght = Int32.Parse(MoveLenghtTxT.Text);
-            int goldRate = Int32.Parse(GoldTxT.Text);
-            int privateGoldRate = Int32.Parse(PrivateGoldTxT.Text);
-            int startGold = Int32.Parse(StartGoldTxT.Text);
-
-            this.map = new Map(cordX,cordY,cost,moveLenght);
-            
-            
-            // Player Modelleri //
-            this.aPlayer = new APlayer(startGold, "A", 0, 0);
-            this.bPlayer = new BPlayer(startGold, "B", 0,(cordX - 1));
-            this.cPlayer = new CPlayer(startGold, "C", (cordY -1),0);
-            this.dPlayer = new DPlayer(startGold, "D", (cordY - 1), (cordX - 1));
-
-
-            // Map Player Yerleşimi
-            this.map.AddPlayer(0, 0, "A"); //Player A
-            this.map.AddPlayer(0, (cordX - 1), "B"); //Player B
-            this.map.AddPlayer((cordY - 1), 0, "C"); //Player C
-            this.map.AddPlayer((cordY - 1), (cordX - 1), "D"); //Player D
-            
-            //Map Altın Yerleşimi
-            this.map.AddGold(goldRate, privateGoldRate);
-
-            //Oyun Ekranının Açılması
-            GameBoard gameBoard = new GameBoard(this.map,this.aPlayer,this.bPlayer,this.cPlayer,this.dPlayer);
-            this.Hide();
-            gameBoard.Show();
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
         }
+        
+
+
     }
 }

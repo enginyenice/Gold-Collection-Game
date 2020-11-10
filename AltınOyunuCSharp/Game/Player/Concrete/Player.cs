@@ -1,4 +1,5 @@
-﻿using AltınOyunuCSharp.Game.Player.Abstract;
+﻿using AltınOyunuCSharp.Game.Map.Abstract;
+using AltınOyunuCSharp.Game.Player.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,19 +8,38 @@ using System.Threading.Tasks;
 
 namespace AltınOyunuCSharp.Game.Player.Concrete
 {
-    public class Player : IPlayer
+    public abstract class Player : IPlayer
     {
-        int gold;
-        List<string> log;
+        public int gold; // Oyuncunun sahip olduğu altın.
+        public List<string> log; // Log kayıtları
+        public int lastYCord,lastXCord; // O an bulunduğu kordinat
+        public int[] targetedGold; // 0-> Y | 1->X
+        public int cost; //Maliyet
+        public int moveLenght; //Hareket uzunluğu
 
-        public Player(int gold,string name,int cordX,int cordY)
+
+        public Player(int gold,string name,int cordY,int cordX,int cost,int moveLenght)
         {
+            this.targetedGold = new int[2];
+            this.SetTargetedGold(-1, -1);
+            this.cost = cost;
+            this.moveLenght = moveLenght;
             SetGold(gold);
             log = new List<string>();
-            SetLog(name +" oyuncusu "+(cordX+1)+","+(cordY+1)+ " kordinatından "+ gold +" altın ile oyuna katıldı.");
-            Console.WriteLine(name +" oyuncusu "+ (cordX+1) + "," + (cordY+1) + " kordinatından " + gold + " altın ile oyuna katıldı.");
+            SetLog(name +" oyuncusu Y:"+(cordY)+", X:"+(cordX)+ " kordinatından "+ gold +" altın ile oyuna katıldı.");
+            CordUpdate(cordY, cordX);
+        }
 
+        public void SetTargetedGold(int cordY,int cordX)
+        {
+            this.targetedGold[0] = cordY;
+            this.targetedGold[1] = cordX;
+        }
 
+        public void CordUpdate(int yCord,int xCord)
+        {
+            this.lastYCord = yCord;
+            this.lastXCord = xCord;
         }
         public int GetGold()
         {
@@ -40,10 +60,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
 
         }
 
-        public int[,] SearchForGold()
-        {
-            throw new NotImplementedException();
-        }
+        public abstract int[] SearchForGold(IMap map);
 
         public void SetGold(int gold)
         {
@@ -53,6 +70,11 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
         public void SetLog(string log)
         {
             this.log.Add(log);
+        }
+
+        public int[] GetTargetedGold()
+        {
+            return this.targetedGold;
         }
     }
 }

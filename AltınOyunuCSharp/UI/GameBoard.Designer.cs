@@ -46,8 +46,6 @@
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(800, 561);
             this.Controls.Add(this.panel1);
-            this.MaximumSize = new System.Drawing.Size(1366, 768);
-            this.MinimumSize = new System.Drawing.Size(816, 600);
             this.Name = "GameBoard";
             this.Text = "GameBoard";
             this.Load += new System.EventHandler(this.GameBoard_Load);
