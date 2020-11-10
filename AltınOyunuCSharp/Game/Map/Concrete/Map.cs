@@ -52,14 +52,19 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
                 GoldDetected:
                 int randomX = rastgele.Next(map.GetLength(0));
                 int randomY = rastgele.Next(map.GetLength(1));
-                if(GetPoint(randomX,randomY) == String.Empty)
+                if(GetPoint(randomY, randomX) == String.Empty)
                 {
                     SetMap(randomX, randomY, (rastgele.Next(1, 4) * 5).ToString());
-                    goldCords.Add(randomX + "," + randomY);
+                    goldCords.Add(randomY+","+ randomX);
                     goldField = i;
                 } else
                 {
-                    goto GoldDetected;
+
+                    if (isFull() == false)
+                        goto GoldDetected;
+                    else
+                        break;
+                   
                 }
 
             }
@@ -80,13 +85,16 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
                 int randomY = rastgele.Next(map.GetLength(1));
                 if (GetPoint(randomX, randomY) == String.Empty)
                 {
-                    SetMap(randomX, randomY, "G-" + (rastgele.Next(1, 4) * 5));
-                    PrivateGoldCords.Add(randomX + "," + randomY);
+                    SetMap(randomY, randomX, "G-" + (rastgele.Next(1, 4) * 5));
+                    PrivateGoldCords.Add(randomY + "," + randomX);
                     PrivateGoldField = i;
                 }
                 else
                 {
-                    goto PrivateGoldDetected;
+                    if (isFull() == false)
+                        goto PrivateGoldDetected;
+                    else
+                        break;
                 }
 
             }
@@ -98,25 +106,25 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
         public string GetMap()
         {
             string mapText = "";
-            for (int i = 0; i < map.GetLength(0); i++)
+            for (int y = 0; y < map.GetLength(0); y++)
             {
-                for (int k = 0; k < map.GetLength(1); k++)
+                for (int x = 0; x < map.GetLength(1); x++)
                 {
-                    mapText += " | " + map[i, k];
+                    mapText += " | " + map[y, x];
                 }
                 mapText += " |\n";
             }
             return mapText;
         }
-        public string GetPoint(int xCord,int yCord)
+        public string GetPoint(int yCord,int xCord)
         {
             return map[xCord, yCord];
         }
-        public void SetMap(int xCord, int YCord, string data)
+        public void SetMap(int YCord, int xCord, string data)
         {
-            map[xCord, YCord] = data;
+            map[YCord, xCord] = data;
         }
-        public void AddPlayer(int xCord, int YCord, string PlayerCode)
+        public void AddPlayer( int YCord, int xCord, string PlayerCode)
         {
             SetMap(xCord, YCord, PlayerCode);
         }
@@ -136,6 +144,19 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
         public string[,] GetMatrisMap()
         {
             return this.map;
+        }
+
+        public bool isFull()
+        {
+            for(int y = 0; y< map.GetLength(0); y++)
+            {
+                for (int x = 0; x < map.GetLength(1); x++)
+                {
+                    if (map[y, x] == String.Empty)
+                        return false;
+                }
+            }
+            return true;
         }
     }
 }

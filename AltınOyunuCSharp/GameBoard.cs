@@ -45,10 +45,10 @@ namespace AltınOyunuCSharp
             {
                 for (int x = 0; x < mapMatris.GetLength(1); x++)
                 {
-                    buttonMatrix[x, y] = new Button()
+                    buttonMatrix[y, x] = new Button()
                     {
                         Width = Height = lockWidthHeight,
-                        Text = mapMatris[x,y].ToString(),
+                        Text = mapMatris[y,x].ToString(),
                         Location = new Point(y * lockWidthHeight + 10,
                                               x * lockWidthHeight + 10),  // <-- You might want to tweak this
                         Parent = panel1,

@@ -35,8 +35,9 @@ namespace AltınOyunuCSharp.Game.Map.Abstract
         bool GameOver(); // Oyun bitti mi.
         string GetMap(); // Haritayı String döndür.
         string[,] GetMatrisMap(); // Haritayı Matris döndür.
-        void SetMap(int xCord, int YCord,string data); // Haritaya veri ekle
-        string GetPoint(int xCord, int yCord); // Karenin içindeki değeri getirir
-        void AddPlayer(int xCord, int YCord,string PlayerCode);
+        void SetMap(int yCord, int xCord,string data); // Haritaya veri ekle
+        string GetPoint(int yCord, int xCord); // Karenin içindeki değeri getirir
+        void AddPlayer(int yCord, int xCord,string PlayerCode); // Oyuncuyu haritaya ekle
+        bool isFull(); // Harita tamamen dolu mu?
     }
 }
