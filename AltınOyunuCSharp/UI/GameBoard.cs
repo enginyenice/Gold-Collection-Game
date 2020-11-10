@@ -48,7 +48,8 @@ namespace AltınOyunuCSharp
                     buttonMatrix[y, x] = new Button()
                     {
                         Width = Height = lockWidthHeight,
-                        Text = mapMatris[y,x].ToString(),
+                        Text = mapMatris[y, x].ToString(),
+                        Enabled = false,
                         Location = new Point(y * lockWidthHeight + 10,
                                               x * lockWidthHeight + 10),  // <-- You might want to tweak this
                         Parent = panel1,

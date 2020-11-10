@@ -38,6 +38,6 @@ namespace AltınOyunuCSharp.Game.Map.Abstract
         void SetMap(int yCord, int xCord,string data); // Haritaya veri ekle
         string GetPoint(int yCord, int xCord); // Karenin içindeki değeri getirir
         void AddPlayer(int yCord, int xCord,string PlayerCode); // Oyuncuyu haritaya ekle
-        bool isFull(); // Harita tamamen dolu mu?
+        bool IsFull(); // Harita tamamen dolu mu?
     }
 }

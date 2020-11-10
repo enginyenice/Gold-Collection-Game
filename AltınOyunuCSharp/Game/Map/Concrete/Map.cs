@@ -9,33 +9,33 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
 {
     public class Map : IMap
     {
-        private string[,] map;
-        private int mapSquare; // Kare içerisindeki değer
-        private int moveLenght; //Maksimum Hareket
-        private int cost; //Maliyet
+        private readonly string[,] map;
+        private readonly int mapSquare; // Kare içerisindeki değer
+        private readonly int moveLenght; //Maksimum Hareket
+        private readonly int cost; //Maliyet
 
-        private List<string> goldCords; //Altın kordinatları var
-        private List<string> PrivateGoldCords; //Gizli altın kordinatları var
+        private readonly List<string> goldCords; //Altın kordinatları var
+        private readonly List<string> PrivateGoldCords; //Gizli altın kordinatları var
 
         int gameOrder = 1;
 
-        public Map(int m,int n, int cost,int moveLenght)
+        public Map(int ySize,int xSize, int cost,int moveLenght)
         {
             goldCords = new List<string>();
             PrivateGoldCords = new List<string>();
 
-            string[,] _map = new string[m, n];
+            string[,] _map = new string[ySize, xSize];
             this.moveLenght = moveLenght;
             this.cost = cost;
 
-            for(int i = 0; i< m; i++)
+            for(int i = 0; i< ySize; i++)
             {
-                for (int k = 0; k < n; k++)
+                for (int k = 0; k < xSize; k++)
                 {
                     _map[i, k] = String.Empty;
                 }
             }
-            mapSquare = m * n;
+            mapSquare = ySize * xSize;
             map = _map;
         }
         public void AddGold(int GoldRate,int PrivateGoldRate)
@@ -56,11 +56,10 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
                 {
                     SetMap(randomX, randomY, (rastgele.Next(1, 4) * 5).ToString());
                     goldCords.Add(randomY+","+ randomX);
-                    goldField = i;
                 } else
                 {
 
-                    if (isFull() == false)
+                    if (IsFull() == false)
                         goto GoldDetected;
                     else
                         break;
@@ -87,11 +86,10 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
                 {
                     SetMap(randomY, randomX, "G-" + (rastgele.Next(1, 4) * 5));
                     PrivateGoldCords.Add(randomY + "," + randomX);
-                    PrivateGoldField = i;
                 }
                 else
                 {
-                    if (isFull() == false)
+                    if (IsFull() == false)
                         goto PrivateGoldDetected;
                     else
                         break;
@@ -146,7 +144,7 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
             return this.map;
         }
 
-        public bool isFull()
+        public bool IsFull()
         {
             for(int y = 0; y< map.GetLength(0); y++)
             {

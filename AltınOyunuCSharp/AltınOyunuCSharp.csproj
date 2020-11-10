@@ -48,10 +48,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameBoard.cs">
+    <Compile Include="UI\GameBoard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GameBoard.Designer.cs">
+    <Compile Include="UI\GameBoard.Designer.cs">
       <DependentUpon>GameBoard.cs</DependentUpon>
     </Compile>
     <Compile Include="Game\Player\Concrete\APlayer.cs" />
@@ -59,10 +59,10 @@
     <Compile Include="Game\Player\Concrete\CPlayer.cs" />
     <Compile Include="Game\Player\Concrete\DPlayer.cs" />
     <Compile Include="Game\Player\Concrete\Player.cs" />
-    <Compile Include="Start.cs">
+    <Compile Include="UI\Start.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Start.Designer.cs">
+    <Compile Include="UI\Start.Designer.cs">
       <DependentUpon>Start.cs</DependentUpon>
     </Compile>
     <Compile Include="Game\Map\Abstract\IMap.cs" />
@@ -70,10 +70,10 @@
     <Compile Include="Game\Player\Abstract\IPlayer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="GameBoard.resx">
+    <EmbeddedResource Include="UI\GameBoard.resx">
       <DependentUpon>GameBoard.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Start.resx">
+    <EmbeddedResource Include="UI\Start.resx">
       <DependentUpon>Start.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
