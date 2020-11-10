@@ -23,16 +23,18 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
             goldCords = new List<string>();
             privateGoldCords = new List<string>();
 
-            string[,] _map = new string[ySize, xSize];
+            //string[,] _map = new string[ySize, xSize];
+            map = new string[ySize, xSize];
             for(int i = 0; i< ySize; i++)
             {
                 for (int k = 0; k < xSize; k++)
                 {
-                    _map[i, k] = String.Empty;
+                    //_map[i, k] = String.Empty;
+                    SetMap(i, k, String.Empty);
                 }
             }
             mapSquare = ySize * xSize;
-            map = _map;
+            //map = _map;
         }
 
         #region GET

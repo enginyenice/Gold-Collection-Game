@@ -30,7 +30,7 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.CordXTxT = new System.Windows.Forms.TextBox();
-            this.CordY = new System.Windows.Forms.TextBox();
+            this.CordYTxT = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -75,14 +75,14 @@
             this.CordXTxT.Text = "5";
             this.CordXTxT.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.CordXTxT_KeyPress);
             // 
-            // CordY
+            // CordYTxT
             // 
-            this.CordY.Location = new System.Drawing.Point(117, 55);
-            this.CordY.Name = "CordY";
-            this.CordY.Size = new System.Drawing.Size(100, 20);
-            this.CordY.TabIndex = 3;
-            this.CordY.Text = "5";
-            this.CordY.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.CordYTxT_KeyPress);
+            this.CordYTxT.Location = new System.Drawing.Point(117, 55);
+            this.CordYTxT.Name = "CordYTxT";
+            this.CordYTxT.Size = new System.Drawing.Size(100, 20);
+            this.CordYTxT.TabIndex = 3;
+            this.CordYTxT.Text = "5";
+            this.CordYTxT.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.CordYTxT_KeyPress);
             // 
             // label2
             // 
@@ -97,7 +97,7 @@
             // 
             this.groupBox1.BackColor = System.Drawing.SystemColors.MenuBar;
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.CordY);
+            this.groupBox1.Controls.Add(this.CordYTxT);
             this.groupBox1.Controls.Add(this.CordXTxT);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -314,7 +314,7 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox CordXTxT;
-        private System.Windows.Forms.TextBox CordY;
+        private System.Windows.Forms.TextBox CordYTxT;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;

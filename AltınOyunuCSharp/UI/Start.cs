@@ -30,7 +30,7 @@ namespace AltınOyunuCSharp
         private void StartGameBtn_Click(object sender, EventArgs e)
         {
             int cordX = Int32.Parse(CordXTxT.Text);
-            int cordY = Int32.Parse(CordXTxT.Text);
+            int cordY = Int32.Parse(CordYTxT.Text);
             int cost = Int32.Parse(CostTxT.Text);
             int moveLenght = Int32.Parse(MoveLenghtTxT.Text);
             int goldRate = Int32.Parse(GoldTxT.Text);
@@ -38,7 +38,7 @@ namespace AltınOyunuCSharp
             int startGold = Int32.Parse(StartGoldTxT.Text);
             int cGoldShow = Int32.Parse(cGoldShowTxT.Text);
 
-            this.map = new Map(cordX, cordY);
+            this.map = new Map(cordY, cordX);
 
 
             // Player Modelleri //
