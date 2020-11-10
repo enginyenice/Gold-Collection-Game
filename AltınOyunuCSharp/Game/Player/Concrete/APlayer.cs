@@ -42,10 +42,11 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
             x = ((double)totalMin / this.moveLenght);
             x = Math.Ceiling(x);
             this.SetRemainingSteps(Convert.ToInt32(x));
+            
             int[] selectedGold= { minY, minX };
-            this.SetLog("Hedef: Y:" + minY + " X:" + minX + " olarak belirlendi.");
             this.SetTargetedGold(minY, minX);
             this.SetTargetGoldValue(goldValue);
+            this.SetLog("Hedef: Y:" + minY + " X:" + minX + " olarak belirlendi. Toplam tahmini Kazanç: " + (this.GetTargetGoldValue() - (this.GetRemainingSteps() * this.cost))+ " Altın Degeri: " + this.GetTargetGoldValue());
             return selectedGold;
             
         }
