@@ -9,7 +9,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
 {
     public class DPlayer : Player
     {
-        public DPlayer(int gold, string name, int cordY, int cordX, int cost, int moveLenght) : base(gold, name, cordY, cordX, cost, moveLenght)
+        public DPlayer(int gold, string name, int cordY, int cordX, int cost, int moveLenght ,int searchCost) : base(gold, name, cordY, cordX, cost, moveLenght, searchCost)
         {
         }
 

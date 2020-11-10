@@ -18,14 +18,15 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
         public int remainingSteps; // Hedefe kalan adım sayısı
         public int cost; //Maliyet
         public int moveLenght; //Hareket uzunluğu
+        public int searchCost; //Hedef belirleme maliyeti
 
-
-        public Player(int gold,string name,int cordY,int cordX,int cost,int moveLenght)
+        public Player(int gold,string name,int cordY,int cordX,int cost,int moveLenght,int searchCost)
         {
             this.targetedGold = new int[2];
             this.SetTargetedGold(-1, -1);
             this.cost = cost;
             this.moveLenght = moveLenght;
+            this.searchCost = searchCost;
             SetGold(gold);
             log = new List<string>();
             SetLog(name +" oyuncusu Y:"+(cordY)+", X:"+(cordX)+ " kordinatından "+ gold +" altın ile oyuna katıldı.");
@@ -100,6 +101,15 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
         public void SetTargetGoldValue(int goldValue)
         {
             this.targetGoldValue = goldValue;
+        }
+
+        public void SetSearchCost(int searchCost)
+        {
+            this.searchCost = searchCost;
+        }
+        public int GetSearchCost()
+        {
+            return this.searchCost;
         }
     }
 }
