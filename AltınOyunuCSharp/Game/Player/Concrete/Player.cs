@@ -14,6 +14,8 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
         public List<string> log; // Log kayıtları
         public int lastYCord,lastXCord; // O an bulunduğu kordinat
         public int[] targetedGold; // 0-> Y | 1->X
+        public int targetGoldValue;
+        public int remainingSteps; // Hedefe kalan adım sayısı
         public int cost; //Maliyet
         public int moveLenght; //Hareket uzunluğu
 
@@ -30,6 +32,10 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
             CordUpdate(cordY, cordX);
         }
 
+        public void SetRemainingSteps(int remainingSteps)
+        {
+            this.remainingSteps = remainingSteps;
+        }
         public void SetTargetedGold(int cordY,int cordX)
         {
             this.targetedGold[0] = cordY;
@@ -40,6 +46,15 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
         {
             this.lastYCord = yCord;
             this.lastXCord = xCord;
+        }
+        public int[] GetCord()
+        {
+            int[] cord = { this.lastYCord, this.lastXCord };
+            return cord;
+        }
+        public int GetRemainingSteps()
+        {
+            return this.remainingSteps;
         }
         public int GetGold()
         {
@@ -75,6 +90,16 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
         public int[] GetTargetedGold()
         {
             return this.targetedGold;
+        }
+
+        public int GetTargetGoldValue()
+        {
+            return this.targetGoldValue;
+        }
+
+        public void SetTargetGoldValue(int goldValue)
+        {
+            this.targetGoldValue = goldValue;
         }
     }
 }

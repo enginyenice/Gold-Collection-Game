@@ -10,13 +10,21 @@ namespace AltınOyunuCSharp.Game.Player.Abstract
     interface IPlayer
     {
         abstract int[] SearchForGold(IMap map); //Hedef belirleme
-        void CordUpdate(int yCord, int xCord); // Son kordinatlarını güncelleme
-        int GetGold(); //Kaç altını olduğunu gösterme
-        void SetGold(int gold); //Altın değerini güncelleme
         bool IsDeath(); //Oyuncu yaşıyor mu?
+        void CordUpdate(int yCord, int xCord); // Son kordinatlarını güncelleme
+        
+        void SetGold(int gold); //Altın değerini güncelleme
         void SetLog(string log); //Oyuncu hareketleri LOG kayıt
-        List<string> GetLog(); //Oyuncu haraketleri LOG görüntüle
         void SetTargetedGold(int cordY, int cordX); //Hedeflenen altını kayıt et.
-         int[] GetTargetedGold(); //Hedeflenen altını getir.
+        void SetRemainingSteps(int remainingSteps); //Hedefe kalan adımı ekleme.
+
+
+        int GetRemainingSteps();  // Hedefe kaç adım kaldı.
+        int GetGold(); //Kaç altını olduğunu gösterme
+        List<string> GetLog(); //Oyuncu haraketleri LOG görüntüle
+        int[] GetTargetedGold(); //Hedeflenen altını getir.
+        int GetTargetGoldValue(); //Hedeflenen kare kaç altın değerinde
+        void SetTargetGoldValue(int goldValue); //Hedeflenen karenin altın değeri.
+        int[] GetCord(); // Bulunduğu kordinatı getir. | 0 -> Y  | 1 -> X |
     }
 }

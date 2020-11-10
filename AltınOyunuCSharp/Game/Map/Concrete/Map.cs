@@ -23,18 +23,15 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
             goldCords = new List<string>();
             privateGoldCords = new List<string>();
 
-            //string[,] _map = new string[ySize, xSize];
             map = new string[ySize, xSize];
             for(int i = 0; i< ySize; i++)
             {
                 for (int k = 0; k < xSize; k++)
                 {
-                    //_map[i, k] = String.Empty;
                     SetMap(i, k, String.Empty);
                 }
             }
             mapSquare = ySize * xSize;
-            //map = _map;
         }
 
         #region GET
@@ -165,7 +162,7 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
                 if (GetPoint(randomY, randomX) == String.Empty)
                 {
                     int gold;
-                    gold = (rastgele.Next(1, 4) * 5);
+                    gold = (rastgele.Next(1, 5) * 5);
                     SetMap(randomY, randomX, gold.ToString());
                     this.AddGold(randomY, randomX, gold);
                     i++;
@@ -226,7 +223,7 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
                 if (GetPoint(randomY, randomX) == String.Empty)
                 {
                     int gold;
-                    gold = (rastgele.Next(1, 4) * 5);
+                    gold = (rastgele.Next(1, 5) * 5);
                     SetMap(randomY, randomX, "G-"+gold.ToString());
                     this.AddPrivateGold(randomY, randomX, "G-"+gold);
                     i++;

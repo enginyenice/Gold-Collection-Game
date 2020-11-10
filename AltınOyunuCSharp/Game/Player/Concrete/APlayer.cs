@@ -23,21 +23,29 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
             goldSquareList.ForEach(Console.WriteLine);
             Console.WriteLine("XXXXXXXXXXXXXXXXXXXXXX");
 
+            int goldValue = Int32.MinValue;
             foreach (var item in goldSquareList)
             {
                 string[] goldCordData = item.Split(',');
+                
                 int min = Math.Abs(this.lastYCord - Int32.Parse(goldCordData[0])) + Math.Abs(this.lastXCord - Int32.Parse(goldCordData[1]));
                 if (min < totalMin)
                 { 
                     totalMin = min; 
                     minY = Int32.Parse(goldCordData[0]); 
-                    minX = Int32.Parse(goldCordData[1]); }
+                    minX = Int32.Parse(goldCordData[1]);
+                    goldValue = Int32.Parse(goldCordData[2]);
+                
+                }
             }
-
-
+            double x;
+            x = ((double)totalMin / this.moveLenght);
+            x = Math.Ceiling(x);
+            this.SetRemainingSteps(Convert.ToInt32(x));
             int[] selectedGold= { minY, minX };
             this.SetLog("Hedef: Y:" + minY + " X:" + minX + " olarak belirlendi.");
             this.SetTargetedGold(minY, minX);
+            this.SetTargetGoldValue(goldValue);
             return selectedGold;
             
         }

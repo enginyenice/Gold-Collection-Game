@@ -15,31 +15,54 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
             this.showGold = showGold;
         }
 
+
+
+
         public override int[] SearchForGold(IMap map)
         {
 
             PrivateGoldShow(map);
             List<string> goldSquareList = map.GetGoldList();
-            int minY = int.MaxValue, minX = int.MaxValue, goldEarned = int.MinValue;
+            int minY = int.MaxValue, minX = int.MaxValue, goldEarned = int.MinValue, remainingSteps = int.MinValue, squareGold = Int32.MinValue, tempMesafe = Int32.MaxValue;
 
             foreach (var item in goldSquareList)
             {
                 string[] goldCordData = item.Split(',');
                 int mesafe = Math.Abs(this.lastYCord - Int32.Parse(goldCordData[0])) + Math.Abs(this.lastXCord - Int32.Parse(goldCordData[1]));
-                int lenght = mesafe / this.moveLenght;
-                int totalCost = Int32.Parse(goldCordData[2]) - ((lenght + 1) * this.cost);
-                if (totalCost > goldEarned)
+
+                double x;
+                x = ((double)mesafe / this.moveLenght);
+                x = Math.Ceiling(x);
+                int lenght = Convert.ToInt32(x);
+                int totalCost = Int32.Parse(goldCordData[2]) - ((lenght) * this.cost);
+                if (totalCost >= goldEarned)
                 {
-                    goldEarned = totalCost;
-                    minY = Int32.Parse(goldCordData[0]);
-                    minX = Int32.Parse(goldCordData[1]);
+                    if (mesafe < tempMesafe && totalCost == goldEarned)
+                    {
+                        tempMesafe = mesafe;
+                        remainingSteps = lenght;
+                        goldEarned = totalCost;
+                        minY = Int32.Parse(goldCordData[0]);
+                        minX = Int32.Parse(goldCordData[1]);
+                        squareGold = Int32.Parse(goldCordData[2]);
+                    }
+                    if (totalCost > goldEarned)
+                    {
+                        tempMesafe = mesafe;
+                        remainingSteps = lenght;
+                        goldEarned = totalCost;
+                        minY = Int32.Parse(goldCordData[0]);
+                        minX = Int32.Parse(goldCordData[1]);
+                        squareGold = Int32.Parse(goldCordData[2]);
+                    }
                 }
 
             }
-
+            this.SetRemainingSteps(remainingSteps);
             int[] selectedGold = { minY, minX };
-            this.SetLog("Hedef: Y:" + minY + " X:" + minX + " olarak belirlendi. Toplam tahmini Kazanç: " + goldEarned);
+            this.SetLog("Hedef: Y:" + minY + " X:" + minX + " olarak belirlendi. Toplam tahmini Kazanç: " + goldEarned + "Altın Degeri: " + squareGold);
             this.SetTargetedGold(minY, minX);
+            this.SetTargetGoldValue(squareGold);
             return selectedGold;
         }
         public void PrivateGoldShow(IMap map)

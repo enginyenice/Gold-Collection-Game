@@ -38,6 +38,8 @@ namespace AltınOyunuCSharp
             int startGold = Int32.Parse(StartGoldTxT.Text);
             int cGoldShow = Int32.Parse(cGoldShowTxT.Text);
 
+
+            //Map Oluşturma
             this.map = new Map(cordY, cordX);
 
 

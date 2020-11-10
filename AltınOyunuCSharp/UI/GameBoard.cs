@@ -38,6 +38,7 @@ namespace AltınOyunuCSharp
             aPlayer.SearchForGold(map);
             bPlayer.SearchForGold(map);
             cPlayer.SearchForGold(map);
+            dPlayer.SearchForGold(map,aPlayer,bPlayer,cPlayer);
             Console.WriteLine("xxxxxxxxxxxxx");
             map.GetGoldList().ForEach(Console.WriteLine);
 
