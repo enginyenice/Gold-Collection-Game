@@ -142,9 +142,17 @@ namespace AltınOyunuCSharp
         }
         private void button1_Click(object sender, EventArgs e)
         {
+            if(map.GetGoldCount() > 0) { 
+             oyuncuOlu:
             switch (map.GetGameOrder())
             {
                 case 1:
+                    if (aPlayer.IsDeath() == true)
+                    {
+                            map.SetGameOrder();
+                            aPlayer.playerMap[aPlayer.GetCord()[0], aPlayer.GetCord()[1]] = 0;
+                            goto oyuncuOlu;
+                    }
                     aPlayer.Move(map);
                     goldMatris = map.GetGoldMap();
                     privateGoldMatris = map.GetPrivateGoldMap();
@@ -168,7 +176,13 @@ namespace AltınOyunuCSharp
                     map.SetGameOrder();
                     break;
                 case 2:
-                    bPlayer.Move(map);
+                        if (bPlayer.IsDeath() == true)
+                        {
+                            map.SetGameOrder();
+                            bPlayer.playerMap[bPlayer.GetCord()[0], bPlayer.GetCord()[1]] = 0;
+                            goto oyuncuOlu;
+                        }
+                        bPlayer.Move(map);
                     goldMatris = map.GetGoldMap();
                     privateGoldMatris = map.GetPrivateGoldMap();
                     bPlayerMatris = bPlayer.GetPlayerMatris();
@@ -185,8 +199,13 @@ namespace AltınOyunuCSharp
                     map.SetGameOrder();
                     break;
                 case 3:
-                    
-                    cPlayer.Move(map);
+                        if (cPlayer.IsDeath() == true)
+                        {
+                            map.SetGameOrder();
+                            cPlayer.playerMap[cPlayer.GetCord()[0], cPlayer.GetCord()[1]] = 0;
+                            goto oyuncuOlu;
+                        }
+                        cPlayer.Move(map);
                     goldMatris = map.GetGoldMap();
                     privateGoldMatris = map.GetPrivateGoldMap();
                     cPlayerMatris = cPlayer.GetPlayerMatris();
@@ -202,8 +221,13 @@ namespace AltınOyunuCSharp
                     map.SetGameOrder();
                     break;
                 case 4:
-
-                    dPlayer.Move(map);
+                        if (dPlayer.IsDeath() == true)
+                        {
+                            map.SetGameOrder();
+                            dPlayer.playerMap[dPlayer.GetCord()[0], dPlayer.GetCord()[1]] = 0;
+                            goto oyuncuOlu;
+                        }
+                        dPlayer.Move(map);
                     goldMatris = map.GetGoldMap();
                     privateGoldMatris = map.GetPrivateGoldMap();
                     dPlayerMatris = dPlayer.GetPlayerMatris();
@@ -221,6 +245,10 @@ namespace AltınOyunuCSharp
                     break;
 
 
+            }
+            } else
+            {
+                MessageBox.Show("Oyun bitti");
             }
         }
     }

@@ -153,10 +153,27 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
         public void Move(IMap map)
         {
 
+            int tempGetTargetGoldValue = this.GetTargetGoldValue();
             if (map.GetGoldCount() > 0)
             {
                 if (this.GetTargetGoldValue() == -1 || targetedGold[0] == Int32.MaxValue)
                     this.SearchForGold(map);
+                if(this.GetTargetGoldValue() != -1)
+                {
+                    if(map.GetGoldPoint(this.GetTargetedGold()[0], this.GetTargetedGold()[1]) == 0)
+                    {
+                        SetLog("Hedeflediği altın alınmış. Yeni altın hedefleniyor.");
+                        SetHedefeVardigindaAlacagiToplamPuan(-1);
+                        SetRemainingSteps(-1);
+                        SetTargetedGold(-1, -1);
+                        SetTargetGoldValue(-1);
+                        map.SetOyuncuHedefeKalanAdim(-1,this.name);
+                        map.SetOyuncuHedefi(-1, -1, this.name);
+                        this.SearchForGold(map);
+                    }
+
+
+                }
 
                 int targetY = targetedGold[0];
                 int targetX = targetedGold[1];
@@ -218,9 +235,12 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                 }
                 PrivateGoldShow('Y', (lastYCord - tempCordY), map);                     //düzlem,(konum,hafıza konum)
                 this.CordUpdate(tempCordY, tempCordX);                                  //cord güncelle
+                
+                    //Şuanda ki hedef Y == Hedeflenen y 
                 if (tempCordY == targetY && tempCordX == targetX)                       //hedefe ulaştıysa
                 {
                     //Altını puan olarak ekle
+                    this.UpdatePlayerGoldValue(GetHedefeVardigindaAlacagiToplamPuan());
                     //Altını sil
                     map.RemoveGoldMapPoint(tempCordY, tempCordX);
                     //Hedeflemeyi boşalt
@@ -231,15 +251,30 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                     this.SetRemainingSteps(-1);
                     this.SetTargetedGold(-1, -1);
                     this.SetLog(this.name + " Hedefine ulaştı");
-                    this.UpdatePlayerGoldValue(GetHedefeVardigindaAlacagiToplamPuan());
                     //Oyuncu puanını düzenle
                 }
+                
+                
+                //bu benim ilk hareketim mi
                 else
                 {
-                    map.SetOyuncuHedefeKalanAdim(map.GetOyuncuHedefeKalanAdim(this.name)-1, this.name);
-                    UpdatePlayerGoldValue((-1) * this.cost);
-                    SetHedefeVardigindaAlacagiToplamPuan(GetHedefeVardigindaAlacagiToplamPuan() + ((-1) * this.cost));
-                    this.SetLog(this.name + " Hedefine ulaşması için "+map.GetOyuncuHedefeKalanAdim(this.name)+" kaldi");
+
+                    map.SetOyuncuHedefeKalanAdim(map.GetOyuncuHedefeKalanAdim(this.name)-1, this.name); //Oyuncunun adım sayısını 1 azalt
+                    //UpdatePlayerGoldValue((-1) * this.cost);
+
+                    int tempGetTargetGoldValue2 = this.GetTargetGoldValue();
+                    if(tempGetTargetGoldValue == tempGetTargetGoldValue2) // Bu benim ilk hareketim değil
+                    {
+                         SetHedefeVardigindaAlacagiToplamPuan(GetHedefeVardigindaAlacagiToplamPuan() + ((-1) * this.cost));
+                        UpdatePlayerGoldValue((-1) * this.cost);
+                        this.SetLog(this.name + " Hedefine ulaşması için " + map.GetOyuncuHedefeKalanAdim(this.name) + " kaldi. Bu birden çok adımınız");
+                    } else
+                    { // Bu benim ilk hareketim
+                        SetHedefeVardigindaAlacagiToplamPuan(GetHedefeVardigindaAlacagiToplamPuan() - (this.cost + this.searchCost));
+                        UpdatePlayerGoldValue((-1) * (this.searchCost + this.cost));
+                       this.SetLog(this.name + " Hedefine ulaşması için "+map.GetOyuncuHedefeKalanAdim(this.name)+" kaldi. Bu ilk adımınız");
+                    }
+
                 }
 
 
@@ -291,7 +326,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
         }
         public int GetGold()
         {
-            throw new NotImplementedException();
+            return this.gold;
         }
         public List<string> GetLog()
         {

@@ -5,6 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+/* TODO:
+ * []Hedefleme düştü ama hamle düşmedi. !!	
+   [x]B Hamle yaptığında hedeflenen altına ulaşamadığında altını sildi.
+*/
 namespace AltınOyunuCSharp.Game.Player.Concrete
 {
     public class APlayer : Player
