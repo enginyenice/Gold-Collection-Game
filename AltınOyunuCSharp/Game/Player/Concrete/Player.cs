@@ -10,43 +10,262 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
 {
     public abstract class Player : IPlayer
     {
+        public int[,] playerMap;
         public int gold; // Oyuncunun sahip olduğu altın.
         public List<string> log; // Log kayıtları
-        public int lastYCord,lastXCord; // O an bulunduğu kordinat
+        public int lastYCord, lastXCord; // O an bulunduğu kordinat
         public int[] targetedGold; // 0-> Y | 1->X
-        public int targetGoldValue;
+        public int targetGoldValue; // Hedefteki Altın Değeri
         public int remainingSteps; // Hedefe kalan adım sayısı
         public int cost; //Maliyet
         public int moveLenght; //Hareket uzunluğu
         public int searchCost; //Hedef belirleme maliyeti
+        public string name; //Hedef belirleme maliyeti
 
-        public Player(int gold,string name,int cordY,int cordX,int cost,int moveLenght,int searchCost)
+
+        public Player(int gold, string name, int cordY, int cordX, int cost, int moveLenght, int searchCost, int gameY, int gameX)
         {
             this.targetedGold = new int[2];
             this.SetTargetedGold(-1, -1);
+            this.targetGoldValue = -1;
             this.cost = cost;
             this.moveLenght = moveLenght;
             this.searchCost = searchCost;
             SetGold(gold);
+            this.name = name;
             log = new List<string>();
-            SetLog(name +" oyuncusu Y:"+(cordY)+", X:"+(cordX)+ " kordinatından "+ gold +" altın ile oyuna katıldı.");
+            SetLog(name + " oyuncusu Y:" + (cordY) + ", X:" + (cordX) + " kordinatından " + gold + " altın ile oyuna katıldı.");
+
+
+            playerMap = new int[gameY, gameX];
+            for (int i = 0; i < gameY; i++)
+            {
+                for (int k = 0; k < gameX; k++)
+                {
+                    playerMap[i, k] = 0;
+                }
+            }
             CordUpdate(cordY, cordX);
+
+
+
+        }
+
+        public int[,] GetPlayerMatris()
+        {
+            return playerMap;
+        }
+
+
+        public void PrivateGoldShow(char duzlem, int hareket, IMap map)
+        {
+            if (duzlem == 'X')
+            {
+                if (hareket > 0) //-x
+                {
+                    //hareket = 2
+                    //X = 0
+                    for (int x = lastXCord; x > lastXCord - Math.Abs(hareket); x--)
+                    {
+                        if (map.GetPrivateGoldMap()[lastYCord, x] != 0)
+                        {
+                            map.AddGoldMapPoint(lastYCord, x, map.GetPrivateGoldMap()[lastYCord, x]);
+                            map.RemovePrivateGoldPoint(lastYCord, x);
+                            this.SetLog("Y:" + lastYCord + " X:" + x + " kordinatındaki gizli altın açıldı.");
+                        }
+                    }
+                }
+                else if (hareket < 0)//+x
+                {//////////////////
+                    for (int x = lastXCord; x < Math.Abs(hareket) + lastXCord; x++)
+                    {
+                        if (map.GetPrivateGoldMap()[lastYCord, x] != 0)
+                        {
+                            map.AddGoldMapPoint(lastYCord, x, map.GetPrivateGoldMap()[lastYCord, x]);
+                            map.RemovePrivateGoldPoint(lastYCord, x);
+                            this.SetLog("Y:" + lastYCord + " X:" + x + " kordinatındaki gizli altın açıldı.");
+                        }
+                    }
+                }
+
+
+
+
+            }
+            else
+            {
+
+
+                if (hareket > 0)
+                {
+                    //hareket = 2
+                    //X = 0
+
+
+
+                    /*
+                    for (int i = 0; i < length; i++)
+                    {
+
+                    }
+                    */
+                    //
+                    for (int y = lastYCord; y > lastYCord - Math.Abs(hareket); y--)
+                    {
+                        if (map.GetPrivateGoldMap()[y, lastXCord] != 0)
+                        {
+                            map.AddGoldMapPoint(y, lastXCord, map.GetPrivateGoldMap()[y, lastXCord]);
+                            map.RemovePrivateGoldPoint(y, lastXCord);
+                            this.SetLog("Y:" + y + " X:" + lastXCord + " kordinatındaki gizli altın açıldı.");
+                        }
+                    }
+                }
+                else if (hareket < 0)//+y
+                {
+                    //for (int x = lastXCord;x< Math.Abs(hareket)+lastXCord;x++)
+                    for (int y = lastYCord; y < Math.Abs(hareket) + lastYCord; y++)
+                    {
+                        if (map.GetPrivateGoldMap()[y, lastXCord] != 0)
+                        {
+                            map.AddGoldMapPoint(y, lastXCord, map.GetPrivateGoldMap()[y, lastXCord]);
+                            map.RemovePrivateGoldPoint(y, lastXCord);
+                            this.SetLog("Y:" + y + " X:" + lastXCord + " kordinatındaki gizli altın açıldı.");
+                        }
+                    }
+                }
+
+
+
+
+
+
+            }
+        }
+
+        public void Move(IMap map)
+        {
+
+            if (map.GetGoldCount() > 0)
+            {
+                if (this.GetTargetGoldValue() == -1 || targetedGold[0] == Int32.MaxValue)
+                    this.SearchForGold(map);
+
+                int targetY = targetedGold[0];
+                int targetX = targetedGold[1];
+
+                int targetYToPlayerY = lastYCord - targetY;                 //- ise kordinat büyür
+                int targetXToPlayerX = lastXCord - targetX;                 // + ise kordinat küçülür
+
+                /*
+                 * Önce Yatayda eşitle
+                 */
+                int totalMoveLenght = moveLenght;                           //Oyuncunun toplam yapması gereken maksimum hamle
+                int tempCordX = lastXCord, tempCordY = lastYCord;           // Hafızada tutulan X ve Y kordinatları
+
+                if (Math.Abs(targetXToPlayerX) <= totalMoveLenght)           //Gitmesi gereken X kordinatı ile arasındaki mesafe toplam yapabileceği hareketten küçük eşit ise
+                {
+                    tempCordX = targetX;                                        //Gitmesi gereken kordinata git
+                    totalMoveLenght -= Math.Abs(targetXToPlayerX);              //Aradaki hamle sayısını toplam hamle sayısı
+                }
+                else                                                         //Gitmesi gereken X kordinatı ile arasındaki mesafe toplam yapabileceği hareketten büyük ise
+                {
+                    if (targetXToPlayerX > 0) // +x                                 //Hedeflenen kordinat ile arasındaki fark 0'dan büyük ise
+                    {
+                        tempCordX -= totalMoveLenght;                                   //Hafızadaki X kordinatından tüm hareket hakkını çıkart.
+
+                    }
+                    else
+                    {
+                        tempCordX += totalMoveLenght;                                   //Hafızadaki X kordinatından tüm hareket hakkını ekle
+                    }
+                    totalMoveLenght = 0;                                                //Toplam adım hakkını 0 yap.
+                }
+                PrivateGoldShow('X', (lastXCord - tempCordX), map);                     //Düzlem, (gerçek konum - hedefe yaklaşan son konum)
+                                                                                        //lastXCord = tempCordX;
+                                                                                        //Gelen data - ise arttırcan
+                                                                                        //Gelen data + ise azaltacan
+                if (totalMoveLenght > 0)                                                // hareket hakkı 0 dan büyükse
+                {
+
+                    if (Math.Abs(targetYToPlayerY) <= totalMoveLenght)                   //hedefe olan mesafe toplam gideceği hakka küçük esitse
+                    {
+                        tempCordY = targetY;                                              // tempy yi hedef y yap
+                        totalMoveLenght -= Math.Abs(targetYToPlayerY);                    // hakkı güncelle
+                    }
+                    else
+                    {                                                                    //hedefe olan mesafe toplam gideceği haktan büyükse
+                        if (targetYToPlayerY > 0) // +x                                  // fark + ise çıkart
+                        {
+                            tempCordY -= totalMoveLenght;                               
+
+                        }
+                        else
+                        {
+                            tempCordY += totalMoveLenght;                               //fark - ise topla
+                        }
+                        totalMoveLenght = 0;                                            //hakkı 0la
+                    }
+
+                }
+                PrivateGoldShow('Y', (lastYCord - tempCordY), map);                     //düzlem,(konum,hafıza konum)
+                this.CordUpdate(tempCordY, tempCordX);                                  //cord güncelle
+                if (tempCordY == targetY && tempCordX == targetX)                       //hedefe ulaştıysa
+                {
+                    //Altını puan olarak ekle
+                    //Altını sil
+                    map.RemoveGoldMapPoint(tempCordY, tempCordX);
+                    //Hedeflemeyi boşalt
+                    map.SetOyuncuHedefeKalanAdim(-1, this.name);
+                    map.SetOyuncuHedefi(-1, -1, this.name);
+                    
+                    this.SetTargetGoldValue(-1);
+                    this.SetRemainingSteps(-1);
+                    this.SetTargetedGold(-1, -1);
+                    this.SetLog(this.name + " Hedefine ulaştı");
+                }
+                else
+                {
+                    map.SetOyuncuHedefeKalanAdim(map.GetOyuncuHedefeKalanAdim(this.name)-1, this.name);
+                    this.SetLog(this.name + " Hedefine ulaşması için "+map.GetOyuncuHedefeKalanAdim(this.name)+" kaldi");
+                }
+
+
+            }
+
+
+
+        }
+        public string GetPlayerMap()
+        {
+            string mapText = this.name + " oyuncusunun haritası \n";
+            for (int y = 0; y < playerMap.GetLength(0); y++)
+            {
+                for (int x = 0; x < playerMap.GetLength(1); x++)
+                {
+                    mapText += " | " + playerMap[y, x];
+                }
+                mapText += " |\n";
+            }
+            return mapText;
         }
 
         public void SetRemainingSteps(int remainingSteps)
         {
             this.remainingSteps = remainingSteps;
         }
-        public void SetTargetedGold(int cordY,int cordX)
+        public void SetTargetedGold(int cordY, int cordX)
         {
             this.targetedGold[0] = cordY;
             this.targetedGold[1] = cordX;
         }
-
-        public void CordUpdate(int yCord,int xCord)
+        public void CordUpdate(int yCord, int xCord)
         {
+            this.playerMap[this.lastYCord, this.lastXCord] = 0;
+
             this.lastYCord = yCord;
             this.lastXCord = xCord;
+            this.playerMap[this.lastYCord, this.lastXCord] = 1;
+
         }
         public int[] GetCord()
         {
@@ -61,12 +280,10 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
         {
             throw new NotImplementedException();
         }
-
         public List<string> GetLog()
         {
             return this.log;
         }
-
         public bool IsDeath()
         {
             if (GetGold() <= 0)
@@ -75,34 +292,27 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                 return false;
 
         }
-
-        public abstract int[] SearchForGold(IMap map);
-
+        public abstract void SearchForGold(IMap map);
         public void SetGold(int gold)
         {
             this.gold = gold;
         }
-
         public void SetLog(string log)
         {
             this.log.Add(log);
         }
-
         public int[] GetTargetedGold()
         {
             return this.targetedGold;
         }
-
         public int GetTargetGoldValue()
         {
             return this.targetGoldValue;
         }
-
         public void SetTargetGoldValue(int goldValue)
         {
             this.targetGoldValue = goldValue;
         }
-
         public void SetSearchCost(int searchCost)
         {
             this.searchCost = searchCost;

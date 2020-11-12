@@ -30,6 +30,27 @@ namespace AltınOyunuCSharp.Game.Map.Abstract
 
     public interface IMap
     {
+
+        int[,] GetGoldMap(); //Gold haritasını geri döndürür.
+         int[,] GetPrivateGoldMap(); //Gizli Gold haritasını geri döndürür.
+        int[] GetOyuncuHedef(string oyuncuAdi); //Oyuncu hedefini getir
+        void SetOyuncuHedefi(int y, int x, string oyuncuAdi); //Oyuncuya hedef ver.
+        void SetOyuncuHedefeKalanAdim(int adim, string oyuncuAdi); // Oyuncunun hedefe kaç adımı var.
+        int GetOyuncuHedefeKalanAdim(string oyuncuAdi); //Oyuncunun hedefe kalan adim sayisini verir.
+        public int GetGoldCount(); // Gold Map altın sayısı
+
+        int GetGoldPoint(int yCord, int xCord); //Gold Haritası Noktadaki Değer
+        int GetPrivateGoldPoint(int yCord, int xCord);  //Private Gold Haritası Noktadaki Değer
+
+
+        void RemovePrivateGoldPoint(int yCord, int xCord);  //Private Gold Haritası Noktadaki Değer
+        void AddGoldMapPoint(int yCord, int xCord,int data);  //Gold Haritası Noktasına Değer Ekle
+        void RemoveGoldMapPoint(int yCord, int xCord);  //Gold Haritası Noktadaki Değeri Sil
+
+
+
+
+
         void AddGold(int GoldRate, int PrivateGoldRate); // Kaç adet altın eklenecek. Yüzde kaçı gizli
         void AddGold(int cordY, int cordX, int gold); // Altın ekle
         void AddPrivateGold(int cordY, int cordX, string gold); // Gizli altın ekle

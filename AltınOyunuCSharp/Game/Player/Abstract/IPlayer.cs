@@ -9,7 +9,7 @@ namespace AltınOyunuCSharp.Game.Player.Abstract
 {
     interface IPlayer
     {
-        abstract int[] SearchForGold(IMap map); //Hedef belirleme
+        abstract void SearchForGold(IMap map); //Hedef belirleme
         bool IsDeath(); //Oyuncu yaşıyor mu?
         void CordUpdate(int yCord, int xCord); // Son kordinatlarını güncelleme
         

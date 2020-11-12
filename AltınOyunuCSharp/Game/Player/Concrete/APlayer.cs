@@ -9,45 +9,56 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
 {
     public class APlayer : Player
     {
-        public APlayer(int gold, string name, int cordY, int cordX, int cost, int moveLenght, int searchCost) : base(gold, name, cordY, cordX, cost, moveLenght,searchCost)
+        public APlayer(int gold, string name, int cordY, int cordX, int cost, int moveLenght, int searchCost, int gameY, int gameX) : base(gold, name, cordY, cordX, cost, moveLenght, searchCost, gameY, gameX)
         {
         }
 
-        public override int[] SearchForGold(IMap map)
+        public override void SearchForGold(IMap map)
         {
+
+            //TODO: Hedef alındı mı?
+
             List<string> goldSquareList = map.GetGoldList();
             int minY = int.MaxValue, minX = int.MaxValue,totalMin = int.MaxValue;
 
-
-            Console.WriteLine("XXXXXXXXXXXXXXXXXXXXXX");
-            goldSquareList.ForEach(Console.WriteLine);
-            Console.WriteLine("XXXXXXXXXXXXXXXXXXXXXX");
-
             int goldValue = Int32.MinValue;
-            foreach (var item in goldSquareList)
+
+
+
+
+            int[,] goldArray = map.GetGoldMap();
+
+            for(int goldY = 0; goldY < goldArray.GetLength(0); goldY++)
             {
-                string[] goldCordData = item.Split(',');
-                
-                int min = Math.Abs(this.lastYCord - Int32.Parse(goldCordData[0])) + Math.Abs(this.lastXCord - Int32.Parse(goldCordData[1]));
-                if (min < totalMin)
-                { 
-                    totalMin = min; 
-                    minY = Int32.Parse(goldCordData[0]); 
-                    minX = Int32.Parse(goldCordData[1]);
-                    goldValue = Int32.Parse(goldCordData[2]);
-                
+                for (int goldX = 0; goldX < goldArray.GetLength(1); goldX++)
+                {
+                    if(goldArray[goldY,goldX] != 0)
+                    {
+                        int min = Math.Abs(this.lastYCord - goldY) + Math.Abs(this.lastXCord -  goldX);
+                        if (min < totalMin)
+                        {
+                            totalMin = min;
+                            minY = goldY;
+                            minX = goldX;
+                            goldValue = goldArray[goldY, goldX];
+
+                        }
+                    }
+
                 }
             }
+
             double x;
             x = ((double)totalMin / this.moveLenght);
             x = Math.Ceiling(x);
             this.SetRemainingSteps(Convert.ToInt32(x));
+            map.SetOyuncuHedefeKalanAdim(Convert.ToInt32(x), "A");
             
             int[] selectedGold= { minY, minX };
             this.SetTargetedGold(minY, minX);
             this.SetTargetGoldValue(goldValue);
+            map.SetOyuncuHedefi(minY, minX, "A");
             this.SetLog("Hedef: Y:" + minY + " X:" + minX + " olarak belirlendi. Toplam tahmini Kazanç: " + (this.GetTargetGoldValue() - (this.GetRemainingSteps() * this.cost))+ " Altın Degeri: " + this.GetTargetGoldValue());
-            return selectedGold;
             
         }
     }

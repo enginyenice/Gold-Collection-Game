@@ -46,10 +46,10 @@ namespace AltınOyunuCSharp
             this.map = new Map(cordY, cordX);
 
             // Player Modelleri //
-            this.aPlayer = new APlayer(startGold, "A", 0, 0, costA, moveLenght, targetCostA);
-            this.bPlayer = new BPlayer(startGold, "B", 0, (cordX - 1), costB, moveLenght, targetCostB);
-            this.cPlayer = new CPlayer(startGold, "C", (cordY - 1), 0, costC, moveLenght, cGoldShow, targetCostC);
-            this.dPlayer = new DPlayer(startGold, "D", (cordY - 1), (cordX - 1), costD, moveLenght, targetCostD);
+            this.aPlayer = new APlayer(startGold, "A", 0, 0, costA, moveLenght, targetCostA,cordY,cordX);
+            this.bPlayer = new BPlayer(startGold, "B", 0, (cordX - 1), costB, moveLenght, targetCostB, cordY, cordX);
+            this.cPlayer = new CPlayer(startGold, "C", (cordY - 1), 0, costC, moveLenght, cGoldShow, targetCostC,cordY,cordX);
+            this.dPlayer = new DPlayer(startGold, "D", (cordY - 1), (cordX - 1), costD, moveLenght, targetCostD,cordY,cordX);
 
             // Map Player Yerleşimi
             this.map.AddPlayer(0, 0, "A"); //Player A
