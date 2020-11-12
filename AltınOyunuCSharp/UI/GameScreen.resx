@@ -117,65 +117,32 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="coin5" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\coin5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="coin10" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\coin10.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="coin15" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\coin15.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="coin20" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\coin20.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="playerA_back" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\playerA_back.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="playerA_front" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\playerA_front.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="playerA_left" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\playerA_left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="playerA_right" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\playerA_right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="playerB_back" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\playerB_back.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="playerB_front" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\playerB_front.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="playerB_left" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\playerB_left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="playerB_right" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\playerB_right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="playerC_back" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\playerC_back.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="playerC_front" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\playerC_front.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="playerC_left" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\playerC_left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="playerC_right" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\playerC_right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="playerD_back" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\playerD_back.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="playerD_front" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\playerD_front.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="playerD_left" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\playerD_left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="playerD_right" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\playerD_right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <metadata name="$this.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAMMOAADDDgAAAAAAAAAA
+        AAAAAAAAAAAAAAHf9gAC4fMHAN36SADb/KgA2PzkANj8+wDY/PsA4/3kAOj9pwDg+0gB1fcHAdr5AAAA
+        AAAAAAAAE7LCAADe+gAC2/UYANr6kgLW/O4c1v3/P9r9/0/b/f9P2v3/P+P9/xz4//8C9f7uAOn8kgHf
+        +BgA4vwAB8fXAALh9gAD3fMYAOv7sArh/f9C2P3/WNP9/0DI/f8swfz/LML8/z7K/f9X3P3/Q/j//wr7
+        //8A7v2xAeH3GAHk+QAKzuMGAOz6kgb7//9D8/7/Qs79/yjB/P8Wvvz/ALn8/wC4/P8Bxfz/Dcz9/zrR
+        /f9E9P//B/z//wDu/JID2e0GCOf2SRf4/e0u+v//PNn9/yfQ/f8pzPz/JcP8/wi7/P8AuPz/AL78/wDT
+        /f8F0P3/NNL9/yr5//8A+f7tAev5SQDx+qYZ/v//SOb+/yXP/f8p0/3/KdP9/y3O/f8hxfz/AsD8/wC/
+        /P8Azv3/ANf9/w3K/f8z3v7/Bv7//wDz+6cA+PziDPz//yfW/f8LzP3/INH9/zjY/f9J3v7/S9z+/xbR
+        /f8Azf3/ANP9/wDe/v8C0P3/I8T8/w30/v8A+f3jAfb8+gn2//8X0P3/AMv9/wjU/f853/7/UuH+/1Lh
+        /v852/7/BM/9/wDP/f8A3/7/Adz+/x7E/P8L2f3/APj9+wXb+/oF4f3/FM79/wHT/v8A2/7/Cdz+/znf
+        /v9V4v7/TuH+/x3Y/v8Azv3/Atj9/wfe/v8ozv3/Cs/8/wPk/PsQ1/rhAs38/yDO/f8H3v7/ANv+/wDb
+        /v8J3P7/TeP+/2Dj/v893/7/B9b+/ybY/f8d3/7/Jsz9/wTV/f8P2frjIeH5pAXb/f8Xy/z/GNz9/wDg
+        /v8A2/7/ANv+/w3d/v9p6P7/cuf+/17n/v9S4v7/GtP9/xfK/P8F3P3/IeH5pjrl9EcY4PzsA9P8/x3H
+        /P8O4f7/AOH+/x7f/v9J5f7/Yun//8b2///O9///Mt7+/xrH/P8D0/z/F+D87Tnm9UhU6N4FO+P4jw/e
+        /f8EzPz/GMP7/xLb/f865/7/dOv//5Pw///b+f//4fn//3jl/v8Q5P3/DuL9/zvi+ZFT6eAGW+bzAF/m
+        7xdA4vquEd79/gHQ/P8Kwfv/Ec38/yHV/f9w4P3/fdr9/27q/v9E+P//Vv7//07x+7BY4e8YW+b0ADrn
+        rgBt5PYAcOXwF1Pi+I8q3/zuDNv9/wHc/f8G7f7/EfD+/3n0/v+i/f//df7+7nj5+pGf8fIXpfX5AELV
+        pwAAAAAAAAAAAInl7QCU5uYGduP0Rlzh+aVH4friLvX8+iL+/fpm/Pzjv/n6prbz9Uef4OYHpentAAAA
+        AAAAAAAA4AcAAMADAACAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAB
+        AADAAwAA4AcAAA==
+</value>
   </data>
 </root>

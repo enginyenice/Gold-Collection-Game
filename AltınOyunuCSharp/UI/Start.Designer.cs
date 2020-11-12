@@ -66,6 +66,7 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.ExitGameBtn = new System.Windows.Forms.Button();
+            this.StartGame = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -89,7 +90,7 @@
             this.CordXTxT.Location = new System.Drawing.Point(154, 29);
             this.CordXTxT.Name = "CordXTxT";
             this.CordXTxT.Size = new System.Drawing.Size(61, 21);
-            this.CordXTxT.TabIndex = 1;
+            this.CordXTxT.TabIndex = 0;
             this.CordXTxT.Text = "5";
             this.CordXTxT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.CordXTxT.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.CordXTxT_KeyPress);
@@ -100,7 +101,7 @@
             this.CordYTxT.Location = new System.Drawing.Point(154, 58);
             this.CordYTxT.Name = "CordYTxT";
             this.CordYTxT.Size = new System.Drawing.Size(61, 21);
-            this.CordYTxT.TabIndex = 3;
+            this.CordYTxT.TabIndex = 1;
             this.CordYTxT.Text = "5";
             this.CordYTxT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.CordYTxT.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.CordYTxT_KeyPress);
@@ -134,7 +135,7 @@
             this.groupBox1.Location = new System.Drawing.Point(17, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(238, 214);
-            this.groupBox1.TabIndex = 4;
+            this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Oyun Ayarları";
             // 
@@ -143,7 +144,7 @@
             this.GoldTxT.Location = new System.Drawing.Point(154, 89);
             this.GoldTxT.Name = "GoldTxT";
             this.GoldTxT.Size = new System.Drawing.Size(61, 20);
-            this.GoldTxT.TabIndex = 1;
+            this.GoldTxT.TabIndex = 2;
             this.GoldTxT.Text = "90";
             this.GoldTxT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.GoldTxT.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.GoldTxT_KeyPress);
@@ -163,7 +164,7 @@
             this.StartGoldTxT.Location = new System.Drawing.Point(154, 149);
             this.StartGoldTxT.Name = "StartGoldTxT";
             this.StartGoldTxT.Size = new System.Drawing.Size(61, 20);
-            this.StartGoldTxT.TabIndex = 1;
+            this.StartGoldTxT.TabIndex = 4;
             this.StartGoldTxT.Text = "200";
             this.StartGoldTxT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.StartGoldTxT.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.StartGoldTxT_KeyPress);
@@ -173,7 +174,7 @@
             this.MoveLenghtTxT.Location = new System.Drawing.Point(154, 178);
             this.MoveLenghtTxT.Name = "MoveLenghtTxT";
             this.MoveLenghtTxT.Size = new System.Drawing.Size(61, 20);
-            this.MoveLenghtTxT.TabIndex = 1;
+            this.MoveLenghtTxT.TabIndex = 5;
             this.MoveLenghtTxT.Text = "3";
             this.MoveLenghtTxT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.MoveLenghtTxT.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MoveLenghtTxT_KeyPress);
@@ -229,7 +230,7 @@
             this.groupBox4.Location = new System.Drawing.Point(273, 12);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(238, 214);
-            this.groupBox4.TabIndex = 6;
+            this.groupBox4.TabIndex = 1;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "A Oyuncusu özellikleri";
             // 
@@ -239,7 +240,7 @@
             this.aCostTxT.Location = new System.Drawing.Point(155, 29);
             this.aCostTxT.Name = "aCostTxT";
             this.aCostTxT.Size = new System.Drawing.Size(61, 21);
-            this.aCostTxT.TabIndex = 5;
+            this.aCostTxT.TabIndex = 6;
             this.aCostTxT.Text = "5";
             this.aCostTxT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.aCostTxT.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.aCostTxT_KeyPress);
@@ -280,7 +281,7 @@
             this.StartGameBtn.Location = new System.Drawing.Point(529, 298);
             this.StartGameBtn.Name = "StartGameBtn";
             this.StartGameBtn.Size = new System.Drawing.Size(238, 57);
-            this.StartGameBtn.TabIndex = 7;
+            this.StartGameBtn.TabIndex = 17;
             this.StartGameBtn.Text = "Oyunu Başlat";
             this.StartGameBtn.UseVisualStyleBackColor = true;
             this.StartGameBtn.Click += new System.EventHandler(this.StartGameBtn_Click);
@@ -296,7 +297,7 @@
             this.groupBox5.Location = new System.Drawing.Point(529, 12);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(238, 214);
-            this.groupBox5.TabIndex = 6;
+            this.groupBox5.TabIndex = 2;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "B Oyuncusu özellikleri";
             // 
@@ -306,7 +307,7 @@
             this.bCostTxT.Location = new System.Drawing.Point(157, 29);
             this.bCostTxT.Name = "bCostTxT";
             this.bCostTxT.Size = new System.Drawing.Size(61, 21);
-            this.bCostTxT.TabIndex = 9;
+            this.bCostTxT.TabIndex = 8;
             this.bCostTxT.Text = "5";
             this.bCostTxT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.bCostTxT.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.bCostTxT_KeyPress);
@@ -317,7 +318,7 @@
             this.bTargetCostTxT.Location = new System.Drawing.Point(157, 58);
             this.bTargetCostTxT.Name = "bTargetCostTxT";
             this.bTargetCostTxT.Size = new System.Drawing.Size(61, 21);
-            this.bTargetCostTxT.TabIndex = 11;
+            this.bTargetCostTxT.TabIndex = 9;
             this.bTargetCostTxT.Text = "10";
             this.bTargetCostTxT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.bTargetCostTxT.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.bTargetCostTxT_KeyPress);
@@ -355,7 +356,7 @@
             this.groupBox2.Location = new System.Drawing.Point(17, 241);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(238, 214);
-            this.groupBox2.TabIndex = 8;
+            this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "C Oyuncusu özellikleri";
             // 
@@ -365,7 +366,7 @@
             this.cCostTxT.Location = new System.Drawing.Point(154, 28);
             this.cCostTxT.Name = "cCostTxT";
             this.cCostTxT.Size = new System.Drawing.Size(61, 21);
-            this.cCostTxT.TabIndex = 17;
+            this.cCostTxT.TabIndex = 10;
             this.cCostTxT.Text = "5";
             this.cCostTxT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.cCostTxT.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cCostTxT_KeyPress);
@@ -376,7 +377,7 @@
             this.cTargetCostTxT.Location = new System.Drawing.Point(154, 57);
             this.cTargetCostTxT.Name = "cTargetCostTxT";
             this.cTargetCostTxT.Size = new System.Drawing.Size(61, 21);
-            this.cTargetCostTxT.TabIndex = 19;
+            this.cTargetCostTxT.TabIndex = 11;
             this.cTargetCostTxT.Text = "15";
             this.cTargetCostTxT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.cTargetCostTxT.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cTargetCostTxT_KeyPress);
@@ -417,7 +418,7 @@
             this.cGoldShowTxT.Location = new System.Drawing.Point(154, 97);
             this.cGoldShowTxT.Name = "cGoldShowTxT";
             this.cGoldShowTxT.Size = new System.Drawing.Size(61, 21);
-            this.cGoldShowTxT.TabIndex = 1;
+            this.cGoldShowTxT.TabIndex = 12;
             this.cGoldShowTxT.Text = "2";
             this.cGoldShowTxT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.cGoldShowTxT.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cGoldShowTxT_KeyPress);
@@ -433,7 +434,7 @@
             this.groupBox3.Location = new System.Drawing.Point(273, 241);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(238, 214);
-            this.groupBox3.TabIndex = 7;
+            this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "D Oyuncusu özellikleri";
             // 
@@ -454,7 +455,7 @@
             this.dTargetCostTxT.Location = new System.Drawing.Point(155, 57);
             this.dTargetCostTxT.Name = "dTargetCostTxT";
             this.dTargetCostTxT.Size = new System.Drawing.Size(61, 21);
-            this.dTargetCostTxT.TabIndex = 15;
+            this.dTargetCostTxT.TabIndex = 14;
             this.dTargetCostTxT.Text = "20";
             this.dTargetCostTxT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.dTargetCostTxT.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dTargetCostTxT_KeyPress);
@@ -484,16 +485,27 @@
             this.ExitGameBtn.Location = new System.Drawing.Point(529, 361);
             this.ExitGameBtn.Name = "ExitGameBtn";
             this.ExitGameBtn.Size = new System.Drawing.Size(238, 57);
-            this.ExitGameBtn.TabIndex = 9;
+            this.ExitGameBtn.TabIndex = 16;
             this.ExitGameBtn.Text = "Oyunu Kapat";
             this.ExitGameBtn.UseVisualStyleBackColor = true;
             this.ExitGameBtn.Click += new System.EventHandler(this.ExitGameBtn_Click);
+            // 
+            // StartGame
+            // 
+            this.StartGame.Location = new System.Drawing.Point(669, 235);
+            this.StartGame.Name = "StartGame";
+            this.StartGame.Size = new System.Drawing.Size(98, 57);
+            this.StartGame.TabIndex = 15;
+            this.StartGame.Text = "Oyunu Başlat(Grafik)";
+            this.StartGame.UseVisualStyleBackColor = true;
+            this.StartGame.Click += new System.EventHandler(this.StartGame_Click);
             // 
             // Start
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 471);
+            this.Controls.Add(this.StartGame);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox5);
@@ -559,6 +571,7 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox dCostTxT;
         private System.Windows.Forms.Button ExitGameBtn;
+        private System.Windows.Forms.Button StartGame;
     }
 }
 

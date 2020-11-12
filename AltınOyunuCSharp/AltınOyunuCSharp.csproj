@@ -48,6 +48,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UI\GameScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\GameScreen.Designer.cs">
+      <DependentUpon>GameScreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\GameBoard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -70,6 +76,9 @@
     <Compile Include="Game\Player\Abstract\IPlayer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="UI\GameScreen.resx">
+      <DependentUpon>GameScreen.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\GameBoard.resx">
       <DependentUpon>GameBoard.cs</DependentUpon>
     </EmbeddedResource>
@@ -84,6 +93,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -98,6 +108,28 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Resource\coin10.png" />
+    <Content Include="Resource\coin15.png" />
+    <Content Include="Resource\coin20.png" />
+    <Content Include="Resource\coin5.png" />
+    <Content Include="Resource\favicon.ico" />
+    <Content Include="Resource\playerA_back.png" />
+    <Content Include="Resource\playerA_front.png" />
+    <Content Include="Resource\playerA_left.png" />
+    <Content Include="Resource\playerA_right.png" />
+    <Content Include="Resource\playerB_back.png" />
+    <Content Include="Resource\playerB_front.png" />
+    <Content Include="Resource\playerB_left.png" />
+    <Content Include="Resource\playerB_right.png" />
+    <Content Include="Resource\playerC_back.png" />
+    <Content Include="Resource\playerC_front.png" />
+    <Content Include="Resource\playerC_left.png" />
+    <Content Include="Resource\playerC_right.png" />
+    <Content Include="Resource\playerD_back.png" />
+    <Content Include="Resource\playerD_front.png" />
+    <Content Include="Resource\playerD_left.png" />
+    <Content Include="Resource\playerD_right.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
