@@ -15,7 +15,6 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
 
         public override void SearchForGold(IMap map)
         {
-            List<string> goldSquareList = map.GetGoldList();
             int minY = int.MaxValue, minX = int.MaxValue, goldEarned = int.MinValue, remainingSteps = int.MinValue, squareGold = Int32.MinValue, tempMesafe = Int32.MaxValue;
 
 
@@ -33,7 +32,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                         x = ((double)mesafe / this.moveLenght);
                         x = Math.Ceiling(x);
                         int lenght = Convert.ToInt32(x);
-                        int totalCost = goldArray[goldY, goldX] - ((lenght) * this.cost);
+                        int totalCost = goldArray[goldY, goldX] - (((lenght) * this.cost) + GetSearchCost());
                         if (totalCost >= goldEarned)
                         {
                             if (mesafe < tempMesafe && totalCost == goldEarned)
@@ -60,12 +59,14 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
 
             }
                 this.SetRemainingSteps(remainingSteps);
-            map.SetOyuncuHedefeKalanAdim(remainingSteps, "B");
             int[] selectedGold = { minY, minX };
-                this.SetLog("Hedef: Y:" + minY + " X:" + minX + " olarak belirlendi. Toplam tahmini Kazanç: " + goldEarned + "Altın Degeri: " + squareGold);
+
+            map.SetOyuncuHedefeKalanAdim(remainingSteps, "B");
             map.SetOyuncuHedefi(minY, minX, "B");
                 this.SetTargetedGold(minY, minX);
             this.SetTargetGoldValue(squareGold);
+            this.SetHedefeVardigindaAlacagiToplamPuan(goldEarned);
+            this.SetLog("Hedef: Y:" + minY + " X:" + minX + " olarak belirlendi. Toplam tahmini Kazanç: " + GetHedefeVardigindaAlacagiToplamPuan() + "Altın Degeri: " + GetTargetGoldValue());
         }
     }
 }

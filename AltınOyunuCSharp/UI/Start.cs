@@ -59,7 +59,6 @@ namespace AltınOyunuCSharp
 
             //Map Altın Yerleşimi
             this.map.AddGold(goldRate, privateGoldRate);
-            Console.WriteLine(this.map.GetMap());
 
             //Oyun Ekranının Açılması
             GameBoard gameBoard = new GameBoard(this.map, this.aPlayer, this.bPlayer, this.cPlayer, this.dPlayer,this);

@@ -18,7 +18,6 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
 
             //TODO: Hedef alındı mı?
 
-            List<string> goldSquareList = map.GetGoldList();
             int minY = int.MaxValue, minX = int.MaxValue,totalMin = int.MaxValue;
 
             int goldValue = Int32.MinValue;
@@ -52,13 +51,16 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
             x = ((double)totalMin / this.moveLenght);
             x = Math.Ceiling(x);
             this.SetRemainingSteps(Convert.ToInt32(x));
-            map.SetOyuncuHedefeKalanAdim(Convert.ToInt32(x), "A");
             
             int[] selectedGold= { minY, minX };
             this.SetTargetedGold(minY, minX);
             this.SetTargetGoldValue(goldValue);
+            this.SetHedefeVardigindaAlacagiToplamPuan(goldValue - ((GetRemainingSteps() * this.cost) + this.GetSearchCost()));
+            
+            
             map.SetOyuncuHedefi(minY, minX, "A");
-            this.SetLog("Hedef: Y:" + minY + " X:" + minX + " olarak belirlendi. Toplam tahmini Kazanç: " + (this.GetTargetGoldValue() - (this.GetRemainingSteps() * this.cost))+ " Altın Degeri: " + this.GetTargetGoldValue());
+            map.SetOyuncuHedefeKalanAdim(Convert.ToInt32(x), "A");
+            this.SetLog("Hedef: Y:" + minY + " X:" + minX + " olarak belirlendi. Toplam tahmini Kazanç: " + GetHedefeVardigindaAlacagiToplamPuan() + " Altın Degeri: " + this.GetTargetGoldValue());
             
         }
     }

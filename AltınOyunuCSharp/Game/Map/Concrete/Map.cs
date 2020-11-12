@@ -22,8 +22,7 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
         public int[] oyuncuHedefeKalanAdim;
         
 
-        private readonly List<string> goldCords; //Altın kordinatları var
-        private readonly List<string> privateGoldCords; //Gizli altın kordinatları var
+
 
         int gameOrder = 1;
 
@@ -35,8 +34,6 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
             dOyuncuHedefi = new int[2];
             oyuncuHedefeKalanAdim = new int[4];
 
-            goldCords = new List<string>();
-            privateGoldCords = new List<string>();
 
             map = new string[ySize, xSize];
             goldMap = new int[ySize, xSize];
@@ -102,25 +99,6 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
         {
             throw new NotImplementedException();
         }
-
-
-        public string GetMap()
-        {
-            string mapText = "";
-            for (int y = 0; y < map.GetLength(0); y++)
-            {
-                for (int x = 0; x < map.GetLength(1); x++)
-                {
-                    mapText += " | " + map[y, x];
-                }
-                mapText += " |\n";
-            }
-            return mapText;
-        }
-
-
-
-
         public string GetGoldMapString()
         {
             string mapText = "Normal Altın\n";
@@ -134,9 +112,6 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
             }
             return mapText;
         }
-
-
-
         public string GetPrivateGoldMapString()
         {
             string mapText = "Gizli Altın\n";
@@ -150,13 +125,10 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
             }
             return mapText;
         }
-
-
         public string GetPoint(int yCord, int xCord)
         {
             return map[yCord, xCord];
         }
-
         public int GetGoldPoint(int yCord, int xCord)
         {
             return goldMap[yCord, xCord];
@@ -202,11 +174,6 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
             this.goldMap[yCord, xCord] = 0;
 
         }
-
-
-
-
-
         public string[,] GetMatrisMap()
         {
             return this.map;
@@ -223,38 +190,16 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
             }
             return true;
         }
-        public List<string> GetGoldList()
-        {
-            return this.goldCords;
-        }
-
-        public List<string> GetPrivateGoldList()
-        {
-            return this.privateGoldCords;
-        }
 
         #endregion
         #region Remove
 
-        public void RemoveGold(string data)
-        {
-            try
-            {
-                this.goldCords.Remove(data);
-            }
-            catch (Exception)
-            {
 
-                throw;
-            }
-
-        }
 
         public void RemovePrivateGold(string data)
         {
             try
             {
-                this.privateGoldCords.Remove(data);
                 string[] parseData = data.Split(',');
                 this.privateGoldMap[Int32.Parse(parseData[0]), Int32.Parse(parseData[1])] = 0;
             }
@@ -327,13 +272,12 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
 
         public void AddGold(int cordY, int cordX, int gold)
         {
-            this.goldCords.Add(cordY + "," + cordX + "," + gold);
             this.goldMap[cordY, cordX] = gold;
         }
 
         public void AddPrivateGold(int cordY, int cordX, string gold)
         {
-            this.privateGoldCords.Add(cordY + "," + cordX + "," + gold);
+            //this.privateGoldCords.Add(cordY + "," + cordX + "," + gold);
         }
         public void SetMap(int YCord, int xCord, string data)
         {
@@ -381,32 +325,6 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
 
                 }
             }
-            
-            
-            
-            //for (int i = goldField; i > 0; i--)
-            //{
-            //GoldDetected:
-            //    int randomY = rastgele.Next(map.GetLength(0));
-            //    int randomX = rastgele.Next(map.GetLength(1));
-            //    if (GetPoint(randomY, randomX) == String.Empty)
-            //    {
-            //        int gold;
-            //        gold = (rastgele.Next(1, 4) * 5);
-            //        SetMap(randomY, randomX, gold.ToString());
-            //        this.AddGold(randomY, randomX, gold);
-            //    }
-            //    else
-            //    {
-
-            //        if (IsFull() == false)
-            //            goto GoldDetected;
-            //        else
-            //            break;
-
-            //    }
-
-            //}
             AddPrivateGold(privateGoldField);
 
 
@@ -446,30 +364,7 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
             }
 
 
-            //Random rastgele = new Random();
-
-
-            //for (int i = PrivateGoldField; i > 0; i--)
-            //{
-            //PrivateGoldDetected:
-            //    int randomY = rastgele.Next(map.GetLength(0));
-            //    int randomX = rastgele.Next(map.GetLength(1));
-            //    if (GetPoint(randomX, randomY) == String.Empty)
-            //    {
-            //        int privateGold = (rastgele.Next(1, 4) * 5);
-            //        SetMap(randomY, randomX, "G-" + privateGold);
-            //        privateGoldCords.Add(randomY + "," + randomX + "," + privateGold);
-            //        this.AddPrivateGold(randomY, randomX, "G-" + privateGold);
-            //    }
-            //    else
-            //    {
-            //        if (IsFull() == false)
-            //            goto PrivateGoldDetected;
-            //        else
-            //            break;
-            //    }
-
-            //}
+          
         }
 
         #endregion
