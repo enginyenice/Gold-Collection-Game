@@ -2,13 +2,6 @@
 using AltınOyunuCSharp.Game.Player.Concrete;
 using AltınOyunuCSharp.UI;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AltınOyunuCSharp
@@ -19,6 +12,7 @@ namespace AltınOyunuCSharp
         {
             InitializeComponent();
         }
+
         public Map map;
         public APlayer aPlayer;
         public BPlayer bPlayer;
@@ -47,10 +41,10 @@ namespace AltınOyunuCSharp
             this.map = new Map(cordY, cordX);
 
             // Player Modelleri //
-            this.aPlayer = new APlayer(startGold, "A", 0, 0, costA, moveLenght, targetCostA,cordY,cordX);
+            this.aPlayer = new APlayer(startGold, "A", 0, 0, costA, moveLenght, targetCostA, cordY, cordX);
             this.bPlayer = new BPlayer(startGold, "B", 0, (cordX - 1), costB, moveLenght, targetCostB, cordY, cordX);
-            this.cPlayer = new CPlayer(startGold, "C", (cordY - 1), 0, costC, moveLenght, cGoldShow, targetCostC,cordY,cordX);
-            this.dPlayer = new DPlayer(startGold, "D", (cordY - 1), (cordX - 1), costD, moveLenght, targetCostD,cordY,cordX);
+            this.cPlayer = new CPlayer(startGold, "C", (cordY - 1), 0, costC, moveLenght, cGoldShow, targetCostC, cordY, cordX);
+            this.dPlayer = new DPlayer(startGold, "D", (cordY - 1), (cordX - 1), costD, moveLenght, targetCostD, cordY, cordX);
 
             // Map Player Yerleşimi
             this.map.AddPlayer(0, 0, "A"); //Player A
@@ -62,10 +56,11 @@ namespace AltınOyunuCSharp
             this.map.AddAllGold(goldRate, privateGoldRate);
 
             //Oyun Ekranının Açılması
-            GameBoard gameBoard = new GameBoard(this.map, this.aPlayer, this.bPlayer, this.cPlayer, this.dPlayer,this);
+            GameBoard gameBoard = new GameBoard(this.map, this.aPlayer, this.bPlayer, this.cPlayer, this.dPlayer, this);
             this.Hide();
             gameBoard.Show();
         }
+
         private void StartGame_Click(object sender, EventArgs e)
         {
             this.Hide();
@@ -104,9 +99,10 @@ namespace AltınOyunuCSharp
             this.map.AddAllGold(goldRate, privateGoldRate);
 
             GameScreen game = new GameScreen(this.map, this.aPlayer, this.bPlayer, this.cPlayer, this.dPlayer, this);
-            
+
             game.Show();
         }
+
         private void ExitGameBtn_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -169,6 +165,7 @@ namespace AltınOyunuCSharp
                 e.Handled = true;
             }
         }
+
         private void cGoldShowTxT_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
@@ -240,7 +237,5 @@ namespace AltınOyunuCSharp
                 e.Handled = true;
             }
         }
-
-        
     }
 }

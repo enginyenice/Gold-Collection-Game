@@ -1,12 +1,5 @@
 ﻿using AltınOyunuCSharp.Game.Player.Concrete;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AltınOyunuCSharp.UI
@@ -17,7 +10,7 @@ namespace AltınOyunuCSharp.UI
         BPlayer bPlayer;
         CPlayer cPlayer;
         DPlayer dPlayer;
-        public ScoreBoard(APlayer aPlayer,BPlayer bPlayer,CPlayer cPlayer,DPlayer dPlayer)
+        public ScoreBoard(APlayer aPlayer, BPlayer bPlayer, CPlayer cPlayer, DPlayer dPlayer)
         {
             this.aPlayer = aPlayer;
             this.bPlayer = bPlayer;

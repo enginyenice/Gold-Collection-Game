@@ -1,9 +1,5 @@
 ﻿using AltınOyunuCSharp.Game.Map.Abstract;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AltınOyunuCSharp.Game.Player.Concrete
 {
@@ -28,17 +24,17 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
             int nearestGoldPathLength = Int32.MaxValue; // Hedeflenen altına giden yolun uzunluğu.
             String whoseTarget = String.Empty;          // D hangi oyuncunun hedefini seçti.
             int[] thisCord = this.GetLastCord();        // D oyuncusunun son konumu.
-            
+
             //Oyuncuların hedeflerinin koordinatları
             int[] aPlayerTarget = map.GetPlayerTarget("A");
             int[] bPlayerTarget = map.GetPlayerTarget("B");
             int[] cPlayerTarget = map.GetPlayerTarget("C");
- 
+
             //D'nin diğer oyuncuların hedeflerine ulaşması için gereken tur sayısı
             int remainingSteps_ATarget = GetStepsOfOtherPlayersTarget(thisCord, aPlayerTarget);
             int remainingSteps_BTarget = GetStepsOfOtherPlayersTarget(thisCord, bPlayerTarget);
             int remainingSteps_CTarget = GetStepsOfOtherPlayersTarget(thisCord, cPlayerTarget);
-            
+
             if (remainingSteps_ATarget < map.GetPlayerRemainingSteps("A") && map.GetPlayerRemainingSteps("A") != -1)
             {// A'nın hedefini hedef belirleme.
                 whoseTarget = "A";
@@ -65,7 +61,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                 nearestGoldValue = map.GetGoldPointValue(cPlayerTarget[0], cPlayerTarget[1]);
                 remainingSteps = remainingSteps_CTarget;
                 nearestGoldProfit = (nearestGoldValue) - ((remainingSteps_CTarget * this.cost) + GetSearchCost());
-            } 
+            }
             else
             {//D diğer oyuncuların hedefine ulaşamadığında kendine hedef belirleme
                 int[,] goldArray = map.GetGoldMap();
@@ -81,7 +77,6 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
 
                     if (map.GetPlayerRemainingSteps("C") != -1)
                         tempGoldArray[cPlayerTarget[0], cPlayerTarget[1]] = 0;
-
                 }
                 for (int goldY = 0; goldY < tempGoldArray.GetLength(0); goldY++)
                 {
@@ -95,7 +90,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                             double x = ((double)tempPathLength / this.moveLenght);
                             x = Math.Ceiling(x);
                             int tempRemainingSteps = Convert.ToInt32(x);
-                            //Altından elde edilecek kar 
+                            //Altından elde edilecek kar
                             int tempProfit = tempGoldArray[goldY, goldX] - (((tempRemainingSteps) * this.cost) + GetSearchCost());
 
                             if (tempProfit >= nearestGoldProfit)
@@ -127,23 +122,19 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
             this.SetRemainingSteps(remainingSteps);
             this.SetTargetedGoldCord(nearestGoldY, nearestGoldX);
             this.SetTargetedGoldValue(nearestGoldValue);
-            
 
             // Hedef belirleme maliyeti çıkartıldı.
             this.SetGoldEarnedOnReachTarget(nearestGoldValue - ((GetRemainingSteps() * this.cost) + this.GetSearchCost()));
             this.UpdatePlayerGoldValue((-1) * this.GetSearchCost());
 
-
-
-
-            if (whoseTarget != String.Empty){
+            if (whoseTarget != String.Empty)
+            {
                 this.SetLog("D oyuncusu " + whoseTarget + " oyuncusunun hedefine ondan önce ulaşabilir.");
             }
             this.SetLog("Hedef: Y:" + nearestGoldY + " X:" + nearestGoldX + " olarak belirlendi. Toplam tahmini Kazanç: " + GetGoldEarnedOnReachTarget() + " Altın Degeri: " + nearestGoldValue);
 
             map.SetPlayerTarget(nearestGoldY, nearestGoldX, "D");
             map.SetPlayerRemainingSteps(remainingSteps, "D");
-
         }
     }
 }

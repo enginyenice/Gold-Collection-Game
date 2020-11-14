@@ -2,13 +2,7 @@
 using AltınOyunuCSharp.Game.Player.Concrete;
 using AltınOyunuCSharp.UI;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AltınOyunuCSharp
@@ -21,14 +15,15 @@ namespace AltınOyunuCSharp
         public BPlayer bPlayer;
         public CPlayer cPlayer;
         public DPlayer dPlayer;
-        int[,] goldMatris;
-        int[,] privateGoldMatris;
-        int[,] aPlayerMatris;
-        int[,] bPlayerMatris;
-        int[,] cPlayerMatris;
-        int[,] dPlayerMatris;
+        private int[,] goldMatris;
+        private int[,] privateGoldMatris;
+        private int[,] aPlayerMatris;
+        private int[,] bPlayerMatris;
+        private int[,] cPlayerMatris;
+        private int[,] dPlayerMatris;
 
-        Button[,] buttonMatrix;
+        private Button[,] buttonMatrix;
+
         public GameBoard(Map gameMap, APlayer a, BPlayer b, CPlayer c, DPlayer d, Form menuForm)
         {
             this.menuForm = menuForm;
@@ -57,9 +52,7 @@ namespace AltınOyunuCSharp
             label2.Text = "B'nın Altını: " + bPlayer.GetPlayerGold();
             label3.Text = "C'nın Altını: " + cPlayer.GetPlayerGold();
             label4.Text = "D'nın Altını: " + dPlayer.GetPlayerGold();
-
         }
-
 
         private void GenerateButtonMap()
         {
@@ -75,7 +68,7 @@ namespace AltınOyunuCSharp
                         Height = lockWidthHeight,
                         Text = "",
 
-                        Location = new Point(x * lockWidthHeight + 10, y * lockWidthHeight + 10),  // x,y şeklinde 
+                        Location = new Point(x * lockWidthHeight + 10, y * lockWidthHeight + 10),  // x,y şeklinde
                         Parent = panel1,
                     };
                     /*
@@ -136,14 +129,13 @@ namespace AltınOyunuCSharp
                     {
                         buttonMatrix[y, x].BackColor = Color.White;
                     }
-
                 }
             }
         }
+
         private void button1_Click(object sender, EventArgs e)
         {
             timer1.Start();
-
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -153,7 +145,6 @@ namespace AltınOyunuCSharp
 
         public void gameStart()
         {
-
             if (map.GetGoldCount() > 0)
             {
             oyuncuOlu:
@@ -180,6 +171,7 @@ namespace AltınOyunuCSharp
                         ButtonTextEdit();
                         map.SetGameOrder();
                         break;
+
                     case 2:
                         if (bPlayer.IsDeath() == true)
                         {
@@ -201,6 +193,7 @@ namespace AltınOyunuCSharp
                         }
                         map.SetGameOrder();
                         break;
+
                     case 3:
                         if (cPlayer.IsDeath() == true)
                         {
@@ -221,6 +214,7 @@ namespace AltınOyunuCSharp
                         }
                         map.SetGameOrder();
                         break;
+
                     case 4:
                         if (dPlayer.IsDeath() == true)
                         {
@@ -248,11 +242,10 @@ namespace AltınOyunuCSharp
                 timer1.Stop();
                 MessageBox.Show("Oyun Bitti");
 
-                ScoreBoard scoreBoard = new ScoreBoard(aPlayer,bPlayer,cPlayer,dPlayer);
+                ScoreBoard scoreBoard = new ScoreBoard(aPlayer, bPlayer, cPlayer, dPlayer);
                 scoreBoard.Show();
                 this.Close();
             }
-
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -260,7 +253,4 @@ namespace AltınOyunuCSharp
             gameStart();
         }
     }
-
-
-
 }

@@ -1,9 +1,5 @@
 ﻿using AltınOyunuCSharp.Game.Map.Abstract;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AltınOyunuCSharp.Game.Player.Concrete
 {
@@ -20,7 +16,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
             int remainingSteps = int.MinValue;          // Hedeflenen altına ulaşmak için gereken tur sayısı
             int nearestGoldValue = Int32.MinValue;      // Hedeflenen altının değeri
             int nearestGoldPathLength = Int32.MaxValue; // Hedeflenen altına giden yolun uzunluğu
-            int[,] goldArray = map.GetGoldMap();        // Altın matrisi 
+            int[,] goldArray = map.GetGoldMap();        // Altın matrisi
 
             for (int goldY = 0; goldY < goldArray.GetLength(0); goldY++)
             {
@@ -34,9 +30,9 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                         double x = ((double)tempPathLength / this.moveLenght);
                         x = Math.Ceiling(x);
                         int tempRemainingSteps = Convert.ToInt32(x);
-                        //Altından elde edilecek kar 
+                        //Altından elde edilecek kar
                         int tempProfit = goldArray[goldY, goldX] - (((tempRemainingSteps) * this.cost) + GetSearchCost());
-                        
+
                         if (tempProfit >= nearestGoldProfit)
                         {
                             if (tempPathLength < nearestGoldPathLength && tempProfit == nearestGoldProfit)
@@ -61,7 +57,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                     }
                 }
             }
-            
+
             this.SetRemainingSteps(remainingSteps);
             this.SetTargetedGoldCord(nearestGoldY, nearestGoldX);
             this.SetTargetedGoldValue(nearestGoldValue);
