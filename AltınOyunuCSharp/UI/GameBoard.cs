@@ -136,8 +136,6 @@ namespace AltınOyunuCSharp
                         buttonMatrix[y, x].BackColor = Color.White;
                     }
 
-
-
                 }
             }
         }
@@ -178,14 +176,6 @@ namespace AltınOyunuCSharp
                         {
                             listBox1.Items.Add(item);
                         }
-
-
-
-
-
-
-
-
                         ButtonTextEdit();
                         map.SetGameOrder();
                         break;
@@ -208,8 +198,6 @@ namespace AltınOyunuCSharp
                         {
                             listBox2.Items.Add(item);
                         }
-
-
                         map.SetGameOrder();
                         break;
                     case 3:
@@ -230,8 +218,6 @@ namespace AltınOyunuCSharp
                         {
                             listBox3.Items.Add(item);
                         }
-
-
                         map.SetGameOrder();
                         break;
                     case 4:
@@ -252,13 +238,8 @@ namespace AltınOyunuCSharp
                         {
                             listBox4.Items.Add(item);
                         }
-
-
                         map.SetGameOrder();
-
                         break;
-
-
                 }
             }
             else

@@ -59,7 +59,7 @@ namespace AltınOyunuCSharp
             this.map.AddPlayer((cordY - 1), (cordX - 1), "D"); //Player D
 
             //Map Altın Yerleşimi
-            this.map.AddGold(goldRate, privateGoldRate);
+            this.map.AddAllGold(goldRate, privateGoldRate);
 
             //Oyun Ekranının Açılması
             GameBoard gameBoard = new GameBoard(this.map, this.aPlayer, this.bPlayer, this.cPlayer, this.dPlayer,this);
@@ -101,7 +101,7 @@ namespace AltınOyunuCSharp
             this.map.AddPlayer((cordY - 1), (cordX - 1), "D"); //Player D
 
             //Map Altın Yerleşimi
-            this.map.AddGold(goldRate, privateGoldRate);
+            this.map.AddAllGold(goldRate, privateGoldRate);
 
             GameScreen game = new GameScreen(this.map, this.aPlayer, this.bPlayer, this.cPlayer, this.dPlayer, this);
             

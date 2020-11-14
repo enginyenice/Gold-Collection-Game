@@ -70,8 +70,8 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
             this.SetRemainingSteps(remainingSteps);
             this.SetTargetedGoldCord(nearestGoldY, nearestGoldX);
             this.SetTargetedGoldValue(nearestGoldValue);
-            this.SetHedefeVardigindaAlacagiToplamPuan(nearestGoldProfit);
-            this.SetLog("Hedef: Y:" + nearestGoldY + " X:" + nearestGoldX + " olarak belirlendi. Toplam tahmini Kazanç: " + this.GetHedefeVardigindaAlacagiToplamPuan() + "Altın Degeri: " + nearestGoldValue);
+            this.SetGoldEarnedOnReachTarget(nearestGoldProfit);
+            this.SetLog("Hedef: Y:" + nearestGoldY + " X:" + nearestGoldX + " olarak belirlendi. Toplam tahmini Kazanç: " + this.GetGoldEarnedOnReachTarget() + " Altın Degeri: " + nearestGoldValue);
 
             map.SetPlayerTarget(nearestGoldY, nearestGoldX, "C");
             map.SetPlayerRemainingSteps(remainingSteps, "C");
@@ -113,20 +113,15 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                     break;
                 }
 
-                map.AddGoldMapPoint(nearestPrivateGoldY, nearestPrivateGoldX, nearestPrivateGoldValue);
+                map.UpdateGoldMapPoint(nearestPrivateGoldY, nearestPrivateGoldX, nearestPrivateGoldValue);
                 map.RemovePrivateGoldPoint(nearestPrivateGoldY, nearestPrivateGoldX);
-                this.SetLog("C Tarafından Y: " + nearestPrivateGoldY + " X:" + nearestPrivateGoldX + " kordinatındaki " + nearestPrivateGoldValue + " puanlık altın açıldı");
+                this.SetLog("C Tarafından Y: " + nearestPrivateGoldY + " X:" + nearestPrivateGoldX + " kordinatındaki " + nearestPrivateGoldValue + " puanlık "+(control+1)+". altın açıldı");
                 control++;
             }
-
-
-
-
-
-              
-            }
+ 
         }
     }
+}
 
 
   

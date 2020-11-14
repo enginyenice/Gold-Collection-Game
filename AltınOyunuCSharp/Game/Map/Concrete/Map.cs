@@ -21,6 +21,8 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
         public int[] playersRemainingSteps;
         List<int> playersIsDeath;
         int gameOrder = 1;
+        bool gameOver;
+        String gameOverReason = "";
 
         public Map(int ySize,int xSize)
         {
@@ -34,6 +36,7 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
             playersIsDeath.Add(2);
             playersIsDeath.Add(3);
             playersIsDeath.Add(4);
+            gameOver= false;
            
             map = new string[ySize, xSize];
             goldMap = new int[ySize, xSize];
@@ -44,28 +47,24 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
                 {
                     goldMap[i, k] = 0;
                     privateGoldMap[i, k] = 0;
-                    SetMapPointData(i, k, String.Empty);
+                    UpdateMapPointData(i, k, String.Empty);
                 }
             }
             mapSquare = ySize * xSize;
         }
 
         #region GET
-        public int GetPlayerRemainingSteps(string playerName)
+        public string[,] GetMap()
         {
-            switch (playerName)
-            {
-                case "A":
-                    return playersRemainingSteps[0];
-                case "B":
-                    return playersRemainingSteps[1];
-                case "C":
-                    return playersRemainingSteps[2];
-                case "D":
-                    return playersRemainingSteps[3];
-                default:
-                    return playersRemainingSteps[0];
-            }
+            return this.map;
+        }
+        public int[,] GetGoldMap()
+        {
+            return this.goldMap;
+        }
+        public int[,] GetPrivateGoldMap()
+        {
+            return this.privateGoldMap;
         }
         public int[] GetPlayerTarget(string playerName)
         {
@@ -83,55 +82,21 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
                     return aPlayerTarget;
             }
         }
-        public string[,] GetMap()
+        public int GetPlayerRemainingSteps(string playerName)
         {
-            return this.map;
-        }
-        public int[,] GetGoldMap()
-        {
-            return this.goldMap;
-        }        
-        public int[,] GetPrivateGoldMap()
-        {
-            return this.privateGoldMap;
-        }
-        public string GetGoldMapString()
-        {
-            string mapText = "Normal Altın\n";
-            for (int y = 0; y < goldMap.GetLength(0); y++)
+            switch (playerName)
             {
-                for (int x = 0; x < goldMap.GetLength(1); x++)
-                {
-                    mapText += " | " + goldMap[y, x];
-                }
-                mapText += " |\n";
+                case "A":
+                    return playersRemainingSteps[0];
+                case "B":
+                    return playersRemainingSteps[1];
+                case "C":
+                    return playersRemainingSteps[2];
+                case "D":
+                    return playersRemainingSteps[3];
+                default:
+                    return playersRemainingSteps[0];
             }
-            return mapText;
-        }
-        public string GetPrivateGoldMapString()
-        {
-            string mapText = "Gizli Altın\n";
-            for (int y = 0; y < privateGoldMap.GetLength(0); y++)
-            {
-                for (int x = 0; x < privateGoldMap.GetLength(1); x++)
-                {
-                    mapText += " | " + privateGoldMap[y, x];
-                }
-                mapText += " |\n";
-            }
-            return mapText;
-        }
-        public string GetMapPoint(int CordY, int CordX)
-        {
-            return map[CordY, CordX];
-        }
-        public int GetGoldPoint(int CordY, int CordX)
-        {
-            return goldMap[CordY, CordX];
-        }
-        public int GetPrivateGoldPoint(int CordY, int CordX)
-        {
-            return privateGoldMap[CordY, CordX];
         }
         public int GetGoldCount()
         {
@@ -163,6 +128,18 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
             }
             return count;
         }
+        public string GetMapPointValue(int CordY, int CordX)
+        {
+            return map[CordY, CordX];
+        }
+        public int GetGoldPointValue(int CordY, int CordX)
+        {
+            return goldMap[CordY, CordX];
+        }
+        public int GetPrivateGoldPointValue(int CordY, int CordX)
+        {
+            return privateGoldMap[CordY, CordX];
+        }
         public int GetGameOrder()
         {
             return gameOrder;
@@ -179,46 +156,45 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
             }
             return true;
         }
-        #endregion
-
-        #region REMOVE
-        public void RemovePlayersIsDeath(int gameOrder)
+        public bool GetgameOver()
         {
-            this.playersIsDeath.Remove(gameOrder);
-            playersIsDeath = playersIsDeath.OrderBy(a => a).ToList();
+            return this.gameOver;
         }
-        public void RemoveGoldMapPoint(int CordY, int CordX)
-        {//Gold Haritası Noktadaki Değeri Sil
-            this.goldMap[CordY, CordX] = 0;
+        public string GetgameOverReason()
+        {
+            return this.gameOverReason;
         }
-        public void RemovePrivateGoldPoint(int CordY, int CordX)
-        {//Private Gold Haritası Noktadaki Değer
-            this.privateGoldMap[CordY, CordX] = 0;
-        }
+
+        public string GetGoldMapString()
+        {
+            string mapText = "Normal Altın\n";
+            for (int y = 0; y < goldMap.GetLength(0); y++)
+            {
+                for (int x = 0; x < goldMap.GetLength(1); x++)
+                {
+                    mapText += " | " + goldMap[y, x];
+                }
+                mapText += " |\n";
+            }
+            return mapText;
+        }//Console
+        public string GetPrivateGoldMapString()
+        {
+            string mapText = "Gizli Altın\n";
+            for (int y = 0; y < privateGoldMap.GetLength(0); y++)
+            {
+                for (int x = 0; x < privateGoldMap.GetLength(1); x++)
+                {
+                    mapText += " | " + privateGoldMap[y, x];
+                }
+                mapText += " |\n";
+            }
+            return mapText;
+        }//Console
         #endregion
 
         #region SET
-        public void SetPlayerRemainingSteps(int steps,string playerName)
-        {
-            switch (playerName)
-            {
-                case "A":
-                    playersRemainingSteps[0] = steps;
-                    break;
-                case "B":
-                    playersRemainingSteps[1] = steps;
-                    break;
-                case "C":
-                    playersRemainingSteps[2] = steps;
-                    break;
-                case "D":
-                    playersRemainingSteps[3] = steps;
-                    break;
-                default:
-                    break;
-            }
-        }
-        public void SetPlayerTarget(int targetY,int targetX,string playerName)
+        public void SetPlayerTarget(int targetY, int targetX, string playerName)
         {
             switch (playerName)
             {
@@ -244,59 +220,110 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
             }
 
         }
+        public void SetPlayerRemainingSteps(int steps, string playerName)
+        {
+            switch (playerName)
+            {
+                case "A":
+                    playersRemainingSteps[0] = steps;
+                    break;
+                case "B":
+                    playersRemainingSteps[1] = steps;
+                    break;
+                case "C":
+                    playersRemainingSteps[2] = steps;
+                    break;
+                case "D":
+                    playersRemainingSteps[3] = steps;
+                    break;
+                default:
+                    break;
+            }
+        }
         public void SetGameOrder()
         {
-            if (playersIsDeath.Count != 0)
+            if (GetGoldCount() > 0) 
             {
-                int order = playersIsDeath.IndexOf(gameOrder);
-                if (order == (playersIsDeath.Count()-1)) 
-                    gameOrder = playersIsDeath[0];
+                if (playersIsDeath.Count != 0)
+                {
+                    int order = playersIsDeath.IndexOf(gameOrder);
+                    if (order == (playersIsDeath.Count() - 1))
+                        gameOrder = playersIsDeath[0];
+                    else
+                        gameOrder = playersIsDeath[order + 1];
+                }
                 else
-                    gameOrder= playersIsDeath[order+1];
+                {
+                    gameOrder = -1;
+                    gameOverReason = "Tüm oyuncular elendi.";
+                    gameOver = true;
+                }
             }
             else
-                gameOrder = -1;
+            {
+                gameOverReason = "Oyun alanında altın kalmadı.";
+                gameOver = true;
+            }
+                //gameOrder = -1;
             /*if (gameOrder > 3)
                 gameOrder = 1;
             else
                 gameOrder++;*/
         }
-        public void SetMapPointData(int CordY, int CordX, string data)
+        #endregion
+
+        #region REMOVE
+        public void RemovePlayersIsDeath(int gameOrder)
         {
-            map[CordY, CordX] = data;
+            this.playersIsDeath.Remove(gameOrder);
+            playersIsDeath = playersIsDeath.OrderBy(a => a).ToList();
+        }
+        public void RemoveGoldPoint(int CordY, int CordX)
+        {//Gold Haritası Noktadaki Değeri Sil
+            this.goldMap[CordY, CordX] = 0;
+        }
+        public void RemovePrivateGoldPoint(int CordY, int CordX)
+        {//Private Gold Haritası Noktadaki Değer
+            this.privateGoldMap[CordY, CordX] = 0;
         }
         #endregion
 
         #region UPDATE
-        public void AddGoldMapPoint(int CordY, int CordX, int data)
+        public void UpdateMapPointData(int CordY, int CordX, string data)
+        {
+            map[CordY, CordX] = data;
+        }
+        public void UpdateGoldMapPoint(int CordY, int CordX, int data)
         {  //Gold Haritası Noktasına Değer Ekle
             this.goldMap[CordY, CordX] = data;
         }
+        public void UpdatePrivateGoldMapPoint(int CordY, int CordX, int data)
+        {  //Gold Haritası Noktasına Değer Ekle
+            this.privateGoldMap[CordY, CordX] = data;
+        }
         public void AddPlayer(int CordY, int CordX, string PlayerCode)
         {
-            SetMapPointData(CordY, CordX, PlayerCode);
+            UpdateMapPointData(CordY, CordX, PlayerCode);
         }
-        public void AddGold(int GoldRate, int PrivateGoldRate)
+        public void AddAllGold(int GoldRate, int PrivateGoldRate)
         {
             int goldField = (mapSquare * GoldRate) / 100;
             int privateGoldField = (goldField * PrivateGoldRate) / 100;
             goldField = goldField - privateGoldField;
-            Random rastgele = new Random();
+            Random rand = new Random();
 
-            int i = 0;
-            while (i < goldField)
+            int count = 0;
+            while (count < goldField)
             {
             GoldDetected:
-                int randomY = rastgele.Next(map.GetLength(0));
-                int randomX = rastgele.Next(map.GetLength(1));
-                if (GetMapPoint(randomY, randomX) == String.Empty)
+                int randomY = rand.Next(map.GetLength(0));
+                int randomX = rand.Next(map.GetLength(1));
+                if (GetMapPointValue(randomY, randomX) == String.Empty)
                 {
-                    int gold;
-                    gold = (rastgele.Next(1, 5) * 5);
-                    SetMapPointData(randomY, randomX, gold.ToString());
-                    this.AddGoldMapPoint(randomY, randomX, gold);
-                    goldMap[randomY, randomX] = gold;
-                    i++;
+                    int gold = (rand.Next(1, 5) * 5);
+                    UpdateMapPointData(randomY, randomX, gold.ToString());
+                    UpdateGoldMapPoint(randomY, randomX, gold);
+                    count++;
                 }
                 else
                 {
@@ -311,27 +338,18 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
 
                 }
             }
-            AddPrivateGold(privateGoldField);
-
-
-        }
-        public void AddPrivateGold(int PrivateGoldField)
-        {
-            Random rastgele = new Random();
-
-            int i = 0;
-            while (i < PrivateGoldField)
+            count = 0;
+            while (count < privateGoldField)
             {
             PrivateGoldDetected:
-                int randomY = rastgele.Next(map.GetLength(0));
-                int randomX = rastgele.Next(map.GetLength(1));
-                if (GetMapPoint(randomY, randomX) == String.Empty)
+                int randomY = rand.Next(map.GetLength(0));
+                int randomX = rand.Next(map.GetLength(1));
+                if (GetMapPointValue(randomY, randomX) == String.Empty)
                 {
-                    int gold;
-                    gold = (rastgele.Next(1, 5) * 5);
-                    SetMapPointData(randomY, randomX, "G-" + gold.ToString());
-                    privateGoldMap[randomY, randomX] = gold;
-                    i++;
+                    int gold = (rand.Next(1, 5) * 5);
+                    UpdateMapPointData(randomY, randomX, "G-" + gold.ToString());
+                    UpdatePrivateGoldMapPoint(randomY, randomX, gold);
+                    count++;
                 }
                 else
                 {
@@ -348,14 +366,6 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
             }
 
 
-
-        }
-        #endregion
-
-        #region GAME FUNCTION
-        public bool GameOver()
-        {
-            throw new NotImplementedException();
         }
         #endregion
 

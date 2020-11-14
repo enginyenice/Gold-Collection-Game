@@ -11,7 +11,7 @@ namespace AltınOyunuCSharp.Game.Player.Abstract
     {
         abstract void SearchForGold(IMap map); //Hedef belirleme
         bool IsDeath(); //Oyuncu yaşıyor mu?
-        void CordUpdate(int yCord, int xCord); // Son kordinatlarını güncelleme
+        void UpdateCord(int yCord, int xCord); // Son kordinatlarını güncelleme
         
         void SetPlayerGold(int gold); //Altın değerini güncelleme
         void SetLog(string log); //Oyuncu hareketleri LOG kayıt

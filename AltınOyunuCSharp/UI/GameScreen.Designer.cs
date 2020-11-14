@@ -54,6 +54,8 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.StartBtn = new System.Windows.Forms.Button();
             this.tm = new System.Windows.Forms.Timer(this.components);
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.gamePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gamePictureBox)).BeginInit();
@@ -66,6 +68,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -112,6 +115,8 @@
             // sideMenuPanel
             // 
             this.sideMenuPanel.BackColor = System.Drawing.Color.DarkGray;
+            this.sideMenuPanel.Controls.Add(this.label2);
+            this.sideMenuPanel.Controls.Add(this.numericUpDown1);
             this.sideMenuPanel.Controls.Add(this.button1);
             this.sideMenuPanel.Controls.Add(this.HiddenGoldBtn);
             this.sideMenuPanel.Controls.Add(this.groupBox3);
@@ -340,8 +345,45 @@
             // 
             // tm
             // 
-            this.tm.Interval = 500;
+            this.tm.Interval = 1000;
             this.tm.Tick += new System.EventHandler(this.tm_Tick);
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Increment = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Location = new System.Drawing.Point(12, 514);
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(127, 20);
+            this.numericUpDown1.TabIndex = 11;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 498);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(71, 13);
+            this.label2.TabIndex = 12;
+            this.label2.Text = "Timer Interval";
             // 
             // GameScreen
             // 
@@ -361,6 +403,7 @@
             this.gamePanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gamePictureBox)).EndInit();
             this.sideMenuPanel.ResumeLayout(false);
+            this.sideMenuPanel.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
@@ -373,6 +416,7 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -403,5 +447,7 @@
         private System.Windows.Forms.Button HiddenGoldBtn;
         private System.Windows.Forms.Timer tm;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.Label label2;
     }
 }

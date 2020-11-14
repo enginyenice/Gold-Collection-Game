@@ -21,8 +21,12 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
         public int[] targetedGoldCord; // Hedeflenen altının koordinatları 
         public int targetedGoldValue; // Hedeflenen altının değeri
         public int remainingSteps; // Hedefe kalan tur sayısı
-        public int hedefeVardigindaAlacagiToplamPuan; 
-
+        public int GoldEarnedOnReachTarget; //Hedefe ulaşıldığında alınacak kazanç
+        public int[] moveCordValue;/*
+            Oyuncu hareket ederken y ve x koordinatında hangi yöne ve kaç kare ilerledi.
+            moveCordValue[0] => Negatif = Yukarı, Pozitif = Aşağı. Y koordinatında kaç adım ilerledi. 
+            moveCordValue[1] => Negatif = Sol, Pozitif = Sağ. X koordinatında kaç adım ilerledi. 
+        */
         public Player(int gold, string name, int cordY, int cordX, int cost, int moveLenght, int searchCost, int gameY, int gameX)
         {
             this.name = name;
@@ -31,6 +35,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
             this.searchCost = searchCost;
             SetPlayerGold(gold);
             this.targetedGoldCord = new int[2];
+            this.moveCordValue = new int[2];
             this.SetTargetedGoldCord(-1, -1);
             this.targetedGoldValue = -1;
             log = new List<string>();
@@ -44,7 +49,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                     playerMap[i, k] = 0;
                 }
             }
-            CordUpdate(cordY, cordX);
+            UpdateCord(cordY, cordX);
         }
         
         #region GET
@@ -69,9 +74,9 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
         {//Oyuncunun kasasında bulunan altını döndürür.
             return this.gold;
         }
-        public int GetHedefeVardigindaAlacagiToplamPuan()
-        {
-            return hedefeVardigindaAlacagiToplamPuan;
+        public int GetGoldEarnedOnReachTarget()
+        {//Hedeflenen altına ulaşıldığında elde edeceği kar değerini döndürür.
+            return GoldEarnedOnReachTarget;
         }
         public int[] GetLastCord()
         {//Oyuncunun oyun alanında bulunduğu son konumu döndürür.
@@ -98,6 +103,10 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
         {//Hedeflenen altının değerini döndürür.
             return this.targetedGoldValue;
         }
+        public int[] GetMoveCordValue()
+        {
+            return moveCordValue;
+        }
         #endregion
 
         #region SET
@@ -109,9 +118,9 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
         {//Oyuncunun hareketlerini listeye ekler.
             this.log.Add(log);
         }
-        public void SetHedefeVardigindaAlacagiToplamPuan(int gold)
-        {
-            this.hedefeVardigindaAlacagiToplamPuan = gold;
+        public void SetGoldEarnedOnReachTarget(int gold)
+        {//Hedeflenen altına ulaşıldığında elde edeceği kar değerini belirler.
+            this.GoldEarnedOnReachTarget = gold;
         }
         public void SetRemainingSteps(int remainingSteps)
         {//Oyuncunun hedefine kalan hamle sayısını belirler.
@@ -126,6 +135,15 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
         {//Hedeflenen altının değerini belirler.
             this.targetedGoldValue = goldValue;
         }
+        public void SetMoveCordValue(int CordY, int CordX)
+        {
+            moveCordValue[0]=CordY;
+            moveCordValue[1]=CordX;
+        }
+        public void SetPlayerMapValue(int CordY, int CordX,int data)
+        {
+            this.playerMap[CordY, CordX] = data;    
+        }
         #endregion
 
         #region UPDATE
@@ -133,7 +151,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
         {//Oyuncunun kasasındaki altına ekleme, çıkarma yapar. 
             this.gold += gold;
         }
-        public void CordUpdate(int yCord, int xCord)
+        public void UpdateCord(int yCord, int xCord)
         {//Oyuncunun bulunduğu konumu belirler.
             this.playerMap[this.lastYCord, this.lastXCord] = 0;
             this.lastYCord = yCord;
@@ -155,7 +173,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                     {
                         if (map.GetPrivateGoldMap()[lastYCord, x] != 0)
                         {
-                            map.AddGoldMapPoint(lastYCord, x, map.GetPrivateGoldMap()[lastYCord, x]);
+                            map.UpdateGoldMapPoint(lastYCord, x, map.GetPrivateGoldMap()[lastYCord, x]);
                             map.RemovePrivateGoldPoint(lastYCord, x);
                             this.SetLog("Y:" + lastYCord + " X:" + x + " kordinatındaki gizli altın açıldı.");
                         }
@@ -168,7 +186,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                     {
                         if (map.GetPrivateGoldMap()[lastYCord, x] != 0)
                         {
-                            map.AddGoldMapPoint(lastYCord, x, map.GetPrivateGoldMap()[lastYCord, x]);
+                            map.UpdateGoldMapPoint(lastYCord, x, map.GetPrivateGoldMap()[lastYCord, x]);
                             map.RemovePrivateGoldPoint(lastYCord, x);
                             this.SetLog("Y:" + lastYCord + " X:" + x + " kordinatındaki gizli altın açıldı.");
                         }
@@ -184,7 +202,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                     {
                         if (map.GetPrivateGoldMap()[y, lastXCord] != 0)
                         {
-                            map.AddGoldMapPoint(y, lastXCord, map.GetPrivateGoldMap()[y, lastXCord]);
+                            map.UpdateGoldMapPoint(y, lastXCord, map.GetPrivateGoldMap()[y, lastXCord]);
                             map.RemovePrivateGoldPoint(y, lastXCord);
                             this.SetLog("Y:" + y + " X:" + lastXCord + " kordinatındaki gizli altın açıldı.");
                         }
@@ -197,7 +215,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                     {
                         if (map.GetPrivateGoldMap()[y, lastXCord] != 0)
                         {
-                            map.AddGoldMapPoint(y, lastXCord, map.GetPrivateGoldMap()[y, lastXCord]);
+                            map.UpdateGoldMapPoint(y, lastXCord, map.GetPrivateGoldMap()[y, lastXCord]);
                             map.RemovePrivateGoldPoint(y, lastXCord);
                             this.SetLog("Y:" + y + " X:" + lastXCord + " kordinatındaki gizli altın açıldı.");
                         }
@@ -207,6 +225,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
         }
         public void Move(IMap map)
         {
+            int y=0, x=0;
             int tempGetTargetGoldValue = this.GetTargetedGoldValue();
             if (map.GetGoldCount() > 0)
             {
@@ -215,10 +234,10 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
 
                 if (this.GetTargetedGoldValue() != -1)
                 {
-                    if (map.GetGoldPoint(this.GetTargetedGoldCord()[0], this.GetTargetedGoldCord()[1]) == 0)
+                    if (map.GetGoldPointValue(this.GetTargetedGoldCord()[0], this.GetTargetedGoldCord()[1]) == 0)
                     {
                         SetLog("Hedeflediği altın alınmış. Yeni altın hedefleniyor.");
-                        SetHedefeVardigindaAlacagiToplamPuan(-1);
+                        SetGoldEarnedOnReachTarget(-1);
                         SetRemainingSteps(-1);
                         SetTargetedGoldCord(-1, -1);
                         SetTargetedGoldValue(-1);
@@ -260,8 +279,8 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                 }
 
                 PrivateGoldShow('X', (lastXCord - tempCordX), map);                     //Düzlem, (gerçek konum - hedefe yaklaşan son konum)
-                CordUpdate(lastYCord, tempCordX);                                                                       //lastXCord = tempCordX;
-                                                                                                                        //Gelen data - ise arttırcan
+                x = lastXCord - tempCordX;                                                                  //Gelen data - ise arttırcan
+                UpdateCord(lastYCord, tempCordX);                                                                       //lastXCord = tempCordX;
                                                                                                                         //Gelen data + ise azaltacan
                 if (totalMoveLenght > 0)                                                // hareket hakkı 0 dan büyükse
                 {
@@ -287,15 +306,18 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
 
                 }
                 PrivateGoldShow('Y', (lastYCord - tempCordY), map);                     //düzlem,(konum,hafıza konum)
-                this.CordUpdate(tempCordY, tempCordX);                                  //cord güncelle
+                y = lastYCord - tempCordY;
+                this.UpdateCord(tempCordY, tempCordX);                                  //cord güncelle
 
+                this.SetMoveCordValue(y, x);
+                
                 //Şuanda ki hedef Y == Hedeflenen y 
                 if (tempCordY == targetY && tempCordX == targetX)                       //hedefe ulaştıysa
                 {
                     //Altını puan olarak ekle
-                    this.UpdatePlayerGoldValue(GetHedefeVardigindaAlacagiToplamPuan());
+                    this.UpdatePlayerGoldValue(GetGoldEarnedOnReachTarget());
                     //Altını sil
-                    map.RemoveGoldMapPoint(tempCordY, tempCordX);
+                    map.RemoveGoldPoint(tempCordY, tempCordX);
                     //Hedeflemeyi boşalt
                     map.SetPlayerRemainingSteps(-1, this.name);
                     map.SetPlayerTarget(-1, -1, this.name);
@@ -303,7 +325,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                     this.SetTargetedGoldValue(-1);
                     this.SetRemainingSteps(-1);
                     this.SetTargetedGoldCord(-1, -1);
-                    this.SetLog(this.name + " Hedefine ulaştı");
+                    this.SetLog(this.name + " Hedefine ulaştı.");
                     //Oyuncu puanını düzenle
                 }
 
@@ -318,15 +340,15 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                     int tempGetTargetGoldValue2 = this.GetTargetedGoldValue();
                     if (tempGetTargetGoldValue == tempGetTargetGoldValue2) // Bu benim ilk hareketim değil
                     {
-                        SetHedefeVardigindaAlacagiToplamPuan(GetHedefeVardigindaAlacagiToplamPuan() + ((-1) * this.cost));
+                        SetGoldEarnedOnReachTarget(GetGoldEarnedOnReachTarget() + ((-1) * this.cost));
                         UpdatePlayerGoldValue((-1) * this.cost);
-                        this.SetLog(this.name + " Hedefine ulaşması için " + map.GetPlayerRemainingSteps(this.name) + " kaldi. Bu birden çok adımınız");
+                        this.SetLog(this.name + " Hedefine ulaşması için " + map.GetPlayerRemainingSteps(this.name) + " tur kaldi. Bu birden çok adımınız");
                     }
                     else
                     { // Bu benim ilk hareketim
-                        SetHedefeVardigindaAlacagiToplamPuan(GetHedefeVardigindaAlacagiToplamPuan() - (this.cost + this.searchCost));
+                        SetGoldEarnedOnReachTarget(GetGoldEarnedOnReachTarget() - (this.cost + this.searchCost));
                         UpdatePlayerGoldValue((-1) * (this.searchCost + this.cost));
-                        this.SetLog(this.name + " Hedefine ulaşması için " + map.GetPlayerRemainingSteps(this.name) + " kaldi. Bu ilk adımınız");
+                        this.SetLog(this.name + " Hedefine ulaşması için " + map.GetPlayerRemainingSteps(this.name) + " tur kaldi. Bu ilk adımınız.");
                     }
                 }
             }

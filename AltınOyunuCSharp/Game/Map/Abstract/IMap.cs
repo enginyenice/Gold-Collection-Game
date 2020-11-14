@@ -9,53 +9,64 @@ namespace AltınOyunuCSharp.Game.Map.Abstract
 
 
     /*
-     *  Harita gösterimi : 
-     *                      Boş kare   : 
-     *                      -----------------------
-     *                      A kullanıcı: A
-     *                      B kullanıcı: B
-     *                      C kullanıcı: C
-     *                      D kullanıcı: D
-     *                      -----------------------
-     *                      Görünür altın 5 : 5
-     *                      Görünür altın 10 : 10
-     *                      Görünür altın 15 : 15
-     *                      Görünür altın 20 : 20
-     *                      ------------------------
-     *                      Görünmez altın 5 : G-5
-     *                      Görünmez altın 10 : G-10
-     *                      Görünmez altın 15 : G-15
-     *                      Görünmez altın 20 : G-20
+     *  Harita Matrisi değerleri   |  Örnek Gösterim
+     *                             |
+     *  Boş kare           :       |     |0   |1   |2   |3   |4   |        
+     *  ---------------------------|  0  |A   |    |5   |10  |B   | 
+     *  A kullanıcı        : A     |  1  |G-5 |10  |G-5 |    |20  |
+     *  B kullanıcı        : B     |  2  |G-20|    |15  |10  |    |
+     *  C kullanıcı        : C     |  3  |20  |5   |G-15|    |    |
+     *  D kullanıcı        : D     |  4  |C   |    |    |15  |D   |
+     *  ---------------------------|
+     *  Altın 5            : 5     |
+     *  Altın 10           : 10    |
+     *  Altın 15           : 15    |
+     *  Altın 20           : 20    | 
+     *  ---------------------------|
+     *  Gizli altın 5      : G-5   |
+     *  Gizli altın 10     : G-10  |
+     *  Gizli altın 15     : G-15  |
+     *  Gizli altın 20     : G-20  |
      */
 
     public interface IMap
     {
+        #region GET
+        string[,] GetMap();// Harita Matrisini döndürür.
+        int[,] GetGoldMap();// Altın harita matrisini geri döndürür.
+        int[,] GetPrivateGoldMap();// Gizli Altın harita matrisini geri döndürür.
+        int[] GetPlayerTarget(string playerName);// Oyuncunun hedefinin koordinatlarını döndürür.
+        int GetPlayerRemainingSteps(string playerName);// Oyuncunun hedefe kalan adim sayisini verir.
+        int GetGoldCount();// Oyun alanında bulunan toplam görünür altın sayısını döndürür.
+        int GetPrivateGoldCount();// Oyun alanında bulunan toplam gizli altın sayısını döndürür.
+        string GetMapPointValue(int CordY, int CordX); // Harita matrisinin girilen koordinatlardaki değerini döndürür.
+        int GetGoldPointValue(int CordY, int CordX);// Koordinatları girilen altının değerini döndürür.
+        int GetPrivateGoldPointValue(int CordY, int CordX);// Koordinatları girilen gizli altının değerini döndürür.
+        int GetGameOrder();// Oyun sırasının hangi oyuncuda olduğunu döndürür.
+        bool IsFull();// Harita tamamen dolu mu ?
+        bool GetgameOver();// Oyun bitti mi ?
+        string GetgameOverReason();// Oyunun bitiş sebebini döndürür.
+        #endregion
 
-        int[,] GetGoldMap(); //Gold haritasını geri döndürür.
-        int[,] GetPrivateGoldMap(); //Gizli Gold haritasını geri döndürür.
-        int[] GetPlayerTarget(string oyuncuAdi); //Oyuncu hedefini getir
-        void SetPlayerTarget(int y, int x, string oyuncuAdi); //Oyuncuya hedef ver.
-        void SetPlayerRemainingSteps(int adim, string oyuncuAdi); // Oyuncunun hedefe kaç adımı var.
-        int GetPlayerRemainingSteps(string oyuncuAdi); //Oyuncunun hedefe kalan adim sayisini verir.
-        int GetGoldCount(); // Gold Map altın sayısı
-        int GetPrivateGoldCount();// Gizli gold map altın sayısı
-        int GetGoldPoint(int yCord, int xCord); //Gold Haritası Noktadaki Değer
-        int GetPrivateGoldPoint(int yCord, int xCord);  //Private Gold Haritası Noktadaki Değer
-        void RemovePrivateGoldPoint(int yCord, int xCord);  //Private Gold Haritası Noktadaki Değer
-        void AddGoldMapPoint(int yCord, int xCord,int data);  //Gold Haritası Noktasına Değer Ekle
-        void RemoveGoldMapPoint(int yCord, int xCord);  //Gold Haritası Noktadaki Değeri Sil
-        void AddGold(int GoldRate, int PrivateGoldRate); // Kaç adet altın eklenecek. Yüzde kaçı gizli
-        void AddPrivateGold(int PrivateGoldField); // Gizli altın ekle
-        bool GameOver(); // Oyun bitti mi.
-        //string GetMap(); // Haritayı String döndür.
-        string[,] GetMap(); // Haritayı Matris döndür.
-        void SetMapPointData(int yCord, int xCord,string data); // Haritaya veri ekle
-        string GetMapPoint(int yCord, int xCord); // Karenin içindeki değeri getirir
-        void AddPlayer(int yCord, int xCord,string PlayerCode); // Oyuncuyu haritaya ekle
-        bool IsFull(); // Harita tamamen dolu mu?
-       // List<string> GetGoldList(); //Altınların matrisini verir
-       // List<string> GetPrivateGoldList(); // Gizli altınların matrisini verir
-       // void RemoveGold(string data);
+        #region SET
+        void SetPlayerTarget(int targetY, int targetX, string playerName);//Oyuncuya hedef ver.
+        void SetPlayerRemainingSteps(int steps, string playerName);// Oyuncunun hedefe kaç adımı var.
+        void SetGameOrder();// Oyun sırasını belirler.
+        #endregion
+
+        #region REMOVE
+        void RemovePlayersIsDeath(int gameOrder);// Altını bitip ölen oyuncuyu oyun sırasından çıkarır.
+        public void RemoveGoldPoint(int CordY, int CordX);// Altın haritasinda girilen koordinatlardaki altını siler.
+        void RemovePrivateGoldPoint(int yCord, int xCord);// Gizli Altın haritasinda girilen koordinatlardaki altını siler.
+        #endregion
+
+        #region UPDATE
+        void UpdateGoldMapPoint(int CordY, int CordX, int data);  // Altın matrisinin girilen koordinatındaki değeri değiştirir.
+        void UpdateMapPointData(int CordY, int CordX, string data);// Harita matrisinin girilen koordinatındaki değeri değiştirir.
+        void UpdatePrivateGoldMapPoint(int CordY, int CordX, int data);// Gizli aktın matrisinin girilen koordinatındaki değeri değiştirir.
+        void AddPlayer(int CordY, int CordX, string PlayerCode); // Oyuncuyu haritaya ekler.
+        void AddAllGold(int GoldRate, int PrivateGoldRate); // Kaç adet altın eklenecek. Yüzde kaçı gizli.
+        #endregion
 
     }
 }
