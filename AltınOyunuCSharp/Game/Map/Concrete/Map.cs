@@ -52,7 +52,6 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
             }
             mapSquare = ySize * xSize;
         }
-
         #region GET
         public string[,] GetMap()
         {

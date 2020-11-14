@@ -65,6 +65,12 @@
     <Compile Include="Game\Player\Concrete\CPlayer.cs" />
     <Compile Include="Game\Player\Concrete\DPlayer.cs" />
     <Compile Include="Game\Player\Concrete\Player.cs" />
+    <Compile Include="UI\ScoreBoard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ScoreBoard.Designer.cs">
+      <DependentUpon>ScoreBoard.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Start.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -81,6 +87,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\GameBoard.resx">
       <DependentUpon>GameBoard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ScoreBoard.resx">
+      <DependentUpon>ScoreBoard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Start.resx">
       <DependentUpon>Start.cs</DependentUpon>

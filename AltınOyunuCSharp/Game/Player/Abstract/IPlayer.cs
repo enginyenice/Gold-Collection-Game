@@ -9,23 +9,43 @@ namespace AltınOyunuCSharp.Game.Player.Abstract
 {
     interface IPlayer
     {
-        abstract void SearchForGold(IMap map); //Hedef belirleme
-        bool IsDeath(); //Oyuncu yaşıyor mu?
-        void UpdateCord(int yCord, int xCord); // Son kordinatlarını güncelleme
-        
-        void SetPlayerGold(int gold); //Altın değerini güncelleme
-        void SetLog(string log); //Oyuncu hareketleri LOG kayıt
-        void SetTargetedGoldCord(int cordY, int cordX); //Hedeflenen altını kayıt et.
-        void SetRemainingSteps(int remainingSteps); //Hedefe kalan adımı ekleme.
+        #region GET
+        int[,] GetPlayerMatris();// Oyuncu matrisini (int) döndürür.
 
+        string GetPlayerMapString();//Oyuncu matrisini(string) Consol için text olarak döndürür.
+        int GetPlayerGold();//Oyuncunun kasasında bulunan altını döndürür.
+        int GetGoldEarnedOnReachTarget();//Hedeflenen altına ulaşıldığında elde edeceği kar değerini döndürür.
+        int[] GetLastCord();//Oyuncunun oyun alanında bulunduğu son konumu döndürür.
+        int GetSearchCost();//Hedef belirleme maliyetini döndürür.
+        int GetRemainingSteps();//Oyuncunun hedefine kalan hamle sayısını döndürür.
+        List<string> GetLog();//Oyuncunun oyun sırasında yaptığı tüm işlemlerin kaydını döndürür.
+        int[] GetTargetedGoldCord();//Hedeflenen altının bulunduğu koordinatı döndürür.
+        int GetTargetedGoldValue();//Hedeflenen altının değerini döndürür.
+        int[] GetMoveCordValue();
+        #endregion
 
-        int GetRemainingSteps();  // Hedefe kaç adım kaldı.
-        int GetPlayerGold(); //Kaç altını olduğunu gösterme
-        List<string> GetLog(); //Oyuncu haraketleri LOG görüntüle
-        int[] GetTargetedGoldCord(); //Hedeflenen altını getir.
-        int GetTargetedGoldValue(); //Hedeflenen kare kaç altın değerinde
-        void SetTargetedGoldValue(int goldValue); //Hedeflenen karenin altın değeri.
-        int[] GetLastCord(); // Bulunduğu kordinatı getir. | 0 -> Y  | 1 -> X |
-        int GetSearchCost(); // Oyuncunun hedef belirleme maliyetini döndürür.
+        #region SET
+        void SetPlayerGold(int gold);//Oyuncunun kasasında bulunan altını belirler.
+        void SetLog(string log);//Oyuncunun hareketlerini listeye ekler.
+        void SetGoldEarnedOnReachTarget(int gold);//Hedeflenen altına ulaşıldığında elde edeceği kar değerini belirler.
+        void SetRemainingSteps(int remainingSteps);//Oyuncunun hedefine kalan hamle sayısını belirler.
+        void SetTargetedGoldCord(int CordY, int CordX);//Hedeflenen altının koordinatlarını belirler.
+        void SetTargetedGoldValue(int goldValue);//Hedeflenen altının değerini belirler.
+        void SetMoveCordValue(int CordY, int CordX);
+        void SetPlayerMapValue(int CordY, int CordX, int data);
+        #endregion
+
+        #region UPDATE
+        void UpdatePlayerGoldValue(int gold);//Oyuncunun kasasındaki altına ekleme, çıkarma yapar. 
+        void UpdateCord(int yCord, int xCord);//Oyuncunun bulunduğu konumu belirler.
+        #endregion
+
+        #region GAME FUNCTION
+        abstract void SearchForGold(IMap map);
+        void PrivateGoldShow(char duzlem, int hareket, IMap map);
+        void Move(IMap map);
+        bool IsDeath();
+        #endregion
     }
+
 }

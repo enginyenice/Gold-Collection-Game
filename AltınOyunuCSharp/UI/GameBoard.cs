@@ -1,5 +1,6 @@
 ﻿using AltınOyunuCSharp.Game.Map.Concrete;
 using AltınOyunuCSharp.Game.Player.Concrete;
+using AltınOyunuCSharp.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -246,6 +247,10 @@ namespace AltınOyunuCSharp
             {
                 timer1.Stop();
                 MessageBox.Show("Oyun Bitti");
+
+                ScoreBoard scoreBoard = new ScoreBoard(aPlayer,bPlayer,cPlayer,dPlayer);
+                scoreBoard.Show();
+                this.Close();
             }
 
         }
