@@ -51,7 +51,13 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
             this.SetRemainingSteps(Convert.ToInt32(x));
             this.SetTargetedGoldCord(nearestGoldY, nearestGoldX);
             this.SetTargetedGoldValue(nearestGoldValue);
+
+
+
+            // Hedef belirleme maliyeti çıkartıldı.
             this.SetGoldEarnedOnReachTarget(nearestGoldValue - ((GetRemainingSteps() * this.cost) + this.GetSearchCost()));
+            this.UpdatePlayerGoldValue((-1)* this.GetSearchCost());
+
             this.SetLog("Hedef: Y:" + nearestGoldY + " X:" + nearestGoldX + " olarak belirlendi. Toplam tahmini Kazanç: " + GetGoldEarnedOnReachTarget() + " Altın Degeri: " + this.GetTargetedGoldValue());
 
             map.SetPlayerTarget(nearestGoldY, nearestGoldX, "A");

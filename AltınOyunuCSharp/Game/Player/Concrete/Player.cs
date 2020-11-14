@@ -315,7 +315,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                 if (tempCordY == targetY && tempCordX == targetX)                       //hedefe ulaştıysa
                 {
                     //Altını puan olarak ekle
-                    this.UpdatePlayerGoldValue(GetGoldEarnedOnReachTarget());
+                    this.UpdatePlayerGoldValue(GetTargetedGoldValue() - this.cost);
                     //Altını sil
                     map.RemoveGoldPoint(tempCordY, tempCordX);
                     //Hedeflemeyi boşalt
@@ -337,19 +337,26 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                     map.SetPlayerRemainingSteps(map.GetPlayerRemainingSteps(this.name) - 1, this.name); //Oyuncunun adım sayısını 1 azalt
                     //UpdatePlayerGoldValue((-1) * this.cost);
 
+
+
+
                     int tempGetTargetGoldValue2 = this.GetTargetedGoldValue();
                     if (tempGetTargetGoldValue == tempGetTargetGoldValue2) // Bu benim ilk hareketim değil
                     {
-                        SetGoldEarnedOnReachTarget(GetGoldEarnedOnReachTarget() + ((-1) * this.cost));
+                        //SetGoldEarnedOnReachTarget(GetGoldEarnedOnReachTarget() + ((-1) * this.cost));
                         UpdatePlayerGoldValue((-1) * this.cost);
                         this.SetLog(this.name + " Hedefine ulaşması için " + map.GetPlayerRemainingSteps(this.name) + " tur kaldi. Bu birden çok adımınız");
                     }
                     else
                     { // Bu benim ilk hareketim
-                        SetGoldEarnedOnReachTarget(GetGoldEarnedOnReachTarget() - (this.cost + this.searchCost));
-                        UpdatePlayerGoldValue((-1) * (this.searchCost + this.cost));
+                        //SetGoldEarnedOnReachTarget(GetGoldEarnedOnReachTarget() - (this.cost));
+                        //UpdatePlayerGoldValue((-1) * (this.searchCost + this.cost));
+                        UpdatePlayerGoldValue((-1) * (this.cost));
                         this.SetLog(this.name + " Hedefine ulaşması için " + map.GetPlayerRemainingSteps(this.name) + " tur kaldi. Bu ilk adımınız.");
                     }
+
+
+
                 }
             }
         }
