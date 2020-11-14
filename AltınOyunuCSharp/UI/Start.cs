@@ -112,8 +112,6 @@ namespace AltınOyunuCSharp
             Application.Exit();
         }
 
-
-
         //textbox char kontrol
 
         private void CordXTxT_KeyPress(object sender, KeyPressEventArgs e)

@@ -118,14 +118,50 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="coin5" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\coin5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="playerD_back" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\playerD_back.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="playerB_back" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\playerB_back.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="playerD_left" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\playerD_left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="playerD_front" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\playerD_front.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="coin10" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resource\coin10.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="playerB_left" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\playerB_left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="coin15" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resource\coin15.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="playerD_right" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\playerD_right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="playerA_left" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\playerA_left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="playerB_right" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\playerB_right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="coin5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\coin5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="playerB_front" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\playerB_front.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="playerC_right" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\playerC_right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="playerC_back" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\playerC_back.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="playerC_left" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\playerC_left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="coin20" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resource\coin20.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -133,49 +169,25 @@
   <data name="playerA_back" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resource\playerA_back.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="playerA_front" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\playerA_front.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="playerA_left" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\playerA_left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="playerA_right" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resource\playerA_right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="playerB_back" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\playerB_back.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="playerB_front" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\playerB_front.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="playerB_left" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\playerB_left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="playerB_right" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\playerB_right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="playerC_back" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\playerC_back.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="playerC_front" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resource\playerC_front.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="playerC_left" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\playerC_left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="playerA_front" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\playerA_front.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="playerC_right" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\playerC_right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="hiddenCoin5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\hiddenCoin5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="playerD_back" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\playerD_back.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="hiddenCoin10" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\hiddenCoin10.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="playerD_front" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\playerD_front.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="hiddenCoin15" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\hiddenCoin15.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="playerD_left" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\playerD_left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="playerD_right" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resource\playerD_right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="hiddenCoin20" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\hiddenCoin20.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

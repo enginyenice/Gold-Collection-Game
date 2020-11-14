@@ -13,154 +13,128 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
         {
         }
 
+        public int GetStepsOfOtherPlayersTarget(int dCordY,int dCordX, int otherPlayerY, int otherPlayerX)
+        {
+            int steps = Math.Abs(dCordY - otherPlayerY) + Math.Abs(dCordX - otherPlayerX);
+            return Convert.ToInt32(Math.Ceiling((double)steps / this.moveLenght));
+        }
 
         public override void SearchForGold(IMap map)
         {
-
-            int[] selectedGold = new int[2];
-            int[] thisCord = this.GetCord();
-            int goldEarned = Int32.MinValue;
-            int squareGold = int.MinValue;
+            int nearestGoldY = int.MaxValue, nearestGoldX = int.MaxValue; // Hedeflenen en yakın altının koordinatları.
+            int nearestGoldProfit = int.MinValue;       // Hedeflenen altından elde edilen kar.
+            int remainingSteps = int.MinValue;          // Hedeflenen altına ulaşmak için gereken tur sayısı.
+            int nearestGoldValue = Int32.MinValue;      // Hedeflenen altının değeri.
+            int nearestGoldPathLength = Int32.MaxValue; // Hedeflenen altına giden yolun uzunluğu.
+            String whoseTarget = String.Empty;          // D hangi oyuncunun hedefini seçti.
+            int[] thisCord = this.GetLastCord();        // D oyuncusunun son konumu.
             
+            //Oyuncuların hedeflerinin koordinatları
+            int[] aPlayerTarget = map.GetPlayerTarget("A");
+            int[] bPlayerTarget = map.GetPlayerTarget("B");
+            int[] cPlayerTarget = map.GetPlayerTarget("C");
+ 
+            //D'nin diğer oyuncuların hedeflerine ulaşması için gereken tur sayısı
+            int remainingSteps_ATarget = GetStepsOfOtherPlayersTarget(this.lastYCord, this.lastXCord, aPlayerTarget[0], aPlayerTarget[1]);
+            int remainingSteps_BTarget = GetStepsOfOtherPlayersTarget(this.lastYCord, this.lastXCord, bPlayerTarget[0], bPlayerTarget[1]);
+            int remainingSteps_CTarget = GetStepsOfOtherPlayersTarget(this.lastYCord, this.lastXCord, cPlayerTarget[0], cPlayerTarget[1]);
             
-            int[] aGetTarget = map.GetOyuncuHedef("A");
-            int[] bGetTarget = map.GetOyuncuHedef("B");
-            int[] cGetTarget = map.GetOyuncuHedef("C");
-            int compareAD = Math.Abs(thisCord[0] - aGetTarget[0]) + Math.Abs(thisCord[1] - aGetTarget[1]);
-            int compareBD = Math.Abs(thisCord[0] - bGetTarget[0]) + Math.Abs(thisCord[1] - bGetTarget[1]);
-            int compareCD = Math.Abs(thisCord[0] - cGetTarget[0]) + Math.Abs(thisCord[1] - cGetTarget[1]);
-
-            double x;
-            x = ((double)compareAD / this.moveLenght);
-            x = Math.Ceiling(x);
-            compareAD = Convert.ToInt32(x);
-
-            x = ((double)compareBD / this.moveLenght);
-            x = Math.Ceiling(x);
-            compareBD = Convert.ToInt32(x);
-
-            x = ((double)compareCD / this.moveLenght);
-            x = Math.Ceiling(x);
-            compareCD = Convert.ToInt32(x);
-            if (compareAD < map.GetOyuncuHedefeKalanAdim("A") && map.GetOyuncuHedefeKalanAdim("A") != -1)
-            {
-                // A'nın hedefine git
-                this.SetTargetedGold(aGetTarget[0], aGetTarget[1]);
-                this.SetRemainingSteps(compareAD);
-                selectedGold[0] = aGetTarget[0];
-                selectedGold[1] = aGetTarget[1];
-                
-                goldEarned = (map.GetGoldPoint(aGetTarget[0], aGetTarget[1]) - ((compareAD * this.cost)+ GetSearchCost()));
-                this.SetHedefeVardigindaAlacagiToplamPuan(goldEarned);
-                //int totalCost = Int32.Parse(goldCordData[2]) - ((lenght + 1) * this.cost);
-                map.SetOyuncuHedefi(aGetTarget[0], aGetTarget[1], "D");
-                this.SetTargetGoldValue(map.GetGoldPoint(aGetTarget[0], aGetTarget[1]));
-                map.SetOyuncuHedefeKalanAdim(compareAD, "D");
-
+            if (remainingSteps_ATarget < map.GetPlayerRemainingSteps("A") && map.GetPlayerRemainingSteps("A") != -1)
+            {// A'nın hedefini hedef belirleme.
+                whoseTarget = "A";
+                nearestGoldY = aPlayerTarget[0];
+                nearestGoldX = aPlayerTarget[1];
+                nearestGoldValue = map.GetGoldPoint(aPlayerTarget[0], aPlayerTarget[1]);
+                remainingSteps = remainingSteps_ATarget;
+                nearestGoldProfit = (nearestGoldValue) - ((remainingSteps_ATarget * this.cost) + GetSearchCost());
             }
-            else if (compareBD < map.GetOyuncuHedefeKalanAdim("B") && map.GetOyuncuHedefeKalanAdim("B") != -1)
-            {
-                // B'nın hedefine git
-                this.SetTargetedGold(bGetTarget[0], bGetTarget[1]);
-                this.SetRemainingSteps(compareBD);
-                selectedGold[0] = bGetTarget[0];
-                selectedGold[1] = bGetTarget[1];
-                goldEarned = (map.GetGoldPoint(bGetTarget[0], bGetTarget[1]) - ((compareBD * this.cost) + GetSearchCost()));
-                this.SetHedefeVardigindaAlacagiToplamPuan(goldEarned);
-                //int totalCost = Int32.Parse(goldCordData[2]) - ((lenght + 1) * this.cost);
-                map.SetOyuncuHedefi(bGetTarget[0], bGetTarget[1], "D");
-                this.SetTargetGoldValue(map.GetGoldPoint(bGetTarget[0], bGetTarget[1]));
-                map.SetOyuncuHedefeKalanAdim(compareBD, "D");
+            else if (remainingSteps_BTarget < map.GetPlayerRemainingSteps("B") && map.GetPlayerRemainingSteps("B") != -1)
+            {// B'nın hedefini hedef belirleme.
+                whoseTarget = "B";
+                nearestGoldY = bPlayerTarget[0];
+                nearestGoldX = bPlayerTarget[1];
+                nearestGoldValue = map.GetGoldPoint(bPlayerTarget[0], bPlayerTarget[1]);
+                remainingSteps = remainingSteps_BTarget;
+                nearestGoldProfit = (nearestGoldValue) - ((remainingSteps_BTarget * this.cost) + GetSearchCost());
             }
-            else if (compareCD < map.GetOyuncuHedefeKalanAdim("C") && map.GetOyuncuHedefeKalanAdim("C") != -1)
-            {
-                // C'nın hedefine git
-                this.SetTargetedGold(cGetTarget[0], cGetTarget[1]);
-                this.SetRemainingSteps(compareCD);
-                selectedGold[0] = cGetTarget[0];
-                selectedGold[1] = cGetTarget[1];
-                goldEarned = (map.GetGoldPoint(cGetTarget[0], cGetTarget[1]) - ((compareCD * this.cost) + GetSearchCost()));
-                this.SetHedefeVardigindaAlacagiToplamPuan(goldEarned);
-                //int totalCost = Int32.Parse(goldCordData[2]) - ((lenght + 1) * this.cost);
-                map.SetOyuncuHedefi(cGetTarget[0], cGetTarget[1], "D");
-                this.SetTargetGoldValue(map.GetGoldPoint(cGetTarget[0], cGetTarget[1]));
-                map.SetOyuncuHedefeKalanAdim(compareCD, "D");
+            else if (remainingSteps_CTarget < map.GetPlayerRemainingSteps("C") && map.GetPlayerRemainingSteps("C") != -1)
+            {// C'nın hedefini hedef belirleme.
+                whoseTarget = "C";
+                nearestGoldY = cPlayerTarget[0];
+                nearestGoldX = cPlayerTarget[1];
+                nearestGoldValue = map.GetGoldPoint(cPlayerTarget[0], cPlayerTarget[1]);
+                remainingSteps = remainingSteps_CTarget;
+                nearestGoldProfit = (nearestGoldValue) - ((remainingSteps_CTarget * this.cost) + GetSearchCost());
             } 
-            else{
+            else
+            {//D diğer oyuncuların hedefine ulaşamadığında kendine hedef belirleme
                 int[,] goldArray = map.GetGoldMap();
                 int[,] tempGoldArray;
                 tempGoldArray = (int[,])goldArray.Clone();
                 if (map.GetGoldCount() > 3)
                 {
-                    if (map.GetOyuncuHedefeKalanAdim("A") != -1)
-                        tempGoldArray[aGetTarget[0], aGetTarget[1]] = 0;
+                    if (map.GetPlayerRemainingSteps("A") != -1)
+                        tempGoldArray[aPlayerTarget[0], aPlayerTarget[1]] = 0;
 
-                    if (map.GetOyuncuHedefeKalanAdim("B") != -1)
-                        tempGoldArray[bGetTarget[0], bGetTarget[1]] = 0;
+                    if (map.GetPlayerRemainingSteps("B") != -1)
+                        tempGoldArray[bPlayerTarget[0], bPlayerTarget[1]] = 0;
 
-                    if (map.GetOyuncuHedefeKalanAdim("C") != -1)
-                        tempGoldArray[cGetTarget[0], cGetTarget[1]] = 0;
+                    if (map.GetPlayerRemainingSteps("C") != -1)
+                        tempGoldArray[cPlayerTarget[0], cPlayerTarget[1]] = 0;
 
                 }
-                int minY = int.MaxValue, minX = int.MaxValue, remainingSteps = int.MinValue, tempMesafe = Int32.MaxValue;
-
                 for (int goldY = 0; goldY < tempGoldArray.GetLength(0); goldY++)
                 {
                     for (int goldX = 0; goldX < tempGoldArray.GetLength(1); goldX++)
                     {
-                        if (tempGoldArray[goldY, goldX] > 0)
+                        if (tempGoldArray[goldY, goldX] != 0)
                         {
-                            int mesafe = Math.Abs(this.lastYCord - goldY) + Math.Abs(this.lastXCord - goldX);
-                            x = ((double)mesafe / this.moveLenght);
+                            //Geçici olarak altının kaç kare uzaklıkta olduğunu tutar.
+                            int tempPathLength = Math.Abs(this.lastYCord - goldY) + Math.Abs(this.lastXCord - goldX);
+                            //Altına ulaşmak için gereken tur sayısı
+                            double x = ((double)tempPathLength / this.moveLenght);
                             x = Math.Ceiling(x);
-                            int lenght = Convert.ToInt32(x);
-                            int totalCost = tempGoldArray[goldY, goldX] - (((lenght) * this.cost) + GetSearchCost());
-                            if (totalCost >= goldEarned)
+                            int tempRemainingSteps = Convert.ToInt32(x);
+                            //Altından elde edilecek kar 
+                            int tempProfit = tempGoldArray[goldY, goldX] - (((tempRemainingSteps) * this.cost) + GetSearchCost());
+
+                            if (tempProfit >= nearestGoldProfit)
                             {
-                                if (mesafe < tempMesafe && totalCost == goldEarned)
+                                if (tempPathLength < nearestGoldPathLength && tempProfit == nearestGoldProfit)
                                 {
-                                    tempMesafe = mesafe;
-                                    remainingSteps = lenght;
-                                    goldEarned = totalCost;
-                                    minY = goldY;
-                                    minX = goldX;
-                                    squareGold = tempGoldArray[goldY, goldX];
+                                    nearestGoldPathLength = tempPathLength;
+                                    remainingSteps = tempRemainingSteps;
+                                    nearestGoldProfit = tempProfit;
+                                    nearestGoldY = goldY;
+                                    nearestGoldX = goldX;
+                                    nearestGoldValue = tempGoldArray[goldY, goldX];
                                 }
-                                if (totalCost > goldEarned)
+                                if (tempProfit > nearestGoldProfit)
                                 {
-                                    tempMesafe = mesafe;
-                                    remainingSteps = lenght;
-                                    goldEarned = totalCost;
-                                    minY = goldY;
-                                    minX = goldX;
-                                    squareGold = tempGoldArray[goldY, goldX];
+                                    nearestGoldPathLength = tempPathLength;
+                                    remainingSteps = tempRemainingSteps;
+                                    nearestGoldProfit = tempProfit;
+                                    nearestGoldY = goldY;
+                                    nearestGoldX = goldX;
+                                    nearestGoldValue = tempGoldArray[goldY, goldX];
                                 }
                             }
                         }
                     }
-
                 }
-                this.SetRemainingSteps(remainingSteps);
-                map.SetOyuncuHedefeKalanAdim(remainingSteps, "D");
-                selectedGold[0] = minY;
-                selectedGold[1] = minX;
-                this.SetTargetedGold(minY, minX);
-                map.SetOyuncuHedefi(minY, minX, "D");
-                this.SetTargetGoldValue(squareGold);
-
-                this.SetHedefeVardigindaAlacagiToplamPuan(goldEarned);
-                
-
             }
 
+            this.SetRemainingSteps(remainingSteps);
+            this.SetTargetedGoldCord(nearestGoldY, nearestGoldX);
+            this.SetTargetedGoldValue(nearestGoldValue);
+            this.SetHedefeVardigindaAlacagiToplamPuan(nearestGoldProfit);
+            if (whoseTarget != String.Empty){
+                this.SetLog("D oyuncusu " + whoseTarget + " oyuncusunun hedefine ondan önce ulaşabilir.");
+            }
+            this.SetLog("Hedef: Y:" + nearestGoldY + " X:" + nearestGoldX + " olarak belirlendi. Toplam tahmini Kazanç: " + GetHedefeVardigindaAlacagiToplamPuan() + "Altın Degeri: " + nearestGoldValue);
 
-
-            squareGold = this.GetTargetGoldValue();
-            this.SetLog("Hedef: Y:" + selectedGold[0] + " X:" + selectedGold[1] + " olarak belirlendi. Toplam tahmini Kazanç: " + GetHedefeVardigindaAlacagiToplamPuan() + "Altın Degeri: " + squareGold);
-
-
-
-
+            map.SetPlayerTarget(nearestGoldY, nearestGoldX, "D");
+            map.SetPlayerRemainingSteps(remainingSteps, "D");
 
         }
     }

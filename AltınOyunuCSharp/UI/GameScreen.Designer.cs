@@ -28,40 +28,44 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GameScreen));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.sideMenuPanel = new System.Windows.Forms.Panel();
             this.gamePanel = new System.Windows.Forms.Panel();
             this.gamePictureBox = new System.Windows.Forms.PictureBox();
+            this.sideMenuPanel = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.aPlayerKasa = new System.Windows.Forms.Label();
+            this.HiddenGoldBtn = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.dPlayerKasa = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.bPlayerKasa = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.dPlayerKasa = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.cPlayerKasa = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.aPlayerKasa = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.StartBtn = new System.Windows.Forms.Button();
+            this.tm = new System.Windows.Forms.Timer(this.components);
             this.tableLayoutPanel1.SuspendLayout();
-            this.sideMenuPanel.SuspendLayout();
             this.gamePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gamePictureBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.groupBox1.SuspendLayout();
+            this.sideMenuPanel.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -79,21 +83,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1264, 686);
             this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // sideMenuPanel
-            // 
-            this.sideMenuPanel.BackColor = System.Drawing.Color.DarkGray;
-            this.sideMenuPanel.Controls.Add(this.groupBox3);
-            this.sideMenuPanel.Controls.Add(this.groupBox2);
-            this.sideMenuPanel.Controls.Add(this.groupBox4);
-            this.sideMenuPanel.Controls.Add(this.groupBox1);
-            this.sideMenuPanel.Controls.Add(this.button1);
-            this.sideMenuPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.sideMenuPanel.Location = new System.Drawing.Point(0, 0);
-            this.sideMenuPanel.Margin = new System.Windows.Forms.Padding(0);
-            this.sideMenuPanel.Name = "sideMenuPanel";
-            this.sideMenuPanel.Size = new System.Drawing.Size(159, 686);
-            this.sideMenuPanel.TabIndex = 0;
             // 
             // gamePanel
             // 
@@ -116,64 +105,94 @@
             this.gamePictureBox.Location = new System.Drawing.Point(10, 10);
             this.gamePictureBox.Margin = new System.Windows.Forms.Padding(0);
             this.gamePictureBox.Name = "gamePictureBox";
-            this.gamePictureBox.Size = new System.Drawing.Size(1085, 666);
+            this.gamePictureBox.Size = new System.Drawing.Size(1085, 642);
             this.gamePictureBox.TabIndex = 0;
             this.gamePictureBox.TabStop = false;
+            // 
+            // sideMenuPanel
+            // 
+            this.sideMenuPanel.BackColor = System.Drawing.Color.DarkGray;
+            this.sideMenuPanel.Controls.Add(this.button1);
+            this.sideMenuPanel.Controls.Add(this.HiddenGoldBtn);
+            this.sideMenuPanel.Controls.Add(this.groupBox3);
+            this.sideMenuPanel.Controls.Add(this.groupBox2);
+            this.sideMenuPanel.Controls.Add(this.groupBox4);
+            this.sideMenuPanel.Controls.Add(this.groupBox1);
+            this.sideMenuPanel.Controls.Add(this.StartBtn);
+            this.sideMenuPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.sideMenuPanel.Location = new System.Drawing.Point(0, 0);
+            this.sideMenuPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.sideMenuPanel.Name = "sideMenuPanel";
+            this.sideMenuPanel.Size = new System.Drawing.Size(159, 686);
+            this.sideMenuPanel.TabIndex = 0;
             // 
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Corbel", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.button1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(34)))), ((int)(((byte)(34)))));
-            this.button1.Location = new System.Drawing.Point(25, 12);
+            this.button1.Location = new System.Drawing.Point(12, 449);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(109, 46);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Oyunu Başlat";
+            this.button1.Size = new System.Drawing.Size(127, 46);
+            this.button1.TabIndex = 10;
+            this.button1.Text = "Tick";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.tm_Tick);
             // 
-            // pictureBox1
+            // HiddenGoldBtn
             // 
-            this.pictureBox1.BackgroundImage = global::AltınOyunuCSharp.Properties.Resources.playerA_front;
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 20);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(50, 50);
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
+            this.HiddenGoldBtn.Font = new System.Drawing.Font("Corbel", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.HiddenGoldBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(34)))), ((int)(((byte)(34)))));
+            this.HiddenGoldBtn.Location = new System.Drawing.Point(13, 397);
+            this.HiddenGoldBtn.Name = "HiddenGoldBtn";
+            this.HiddenGoldBtn.Size = new System.Drawing.Size(127, 46);
+            this.HiddenGoldBtn.TabIndex = 9;
+            this.HiddenGoldBtn.Text = "Gizli altınları göster";
+            this.HiddenGoldBtn.UseVisualStyleBackColor = true;
+            this.HiddenGoldBtn.Click += new System.EventHandler(this.HiddenGoldBtn_Click);
             // 
-            // groupBox1
+            // groupBox3
             // 
-            this.groupBox1.Controls.Add(this.aPlayerKasa);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.pictureBox1);
-            this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.groupBox1.Font = new System.Drawing.Font("Corbel", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.groupBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(34)))), ((int)(((byte)(34)))));
-            this.groupBox1.Location = new System.Drawing.Point(3, 78);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(153, 74);
-            this.groupBox1.TabIndex = 5;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Player A";
+            this.groupBox3.Controls.Add(this.dPlayerKasa);
+            this.groupBox3.Controls.Add(this.label6);
+            this.groupBox3.Controls.Add(this.pictureBox4);
+            this.groupBox3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.groupBox3.Font = new System.Drawing.Font("Corbel", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.groupBox3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(34)))), ((int)(((byte)(34)))));
+            this.groupBox3.Location = new System.Drawing.Point(3, 243);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(153, 74);
+            this.groupBox3.TabIndex = 8;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Player D";
             // 
-            // label1
+            // dPlayerKasa
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(55, 23);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 19);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Kasa : ";
+            this.dPlayerKasa.AutoSize = true;
+            this.dPlayerKasa.Font = new System.Drawing.Font("Corbel", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.dPlayerKasa.Location = new System.Drawing.Point(104, 22);
+            this.dPlayerKasa.Name = "dPlayerKasa";
+            this.dPlayerKasa.Size = new System.Drawing.Size(33, 19);
+            this.dPlayerKasa.TabIndex = 3;
+            this.dPlayerKasa.Text = "200";
             // 
-            // aPlayerKasa
+            // label6
             // 
-            this.aPlayerKasa.AutoSize = true;
-            this.aPlayerKasa.Font = new System.Drawing.Font("Corbel", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.aPlayerKasa.Location = new System.Drawing.Point(104, 22);
-            this.aPlayerKasa.Name = "aPlayerKasa";
-            this.aPlayerKasa.Size = new System.Drawing.Size(33, 19);
-            this.aPlayerKasa.TabIndex = 3;
-            this.aPlayerKasa.Text = "200";
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(55, 23);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(53, 19);
+            this.label6.TabIndex = 2;
+            this.label6.Text = "Kasa : ";
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.BackgroundImage = global::AltınOyunuCSharp.Properties.Resources.playerD_front;
+            this.pictureBox4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox4.Location = new System.Drawing.Point(3, 20);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(50, 50);
+            this.pictureBox4.TabIndex = 1;
+            this.pictureBox4.TabStop = false;
             // 
             // groupBox2
             // 
@@ -183,7 +202,7 @@
             this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.groupBox2.Font = new System.Drawing.Font("Corbel", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.groupBox2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(34)))), ((int)(((byte)(34)))));
-            this.groupBox2.Location = new System.Drawing.Point(3, 158);
+            this.groupBox2.Location = new System.Drawing.Point(3, 83);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(153, 74);
             this.groupBox2.TabIndex = 6;
@@ -219,50 +238,6 @@
             this.pictureBox2.TabIndex = 1;
             this.pictureBox2.TabStop = false;
             // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.dPlayerKasa);
-            this.groupBox3.Controls.Add(this.label6);
-            this.groupBox3.Controls.Add(this.pictureBox4);
-            this.groupBox3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.groupBox3.Font = new System.Drawing.Font("Corbel", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.groupBox3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(34)))), ((int)(((byte)(34)))));
-            this.groupBox3.Location = new System.Drawing.Point(3, 318);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(153, 74);
-            this.groupBox3.TabIndex = 8;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Player D";
-            // 
-            // dPlayerKasa
-            // 
-            this.dPlayerKasa.AutoSize = true;
-            this.dPlayerKasa.Font = new System.Drawing.Font("Corbel", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.dPlayerKasa.Location = new System.Drawing.Point(104, 22);
-            this.dPlayerKasa.Name = "dPlayerKasa";
-            this.dPlayerKasa.Size = new System.Drawing.Size(33, 19);
-            this.dPlayerKasa.TabIndex = 3;
-            this.dPlayerKasa.Text = "200";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(55, 23);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(53, 19);
-            this.label6.TabIndex = 2;
-            this.label6.Text = "Kasa : ";
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.BackgroundImage = global::AltınOyunuCSharp.Properties.Resources.playerC_front;
-            this.pictureBox3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox3.Location = new System.Drawing.Point(3, 20);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(50, 50);
-            this.pictureBox3.TabIndex = 1;
-            this.pictureBox3.TabStop = false;
-            // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.cPlayerKasa);
@@ -271,7 +246,7 @@
             this.groupBox4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.groupBox4.Font = new System.Drawing.Font("Corbel", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.groupBox4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(34)))), ((int)(((byte)(34)))));
-            this.groupBox4.Location = new System.Drawing.Point(3, 238);
+            this.groupBox4.Location = new System.Drawing.Point(3, 163);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(153, 74);
             this.groupBox4.TabIndex = 7;
@@ -297,15 +272,76 @@
             this.label8.TabIndex = 2;
             this.label8.Text = "Kasa : ";
             // 
-            // pictureBox4
+            // pictureBox3
             // 
-            this.pictureBox4.BackgroundImage = global::AltınOyunuCSharp.Properties.Resources.playerD_front;
-            this.pictureBox4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox4.Location = new System.Drawing.Point(3, 20);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(50, 50);
-            this.pictureBox4.TabIndex = 1;
-            this.pictureBox4.TabStop = false;
+            this.pictureBox3.BackgroundImage = global::AltınOyunuCSharp.Properties.Resources.playerC_front;
+            this.pictureBox3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox3.Location = new System.Drawing.Point(3, 20);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(50, 50);
+            this.pictureBox3.TabIndex = 1;
+            this.pictureBox3.TabStop = false;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.aPlayerKasa);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.pictureBox1);
+            this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.groupBox1.Font = new System.Drawing.Font("Corbel", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.groupBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(34)))), ((int)(((byte)(34)))));
+            this.groupBox1.Location = new System.Drawing.Point(3, 3);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(153, 74);
+            this.groupBox1.TabIndex = 5;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Player A";
+            // 
+            // aPlayerKasa
+            // 
+            this.aPlayerKasa.AutoSize = true;
+            this.aPlayerKasa.Font = new System.Drawing.Font("Corbel", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.aPlayerKasa.Location = new System.Drawing.Point(104, 22);
+            this.aPlayerKasa.Name = "aPlayerKasa";
+            this.aPlayerKasa.Size = new System.Drawing.Size(33, 19);
+            this.aPlayerKasa.TabIndex = 3;
+            this.aPlayerKasa.Text = "200";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(55, 23);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(53, 19);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Kasa : ";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackgroundImage = global::AltınOyunuCSharp.Properties.Resources.playerA_front;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox1.Location = new System.Drawing.Point(3, 20);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(50, 50);
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
+            // 
+            // StartBtn
+            // 
+            this.StartBtn.Font = new System.Drawing.Font("Corbel", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.StartBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(34)))), ((int)(((byte)(34)))));
+            this.StartBtn.Location = new System.Drawing.Point(13, 335);
+            this.StartBtn.Name = "StartBtn";
+            this.StartBtn.Size = new System.Drawing.Size(127, 46);
+            this.StartBtn.TabIndex = 0;
+            this.StartBtn.Text = "Oyunu başlat";
+            this.StartBtn.UseVisualStyleBackColor = true;
+            this.StartBtn.Click += new System.EventHandler(this.StartBtn_Click);
+            // 
+            // tm
+            // 
+            this.tm.Interval = 500;
+            this.tm.Tick += new System.EventHandler(this.tm_Tick);
             // 
             // GameScreen
             // 
@@ -322,21 +358,21 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GameScreen_FormClosing);
             this.Load += new System.EventHandler(this.GameScreen_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
-            this.sideMenuPanel.ResumeLayout(false);
             this.gamePanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gamePictureBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.sideMenuPanel.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -347,7 +383,7 @@
         private System.Windows.Forms.Panel sideMenuPanel;
         private System.Windows.Forms.Panel gamePanel;
         private System.Windows.Forms.PictureBox gamePictureBox;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button StartBtn;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label aPlayerKasa;
         private System.Windows.Forms.Label label1;
@@ -364,5 +400,8 @@
         private System.Windows.Forms.Label cPlayerKasa;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.PictureBox pictureBox4;
+        private System.Windows.Forms.Button HiddenGoldBtn;
+        private System.Windows.Forms.Timer tm;
+        private System.Windows.Forms.Button button1;
     }
 }

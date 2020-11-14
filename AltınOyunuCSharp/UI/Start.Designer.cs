@@ -91,7 +91,7 @@
             this.CordXTxT.Name = "CordXTxT";
             this.CordXTxT.Size = new System.Drawing.Size(61, 21);
             this.CordXTxT.TabIndex = 0;
-            this.CordXTxT.Text = "5";
+            this.CordXTxT.Text = "20";
             this.CordXTxT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.CordXTxT.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.CordXTxT_KeyPress);
             // 
@@ -102,7 +102,7 @@
             this.CordYTxT.Name = "CordYTxT";
             this.CordYTxT.Size = new System.Drawing.Size(61, 21);
             this.CordYTxT.TabIndex = 1;
-            this.CordYTxT.Text = "5";
+            this.CordYTxT.Text = "20";
             this.CordYTxT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.CordYTxT.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.CordYTxT_KeyPress);
             // 
@@ -145,7 +145,7 @@
             this.GoldTxT.Name = "GoldTxT";
             this.GoldTxT.Size = new System.Drawing.Size(61, 20);
             this.GoldTxT.TabIndex = 2;
-            this.GoldTxT.Text = "90";
+            this.GoldTxT.Text = "20";
             this.GoldTxT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.GoldTxT.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.GoldTxT_KeyPress);
             // 
@@ -155,7 +155,7 @@
             this.PrivateGoldTxT.Name = "PrivateGoldTxT";
             this.PrivateGoldTxT.Size = new System.Drawing.Size(61, 20);
             this.PrivateGoldTxT.TabIndex = 3;
-            this.PrivateGoldTxT.Text = "50";
+            this.PrivateGoldTxT.Text = "10";
             this.PrivateGoldTxT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.PrivateGoldTxT.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.PrivateGoldTxT_KeyPress);
             // 

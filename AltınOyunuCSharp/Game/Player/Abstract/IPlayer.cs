@@ -13,18 +13,19 @@ namespace AltınOyunuCSharp.Game.Player.Abstract
         bool IsDeath(); //Oyuncu yaşıyor mu?
         void CordUpdate(int yCord, int xCord); // Son kordinatlarını güncelleme
         
-        void SetGold(int gold); //Altın değerini güncelleme
+        void SetPlayerGold(int gold); //Altın değerini güncelleme
         void SetLog(string log); //Oyuncu hareketleri LOG kayıt
-        void SetTargetedGold(int cordY, int cordX); //Hedeflenen altını kayıt et.
+        void SetTargetedGoldCord(int cordY, int cordX); //Hedeflenen altını kayıt et.
         void SetRemainingSteps(int remainingSteps); //Hedefe kalan adımı ekleme.
 
 
         int GetRemainingSteps();  // Hedefe kaç adım kaldı.
-        int GetGold(); //Kaç altını olduğunu gösterme
+        int GetPlayerGold(); //Kaç altını olduğunu gösterme
         List<string> GetLog(); //Oyuncu haraketleri LOG görüntüle
-        int[] GetTargetedGold(); //Hedeflenen altını getir.
-        int GetTargetGoldValue(); //Hedeflenen kare kaç altın değerinde
-        void SetTargetGoldValue(int goldValue); //Hedeflenen karenin altın değeri.
-        int[] GetCord(); // Bulunduğu kordinatı getir. | 0 -> Y  | 1 -> X |
+        int[] GetTargetedGoldCord(); //Hedeflenen altını getir.
+        int GetTargetedGoldValue(); //Hedeflenen kare kaç altın değerinde
+        void SetTargetedGoldValue(int goldValue); //Hedeflenen karenin altın değeri.
+        int[] GetLastCord(); // Bulunduğu kordinatı getir. | 0 -> Y  | 1 -> X |
+        int GetSearchCost(); // Oyuncunun hedef belirleme maliyetini döndürür.
     }
 }

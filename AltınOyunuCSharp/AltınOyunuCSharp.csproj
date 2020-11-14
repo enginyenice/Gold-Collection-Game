@@ -114,6 +114,10 @@
     <Content Include="Resource\coin20.png" />
     <Content Include="Resource\coin5.png" />
     <Content Include="Resource\favicon.ico" />
+    <None Include="Resource\hiddenCoin5.png" />
+    <None Include="Resource\hiddenCoin10.png" />
+    <None Include="Resource\hiddenCoin15.png" />
+    <None Include="Resource\hiddenCoin20.png" />
     <Content Include="Resource\playerA_back.png" />
     <Content Include="Resource\playerA_front.png" />
     <Content Include="Resource\playerA_left.png" />

@@ -15,58 +15,61 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
 
         public override void SearchForGold(IMap map)
         {
-            int minY = int.MaxValue, minX = int.MaxValue, goldEarned = int.MinValue, remainingSteps = int.MinValue, squareGold = Int32.MinValue, tempMesafe = Int32.MaxValue;
+            int nearestGoldY = int.MaxValue, nearestGoldX = int.MaxValue; // Hedeflenen en yakın altının koordinatları
+            int nearestGoldProfit = int.MinValue;       // Hedeflenen altından elde edilen kar
+            int remainingSteps = int.MinValue;          // Hedeflenen altına ulaşmak için gereken tur sayısı
+            int nearestGoldValue = Int32.MinValue;      // Hedeflenen altının değeri
+            int nearestGoldPathLength = Int32.MaxValue; // Hedeflenen altına giden yolun uzunluğu
+            int[,] goldArray = map.GetGoldMap();        // Altın matrisi 
 
-
-
-
-            int[,] goldArray = map.GetGoldMap();
             for (int goldY = 0; goldY < goldArray.GetLength(0); goldY++)
             {
                 for (int goldX = 0; goldX < goldArray.GetLength(1); goldX++)
                 {
                     if (goldArray[goldY, goldX] != 0)
                     {
-                        int mesafe = Math.Abs(this.lastYCord - goldY) + Math.Abs(this.lastXCord - goldX);
-                        double x;
-                        x = ((double)mesafe / this.moveLenght);
+                        //Geçici olarak altının kaç kare uzaklıkta olduğunu tutar.
+                        int tempPathLength = Math.Abs(this.lastYCord - goldY) + Math.Abs(this.lastXCord - goldX);
+                        //Altına ulaşmak için gereken tur sayısı
+                        double x = ((double)tempPathLength / this.moveLenght);
                         x = Math.Ceiling(x);
-                        int lenght = Convert.ToInt32(x);
-                        int totalCost = goldArray[goldY, goldX] - (((lenght) * this.cost) + GetSearchCost());
-                        if (totalCost >= goldEarned)
+                        int tempRemainingSteps = Convert.ToInt32(x);
+                        //Altından elde edilecek kar 
+                        int tempProfit = goldArray[goldY, goldX] - (((tempRemainingSteps) * this.cost) + GetSearchCost());
+                        
+                        if (tempProfit >= nearestGoldProfit)
                         {
-                            if (mesafe < tempMesafe && totalCost == goldEarned)
+                            if (tempPathLength < nearestGoldPathLength && tempProfit == nearestGoldProfit)
                             {
-                                tempMesafe = mesafe;
-                                remainingSteps = lenght;
-                                goldEarned = totalCost;
-                                minY = goldY;
-                                minX = goldX;
-                                squareGold = goldArray[goldY, goldX];
+                                nearestGoldPathLength = tempPathLength;
+                                remainingSteps = tempRemainingSteps;
+                                nearestGoldProfit = tempProfit;
+                                nearestGoldY = goldY;
+                                nearestGoldX = goldX;
+                                nearestGoldValue = goldArray[goldY, goldX];
                             }
-                            if (totalCost > goldEarned)
+                            if (tempProfit > nearestGoldProfit)
                             {
-                                tempMesafe = mesafe;
-                                remainingSteps = lenght;
-                                goldEarned = totalCost;
-                                minY = goldY;
-                                minX = goldX;
-                                squareGold = goldArray[goldY, goldX];
+                                nearestGoldPathLength = tempPathLength;
+                                remainingSteps = tempRemainingSteps;
+                                nearestGoldProfit = tempProfit;
+                                nearestGoldY = goldY;
+                                nearestGoldX = goldX;
+                                nearestGoldValue = goldArray[goldY, goldX];
                             }
                         }
                     }
                 }
-
             }
-                this.SetRemainingSteps(remainingSteps);
-            int[] selectedGold = { minY, minX };
+            
+            this.SetRemainingSteps(remainingSteps);
+            this.SetTargetedGoldCord(nearestGoldY, nearestGoldX);
+            this.SetTargetedGoldValue(nearestGoldValue);
+            this.SetHedefeVardigindaAlacagiToplamPuan(nearestGoldProfit);
+            this.SetLog("Hedef: Y:" + nearestGoldY + " X:" + nearestGoldX + " olarak belirlendi. Toplam tahmini Kazanç: " + GetHedefeVardigindaAlacagiToplamPuan() + "Altın Degeri: " + GetTargetedGoldValue());
 
-            map.SetOyuncuHedefeKalanAdim(remainingSteps, "B");
-            map.SetOyuncuHedefi(minY, minX, "B");
-                this.SetTargetedGold(minY, minX);
-            this.SetTargetGoldValue(squareGold);
-            this.SetHedefeVardigindaAlacagiToplamPuan(goldEarned);
-            this.SetLog("Hedef: Y:" + minY + " X:" + minX + " olarak belirlendi. Toplam tahmini Kazanç: " + GetHedefeVardigindaAlacagiToplamPuan() + "Altın Degeri: " + GetTargetGoldValue());
+            map.SetPlayerTarget(nearestGoldY, nearestGoldX, "B");
+            map.SetPlayerRemainingSteps(remainingSteps, "B");
         }
     }
 }

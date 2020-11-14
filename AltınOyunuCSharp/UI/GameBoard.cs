@@ -13,7 +13,7 @@ using System.Windows.Forms;
 namespace AltınOyunuCSharp
 {
     public partial class GameBoard : Form
-    {  
+    {
         public Form menuForm;
         public Map map;
         public APlayer aPlayer;
@@ -26,9 +26,9 @@ namespace AltınOyunuCSharp
         int[,] bPlayerMatris;
         int[,] cPlayerMatris;
         int[,] dPlayerMatris;
-        
+
         Button[,] buttonMatrix;
-        public GameBoard(Map gameMap, APlayer a, BPlayer b, CPlayer c, DPlayer d,Form menuForm)
+        public GameBoard(Map gameMap, APlayer a, BPlayer b, CPlayer c, DPlayer d, Form menuForm)
         {
             this.menuForm = menuForm;
             map = gameMap;
@@ -36,7 +36,7 @@ namespace AltınOyunuCSharp
             bPlayer = b;
             cPlayer = c;
             dPlayer = d;
-            
+
             InitializeComponent();
         }
 
@@ -52,10 +52,10 @@ namespace AltınOyunuCSharp
             GenerateButtonMap();
             ButtonTextEdit();
 
-            label1.Text = "A'nın Altını: " + aPlayer.GetPlayerGoldValue();
-            label2.Text = "B'nın Altını: " + bPlayer.GetPlayerGoldValue();
-            label3.Text = "C'nın Altını: " + cPlayer.GetPlayerGoldValue();
-            label4.Text = "D'nın Altını: " + dPlayer.GetPlayerGoldValue();
+            label1.Text = "A'nın Altını: " + aPlayer.GetPlayerGold();
+            label2.Text = "B'nın Altını: " + bPlayer.GetPlayerGold();
+            label3.Text = "C'nın Altını: " + cPlayer.GetPlayerGold();
+            label4.Text = "D'nın Altını: " + dPlayer.GetPlayerGold();
 
         }
 
@@ -73,7 +73,7 @@ namespace AltınOyunuCSharp
                         Width = lockWidthHeight,
                         Height = lockWidthHeight,
                         Text = "",
-                        
+
                         Location = new Point(x * lockWidthHeight + 10, y * lockWidthHeight + 10),  // x,y şeklinde 
                         Parent = panel1,
                     };
@@ -92,12 +92,12 @@ namespace AltınOyunuCSharp
 
         public void ButtonTextEdit()
         {
-            for(int y = 0; y < goldMatris.GetLength(0); y++)
+            for (int y = 0; y < goldMatris.GetLength(0); y++)
             {
                 for (int x = 0; x < goldMatris.GetLength(1); x++)
                 {
                     string ButtonText = "";
-                    ButtonText += "["+y+","+x+"]->";
+                    ButtonText += "[" + y + "," + x + "]->";
                     ButtonText += (aPlayerMatris[y, x] != 0) ? "[A]" : "";
                     ButtonText += (bPlayerMatris[y, x] != 0) ? "[B]" : "";
                     ButtonText += (cPlayerMatris[y, x] != 0) ? "[C]" : "";
@@ -106,11 +106,12 @@ namespace AltınOyunuCSharp
                     ButtonText += (goldMatris[y, x] != 0) ? goldMatris[y, x].ToString() : "";
                     ButtonText += (privateGoldMatris[y, x] != 0) ? "[G-" + privateGoldMatris[y, x] + "]" : "";
                     buttonMatrix[y, x].Text = ButtonText;
-                    
-                    if(goldMatris[y,x] != 0)
+
+                    if (goldMatris[y, x] != 0)
                     {
                         buttonMatrix[y, x].BackColor = Color.Green;
-                    } else if (privateGoldMatris[y, x] != 0)
+                    }
+                    else if (privateGoldMatris[y, x] != 0)
                     {
                         buttonMatrix[y, x].BackColor = Color.Pink;
                     }
@@ -154,121 +155,121 @@ namespace AltınOyunuCSharp
         public void gameStart()
         {
 
-                if (map.GetGoldCount() > 0)
+            if (map.GetGoldCount() > 0)
+            {
+            oyuncuOlu:
+                switch (map.GetGameOrder())
                 {
-                oyuncuOlu:
-                    switch (map.GetGameOrder())
-                    {
-                        case 1:
-                            if (aPlayer.IsDeath() == true)
-                            {
-                                map.SetGameOrder();
-                                aPlayer.playerMap[aPlayer.GetCord()[0], aPlayer.GetCord()[1]] = 0;
-                                goto oyuncuOlu;
-                            }
-                            aPlayer.Move(map);
-                            goldMatris = map.GetGoldMap();
-                            privateGoldMatris = map.GetPrivateGoldMap();
-                            aPlayerMatris = aPlayer.GetPlayerMatris();
-
-                            label1.Text = "A'nın Altını: " + aPlayer.GetPlayerGoldValue();
-                            listBox1.Items.Clear();
-                            foreach (var item in aPlayer.GetLog())
-                            {
-                                listBox1.Items.Add(item);
-                            }
-
-
-
-
-
-
-
-
-                            ButtonTextEdit();
+                    case 1:
+                        if (aPlayer.IsDeath() == true)
+                        {
                             map.SetGameOrder();
-                            break;
-                        case 2:
-                            if (bPlayer.IsDeath() == true)
-                            {
-                                map.SetGameOrder();
-                                bPlayer.playerMap[bPlayer.GetCord()[0], bPlayer.GetCord()[1]] = 0;
-                                goto oyuncuOlu;
-                            }
-                            bPlayer.Move(map);
-                            goldMatris = map.GetGoldMap();
-                            privateGoldMatris = map.GetPrivateGoldMap();
-                            bPlayerMatris = bPlayer.GetPlayerMatris();
-                            // bPlayer.GetLog().ForEach(Console.WriteLine);
-                            ButtonTextEdit();
-                            label2.Text = "B'nın Altını: " + bPlayer.GetPlayerGoldValue();
-                            listBox2.Items.Clear();
-                            foreach (var item in bPlayer.GetLog())
-                            {
-                                listBox2.Items.Add(item);
-                            }
+                            aPlayer.playerMap[aPlayer.GetLastCord()[0], aPlayer.GetLastCord()[1]] = 0;
+                            goto oyuncuOlu;
+                        }
+                        aPlayer.Move(map);
+                        goldMatris = map.GetGoldMap();
+                        privateGoldMatris = map.GetPrivateGoldMap();
+                        aPlayerMatris = aPlayer.GetPlayerMatris();
+
+                        label1.Text = "A'nın Altını: " + aPlayer.GetPlayerGold();
+                        listBox1.Items.Clear();
+                        foreach (var item in aPlayer.GetLog())
+                        {
+                            listBox1.Items.Add(item);
+                        }
 
 
+
+
+
+
+
+
+                        ButtonTextEdit();
+                        map.SetGameOrder();
+                        break;
+                    case 2:
+                        if (bPlayer.IsDeath() == true)
+                        {
                             map.SetGameOrder();
-                            break;
-                        case 3:
-                            if (cPlayer.IsDeath() == true)
-                            {
-                                map.SetGameOrder();
-                                cPlayer.playerMap[cPlayer.GetCord()[0], cPlayer.GetCord()[1]] = 0;
-                                goto oyuncuOlu;
-                            }
-                            cPlayer.Move(map);
-                            goldMatris = map.GetGoldMap();
-                            privateGoldMatris = map.GetPrivateGoldMap();
-                            cPlayerMatris = cPlayer.GetPlayerMatris();
-                            ButtonTextEdit();
-                            label3.Text = "C'nın Altını: " + cPlayer.GetPlayerGoldValue();
-                            listBox3.Items.Clear();
-                            foreach (var item in cPlayer.GetLog())
-                            {
-                                listBox3.Items.Add(item);
-                            }
+                            bPlayer.playerMap[bPlayer.GetLastCord()[0], bPlayer.GetLastCord()[1]] = 0;
+                            goto oyuncuOlu;
+                        }
+                        bPlayer.Move(map);
+                        goldMatris = map.GetGoldMap();
+                        privateGoldMatris = map.GetPrivateGoldMap();
+                        bPlayerMatris = bPlayer.GetPlayerMatris();
+                        // bPlayer.GetLog().ForEach(Console.WriteLine);
+                        ButtonTextEdit();
+                        label2.Text = "B'nın Altını: " + bPlayer.GetPlayerGold();
+                        listBox2.Items.Clear();
+                        foreach (var item in bPlayer.GetLog())
+                        {
+                            listBox2.Items.Add(item);
+                        }
 
 
+                        map.SetGameOrder();
+                        break;
+                    case 3:
+                        if (cPlayer.IsDeath() == true)
+                        {
                             map.SetGameOrder();
-                            break;
-                        case 4:
-                            if (dPlayer.IsDeath() == true)
-                            {
-                                map.SetGameOrder();
-                                dPlayer.playerMap[dPlayer.GetCord()[0], dPlayer.GetCord()[1]] = 0;
-                                goto oyuncuOlu;
-                            }
-                            dPlayer.Move(map);
-                            goldMatris = map.GetGoldMap();
-                            privateGoldMatris = map.GetPrivateGoldMap();
-                            dPlayerMatris = dPlayer.GetPlayerMatris();
-                            ButtonTextEdit();
-                            label4.Text = "D'nın Altını: " + dPlayer.GetPlayerGoldValue();
-                            listBox4.Items.Clear();
-                            foreach (var item in dPlayer.GetLog())
-                            {
-                                listBox4.Items.Add(item);
-                            }
+                            cPlayer.playerMap[cPlayer.GetLastCord()[0], cPlayer.GetLastCord()[1]] = 0;
+                            goto oyuncuOlu;
+                        }
+                        cPlayer.Move(map);
+                        goldMatris = map.GetGoldMap();
+                        privateGoldMatris = map.GetPrivateGoldMap();
+                        cPlayerMatris = cPlayer.GetPlayerMatris();
+                        ButtonTextEdit();
+                        label3.Text = "C'nın Altını: " + cPlayer.GetPlayerGold();
+                        listBox3.Items.Clear();
+                        foreach (var item in cPlayer.GetLog())
+                        {
+                            listBox3.Items.Add(item);
+                        }
 
 
+                        map.SetGameOrder();
+                        break;
+                    case 4:
+                        if (dPlayer.IsDeath() == true)
+                        {
                             map.SetGameOrder();
+                            dPlayer.playerMap[dPlayer.GetLastCord()[0], dPlayer.GetLastCord()[1]] = 0;
+                            goto oyuncuOlu;
+                        }
+                        dPlayer.Move(map);
+                        goldMatris = map.GetGoldMap();
+                        privateGoldMatris = map.GetPrivateGoldMap();
+                        dPlayerMatris = dPlayer.GetPlayerMatris();
+                        ButtonTextEdit();
+                        label4.Text = "D'nın Altını: " + dPlayer.GetPlayerGold();
+                        listBox4.Items.Clear();
+                        foreach (var item in dPlayer.GetLog())
+                        {
+                            listBox4.Items.Add(item);
+                        }
 
-                            break;
+
+                        map.SetGameOrder();
+
+                        break;
 
 
-                    }
                 }
-                else
+            }
+            else
             {
                 timer1.Stop();
                 MessageBox.Show("Oyun Bitti");
             }
-            
+
         }
     }
 
 
- 
+
 }
