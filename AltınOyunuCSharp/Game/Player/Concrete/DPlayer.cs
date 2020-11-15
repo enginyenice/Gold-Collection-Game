@@ -129,7 +129,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
 
             if (whoseTarget != String.Empty)
             {
-                this.SetLog("D oyuncusu " + whoseTarget + " oyuncusunun hedefine ondan önce ulaşabilir.");
+                this.SetLog(whoseTarget + " oyuncusunun hedefine ondan önce ulaşabilir.");
             }
             this.SetLog("Hedef: Y:" + nearestGoldY + " X:" + nearestGoldX + " olarak belirlendi. Toplam tahmini Kazanç: " + GetGoldEarnedOnReachTarget() + " Altın Degeri: " + nearestGoldValue);
 

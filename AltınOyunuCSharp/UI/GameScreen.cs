@@ -228,8 +228,12 @@ namespace AltınOyunuCSharp.UI
             {
                 tm.Enabled = false;
                 MessageBox.Show(map.GetgameOverReason() + " Oyun bitti.");
+                aPlayer.SetLog("Oyun Bitti");
+                bPlayer.SetLog("Oyun Bitti");
+                cPlayer.SetLog("Oyun Bitti");
+                dPlayer.SetLog("Oyun Bitti");
                 ScoreBoard scoreBoard = new ScoreBoard(aPlayer, bPlayer, cPlayer, dPlayer);
-                scoreBoard.Show();
+                scoreBoard.ShowDialog();
             }
         }
 

@@ -2,6 +2,7 @@
 using AltınOyunuCSharp.Game.Player.Abstract;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace AltınOyunuCSharp.Game.Player.Concrete
 {
@@ -46,7 +47,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
             this.SetTargetedGoldCord(-1, -1);
             this.targetedGoldValue = -1;
             log = new List<string>();
-            SetLog(name + " oyuncusu Y: " + (cordY) + ", X: " + (cordX) + " kordinatından " + gold + " altın ile oyuna katıldı.");
+            SetLog("Y: " + (cordY) + ", X: " + (cordX) + " kordinatından " + gold + " altın ile oyuna katıldı.");
 
             playerMap = new int[gameY, gameX];
             for (int i = 0; i < gameY; i++)
@@ -309,7 +310,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                 {
                     if (map.GetGoldPointValue(this.GetTargetedGoldCord()[0], this.GetTargetedGoldCord()[1]) == 0)
                     {
-                        SetLog("Hedeflediği altın alınmış. Yeni altın hedefleniyor.");
+                        SetLog("Hedeflenen altın başka bir oyuncu tarafından alınmıştır. Yeni altın hedefleniyor.");
                         SetGoldEarnedOnReachTarget(-1);
                         SetRemainingSteps(-1);
                         SetTargetedGoldCord(-1, -1);
@@ -395,7 +396,8 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                     this.SetTargetedGoldValue(-1);
                     this.SetRemainingSteps(-1);
                     this.SetTargetedGoldCord(-1, -1);
-                    this.SetLog(this.name + " Hedefine ulaştı.");
+                    this.SetLog("Hedef belirlemek için " + this.GetSearchCost() + " altın harcadı.");
+                    this.SetLog("Hedefine ulaştı.");
                     //Oyuncu puanını düzenle
                 }
 
@@ -410,14 +412,16 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                     {
                         //SetGoldEarnedOnReachTarget(GetGoldEarnedOnReachTarget() + ((-1) * this.cost));
                         UpdatePlayerGoldValue((-1) * this.cost);
-                        this.SetLog(this.name + " Hedefine ulaşması için " + map.GetPlayerRemainingSteps(this.name) + " tur kaldi. Bu birden çok adımınız");
+                        this.SetLog("Hedefini önceden belirlediği için hedef belirleme maliyeti alınmadı.");
+                        this.SetLog("Hedefine ulaşması için " + map.GetPlayerRemainingSteps(this.name) + " adım kaldı.");
                     }
                     else
                     { // Bu benim ilk hareketim
                         //SetGoldEarnedOnReachTarget(GetGoldEarnedOnReachTarget() - (this.cost));
                         //UpdatePlayerGoldValue((-1) * (this.searchCost + this.cost));
                         UpdatePlayerGoldValue((-1) * (this.cost));
-                        this.SetLog(this.name + " Hedefine ulaşması için " + map.GetPlayerRemainingSteps(this.name) + " tur kaldi. Bu ilk adımınız.");
+                        this.SetLog("Hedef belirlemek için " + this.GetSearchCost() + " altın harcadı.");
+                        this.SetLog("Hedefine ulaşması için " + map.GetPlayerRemainingSteps(this.name) + " adım kaldı.");
                     }
                 }
             }
@@ -435,5 +439,51 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
         }
 
         #endregion GAME FUNCTION
+
+        #region WRITE TXT
+
+        public void CreateFolder()
+        {
+            bool Kontrol = Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "/GameLog");//Exists klasör yolu verilen dizin i kontrol edip true veya false döner
+            if (Kontrol == false)
+            {
+                Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "/GameLog");
+            }
+        }
+
+        public void WriteToFile()
+        {
+            CreateFolder();
+            string dosya_yolu = AppDomain.CurrentDomain.BaseDirectory + "/GameLog/" + this.name + ".txt";
+            //İşlem yapacağımız dosyanın yolunu belirtiyoruz.
+            FileStream fs = new FileStream(dosya_yolu, FileMode.OpenOrCreate, FileAccess.Write);
+            //Bir file stream nesnesi oluşturuyoruz. 1.parametre dosya yolunu,
+            //2.parametre dosya varsa açılacağını yoksa oluşturulacağını belirtir,
+            //3.parametre dosyaya erişimin veri yazmak için olacağını gösterir.
+            StreamWriter sw = new StreamWriter(fs);
+            //Yazma işlemi için bir StreamWriter nesnesi oluşturduk.
+            sw.WriteLine("#####Oyuncu Bilgileri#####");
+            sw.WriteLine("Oyuncu adı                      : " + this.name);
+            sw.WriteLine("Oyuncu hedef belirleme maliyeti : " + this.GetSearchCost());
+            sw.WriteLine("Oyuncu adım maliyeti            : " + this.cost);
+            sw.WriteLine("-Oyun Sonucu-");
+            sw.WriteLine("Toplam adım sayısı              : " + this.GetTotalNumberOfSteps());
+            sw.WriteLine("Toplam kazanılan altın          : " + this.GetTotalAmountOfGoldSpent());
+            sw.WriteLine("Toplam karcanan altın           : " + this.GetTotalAmountOfGoldEarned());
+            sw.WriteLine("Kasada bulunan altın            : " + this.GetPlayerGold());
+            sw.WriteLine("#####Oyun Bilgisi#####");
+            foreach (var item in this.GetLog())
+            {
+                sw.WriteLine(item);
+            }
+
+            sw.Flush();
+            //Veriyi tampon bölgeden dosyaya aktardık.
+            sw.Close();
+            fs.Close();
+            //İşimiz bitince kullandığımız nesneleri iade ettik.
+        }
+
+        #endregion WRITE TXT
     }
 }

@@ -6,10 +6,11 @@ namespace AltınOyunuCSharp.UI
 {
     public partial class ScoreBoard : Form
     {
-        APlayer aPlayer;
-        BPlayer bPlayer;
-        CPlayer cPlayer;
-        DPlayer dPlayer;
+        private APlayer aPlayer;
+        private BPlayer bPlayer;
+        private CPlayer cPlayer;
+        private DPlayer dPlayer;
+
         public ScoreBoard(APlayer aPlayer, BPlayer bPlayer, CPlayer cPlayer, DPlayer dPlayer)
         {
             this.aPlayer = aPlayer;
@@ -17,15 +18,11 @@ namespace AltınOyunuCSharp.UI
             this.cPlayer = cPlayer;
             this.dPlayer = dPlayer;
 
-
-
             InitializeComponent();
         }
 
         private void ScoreBoard_Load(object sender, EventArgs e)
         {
-
-
             label10.Text = aPlayer.GetTotalNumberOfSteps().ToString();
             label11.Text = bPlayer.GetTotalNumberOfSteps().ToString();
             label12.Text = cPlayer.GetTotalNumberOfSteps().ToString();
@@ -45,6 +42,15 @@ namespace AltınOyunuCSharp.UI
             label23.Text = bPlayer.GetPlayerGold().ToString();
             label24.Text = cPlayer.GetPlayerGold().ToString();
             label25.Text = dPlayer.GetPlayerGold().ToString();
+            ALog.DataSource = aPlayer.GetLog();
+            BLog.DataSource = bPlayer.GetLog();
+            CLog.DataSource = cPlayer.GetLog();
+            DLog.DataSource = dPlayer.GetLog();
+
+            aPlayer.WriteToFile();
+            bPlayer.WriteToFile();
+            cPlayer.WriteToFile();
+            dPlayer.WriteToFile();
         }
     }
 }

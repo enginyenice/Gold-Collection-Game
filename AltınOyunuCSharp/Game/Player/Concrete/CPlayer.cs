@@ -116,7 +116,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
 
                 map.UpdateGoldMapPoint(nearestPrivateGoldY, nearestPrivateGoldX, nearestPrivateGoldValue);
                 map.RemovePrivateGoldPoint(nearestPrivateGoldY, nearestPrivateGoldX);
-                this.SetLog("C Tarafından Y: " + nearestPrivateGoldY + " X:" + nearestPrivateGoldX + " kordinatındaki " + nearestPrivateGoldValue + " puanlık " + (control + 1) + ". altın açıldı");
+                this.SetLog("[Özellik] Y: " + nearestPrivateGoldY + " X:" + nearestPrivateGoldX + " kordinatındaki " + nearestPrivateGoldValue + " puanlık " + (control + 1) + ". gizli altın açıldı");
                 control++;
             }
         }
