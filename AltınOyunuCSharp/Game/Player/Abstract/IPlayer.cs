@@ -27,8 +27,6 @@ namespace AltınOyunuCSharp.Game.Player.Abstract
 
         int GetTargetedGoldValue();//Hedeflenen altının değerini döndürür.
 
-        int[] GetMoveCordValue();
-
         #endregion GET
 
         #region SET
@@ -44,8 +42,6 @@ namespace AltınOyunuCSharp.Game.Player.Abstract
         void SetTargetedGoldCord(int CordY, int CordX);//Hedeflenen altının koordinatlarını belirler.
 
         void SetTargetedGoldValue(int goldValue);//Hedeflenen altının değerini belirler.
-
-        void SetMoveCordValue(int CordY, int CordX);
 
         void SetPlayerMapValue(int CordY, int CordX, int data);
 

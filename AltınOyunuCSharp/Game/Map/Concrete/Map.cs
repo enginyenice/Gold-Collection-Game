@@ -7,16 +7,16 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
 {
     public class Map : IMap
     {
-        private readonly string[,] map;
-        private readonly int[,] goldMap;
+        private readonly string[,] map; // Oyun alanındaki tüm öğeler
+        private readonly int[,] goldMap; // Oyun alan
         private readonly int[,] privateGoldMap;
         private readonly int mapSquare; // Oyun alanı kare sayısı
 
-        public int[] aPlayerTarget;
-        public int[] bPlayerTarget;
-        public int[] cPlayerTarget;
-        public int[] dPlayerTarget;
-        public int[] playersRemainingSteps;
+        private int[] aPlayerTarget;
+        private int[] bPlayerTarget;
+        private int[] cPlayerTarget;
+        private int[] dPlayerTarget;
+        private int[] playersRemainingSteps;
         private List<int> playersIsDeath;
         private int gameOrder = 1;
         private bool gameOver;
@@ -29,12 +29,9 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
             cPlayerTarget = new int[2];
             dPlayerTarget = new int[2];
             playersRemainingSteps = new int[4];
-            playersIsDeath = new List<int>();
-            playersIsDeath.Add(1);
-            playersIsDeath.Add(2);
-            playersIsDeath.Add(3);
-            playersIsDeath.Add(4);
+            playersIsDeath = new List<int> {1,2,3,4};
             gameOver = false;
+
 
             map = new string[ySize, xSize];
             goldMap = new int[ySize, xSize];

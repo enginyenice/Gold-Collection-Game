@@ -124,14 +124,22 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
             this.SetTargetedGoldValue(nearestGoldValue);
 
             // Hedef belirleme maliyeti çıkartıldı.
-            this.SetGoldEarnedOnReachTarget(nearestGoldValue - ((GetRemainingSteps() * this.cost) + this.GetSearchCost()));
+            this.SetGoldEarnedOnReachTarget(nearestGoldValue - ((this.GetRemainingSteps() * this.cost) + this.GetSearchCost()));
             this.UpdatePlayerGoldValue((-1) * this.GetSearchCost());
+            this.SetTotalAmountOfGoldSpent(this.GetSearchCost());
 
             if (whoseTarget != String.Empty)
             {
-                this.SetLog(whoseTarget + " oyuncusunun hedefine ondan önce ulaşabilir.");
+                this.SetLog(whoseTarget + " oyuncusunun hedefine ondan önce ulaşılabilir.");
+                this.SetLog("Hedef belirlemek için " + this.GetSearchCost() + " altın harcadı.");
+                this.SetLog("Hedef " + whoseTarget + " Oyuncusunun hedefi olan: ");
+                this.SetLog("Y:" + nearestGoldY + " X:" + nearestGoldX + " olarak belirlendi. Toplam tahmini Kazanç: " + GetGoldEarnedOnReachTarget() + " Altın Degeri: " + nearestGoldValue);
             }
-            this.SetLog("Hedef: Y:" + nearestGoldY + " X:" + nearestGoldX + " olarak belirlendi. Toplam tahmini Kazanç: " + GetGoldEarnedOnReachTarget() + " Altın Degeri: " + nearestGoldValue);
+            else
+            {
+                this.SetLog("Hedef belirlemek için " + this.GetSearchCost() + " altın harcadı.");
+                this.SetLog("Hedef: Y:" + nearestGoldY + " X:" + nearestGoldX + " olarak belirlendi. Toplam tahmini Kazanç: " + GetGoldEarnedOnReachTarget() + " Altın Degeri: " + nearestGoldValue);
+            }
 
             map.SetPlayerTarget(nearestGoldY, nearestGoldX, "D");
             map.SetPlayerRemainingSteps(remainingSteps, "D");

@@ -57,7 +57,7 @@
 
         #region SET
 
-        void SetPlayerTarget(int targetY, int targetX, string playerName);//Oyuncuya hedef ver.
+        void SetPlayerTarget(int targetY, int targetX, string playerName);// Oyuncuya hedef ver.
 
         void SetPlayerRemainingSteps(int steps, string playerName);// Oyuncunun hedefe kaç adımı var.
 
@@ -77,7 +77,7 @@
 
         #region UPDATE
 
-        void UpdateGoldMapPoint(int CordY, int CordX, int data);  // Altın matrisinin girilen koordinatındaki değeri değiştirir.
+        void UpdateGoldMapPoint(int CordY, int CordX, int data);// Altın matrisinin girilen koordinatındaki değeri değiştirir.
 
         void UpdateMapPointData(int CordY, int CordX, string data);// Harita matrisinin girilen koordinatındaki değeri değiştirir.
 

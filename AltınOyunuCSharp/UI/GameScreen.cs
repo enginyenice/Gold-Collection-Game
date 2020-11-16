@@ -10,12 +10,13 @@ namespace AltınOyunuCSharp.UI
     {
         private Bitmap bitmapBoard, bitmap;
         private Graphics graphBoard, graph;
-        private Image[] goldImages = new Image[8];
-        private int squareEdge = 75;// oyun alanı kare kenarı, default: 75 pixel
-        private Image[] aPlayerImages = new Image[4];
-        private Image[] bPlayerImages = new Image[4];
-        private Image[] cPlayerImages = new Image[4];
-        private Image[] dPlayerImages = new Image[4];
+        private Image[] goldImages;
+        private Image[] hiddenGoldImages;
+        private Image aPlayerImage;
+        private Image bPlayerImage;
+        private Image cPlayerImage;
+        private Image dPlayerImage;
+        private int squareEdge = 75; // Oyun alanı kare kenar uzunluğu, default: 75 pixel
 
         public Form menuForm;
         public Map map;
@@ -23,12 +24,6 @@ namespace AltınOyunuCSharp.UI
         public BPlayer bPlayer;
         public CPlayer cPlayer;
         public DPlayer dPlayer;
-        private int[,] goldMatris;
-        private int[,] privateGoldMatris;
-        private int[,] aPlayerMatris;
-        private int[,] bPlayerMatris;
-        private int[,] cPlayerMatris;
-        private int[,] dPlayerMatris;
         private bool hiddenActive = false;
 
         public GameScreen(Map gameMap, APlayer a, BPlayer b, CPlayer c, DPlayer d, Form menuForm)
@@ -39,37 +34,21 @@ namespace AltınOyunuCSharp.UI
             bPlayer = b;
             cPlayer = c;
             dPlayer = d;
-            goldMatris = map.GetGoldMap();
-            privateGoldMatris = map.GetPrivateGoldMap();
-            aPlayerMatris = aPlayer.GetPlayerMatris();
-            bPlayerMatris = bPlayer.GetPlayerMatris();
-            cPlayerMatris = cPlayer.GetPlayerMatris();
-            dPlayerMatris = dPlayer.GetPlayerMatris();
+            goldImages = new Image[4];
+            hiddenGoldImages = new Image[4];
 
             goldImages[0] = global::AltınOyunuCSharp.Properties.Resources.coin5;
             goldImages[1] = global::AltınOyunuCSharp.Properties.Resources.coin10;
             goldImages[2] = global::AltınOyunuCSharp.Properties.Resources.coin15;
             goldImages[3] = global::AltınOyunuCSharp.Properties.Resources.coin20;
-            goldImages[4] = global::AltınOyunuCSharp.Properties.Resources.hiddenCoin5;
-            goldImages[5] = global::AltınOyunuCSharp.Properties.Resources.hiddenCoin10;
-            goldImages[6] = global::AltınOyunuCSharp.Properties.Resources.hiddenCoin15;
-            goldImages[7] = global::AltınOyunuCSharp.Properties.Resources.hiddenCoin20;
-            aPlayerImages[0] = global::AltınOyunuCSharp.Properties.Resources.playerA_front;
-            aPlayerImages[1] = global::AltınOyunuCSharp.Properties.Resources.playerA_back;
-            aPlayerImages[2] = global::AltınOyunuCSharp.Properties.Resources.playerA_left;
-            aPlayerImages[3] = global::AltınOyunuCSharp.Properties.Resources.playerA_right;
-            bPlayerImages[0] = global::AltınOyunuCSharp.Properties.Resources.playerB_front;
-            bPlayerImages[1] = global::AltınOyunuCSharp.Properties.Resources.playerB_back;
-            bPlayerImages[2] = global::AltınOyunuCSharp.Properties.Resources.playerB_left;
-            bPlayerImages[3] = global::AltınOyunuCSharp.Properties.Resources.playerB_right;
-            cPlayerImages[0] = global::AltınOyunuCSharp.Properties.Resources.playerC_front;
-            cPlayerImages[1] = global::AltınOyunuCSharp.Properties.Resources.playerC_back;
-            cPlayerImages[2] = global::AltınOyunuCSharp.Properties.Resources.playerC_left;
-            cPlayerImages[3] = global::AltınOyunuCSharp.Properties.Resources.playerC_right;
-            dPlayerImages[0] = global::AltınOyunuCSharp.Properties.Resources.playerD_front;
-            dPlayerImages[1] = global::AltınOyunuCSharp.Properties.Resources.playerD_back;
-            dPlayerImages[2] = global::AltınOyunuCSharp.Properties.Resources.playerD_left;
-            dPlayerImages[3] = global::AltınOyunuCSharp.Properties.Resources.playerD_right;
+            hiddenGoldImages[0] = global::AltınOyunuCSharp.Properties.Resources.hiddenCoin5;
+            hiddenGoldImages[1] = global::AltınOyunuCSharp.Properties.Resources.hiddenCoin10;
+            hiddenGoldImages[2] = global::AltınOyunuCSharp.Properties.Resources.hiddenCoin15;
+            hiddenGoldImages[3] = global::AltınOyunuCSharp.Properties.Resources.hiddenCoin20;
+            aPlayerImage = global::AltınOyunuCSharp.Properties.Resources.playerA_front;
+            bPlayerImage = global::AltınOyunuCSharp.Properties.Resources.playerB_front;
+            cPlayerImage = global::AltınOyunuCSharp.Properties.Resources.playerC_front;
+            dPlayerImage = global::AltınOyunuCSharp.Properties.Resources.playerD_front;           
             InitializeComponent();
         }
 
@@ -106,9 +85,6 @@ namespace AltınOyunuCSharp.UI
                         break;
                     }
                     aPlayer.Move(map);
-                    goldMatris = map.GetGoldMap();
-                    privateGoldMatris = map.GetPrivateGoldMap();
-                    aPlayerMatris = aPlayer.GetPlayerMatris();
                     aPlayerKasa.Text = aPlayer.GetPlayerGold().ToString();
                     if (aPlayer.IsDeath() == true)
                     {
@@ -137,9 +113,6 @@ namespace AltınOyunuCSharp.UI
                         break;
                     }
                     bPlayer.Move(map);
-                    goldMatris = map.GetGoldMap();
-                    privateGoldMatris = map.GetPrivateGoldMap();
-                    bPlayerMatris = bPlayer.GetPlayerMatris();
                     bPlayerKasa.Text = bPlayer.GetPlayerGold().ToString();
                     if (bPlayer.IsDeath() == true)
                     {
@@ -168,9 +141,6 @@ namespace AltınOyunuCSharp.UI
                         break;
                     }
                     cPlayer.Move(map);
-                    goldMatris = map.GetGoldMap();
-                    privateGoldMatris = map.GetPrivateGoldMap();
-                    cPlayerMatris = cPlayer.GetPlayerMatris();
                     cPlayerKasa.Text = cPlayer.GetPlayerGold().ToString();
                     if (cPlayer.IsDeath() == true)
                     {
@@ -199,9 +169,6 @@ namespace AltınOyunuCSharp.UI
                         break;
                     }
                     dPlayer.Move(map);
-                    goldMatris = map.GetGoldMap();
-                    privateGoldMatris = map.GetPrivateGoldMap();
-                    dPlayerMatris = dPlayer.GetPlayerMatris();
                     dPlayerKasa.Text = dPlayer.GetPlayerGold().ToString();
                     if (dPlayer.IsDeath() == true)
                     {
@@ -226,17 +193,20 @@ namespace AltınOyunuCSharp.UI
 
             if (map.GetgameOver() == true)
             {
-                tm.Enabled = false;
+                tm.Stop();
                 MessageBox.Show(map.GetgameOverReason() + " Oyun bitti.");
+                aPlayer.SetLog(map.GetgameOverReason());
+                bPlayer.SetLog(map.GetgameOverReason());
+                cPlayer.SetLog(map.GetgameOverReason());
+                dPlayer.SetLog(map.GetgameOverReason());
                 aPlayer.SetLog("Oyun Bitti");
                 bPlayer.SetLog("Oyun Bitti");
                 cPlayer.SetLog("Oyun Bitti");
                 dPlayer.SetLog("Oyun Bitti");
                 ScoreBoard scoreBoard = new ScoreBoard(aPlayer, bPlayer, cPlayer, dPlayer);
-                scoreBoard.ShowDialog();
+                scoreBoard.Show();
             }
         }
-
         public void graphicBoardSetup()
         {
             int mapy = map.GetMap().GetLength(0);
@@ -275,20 +245,18 @@ namespace AltınOyunuCSharp.UI
             // altın, player
             bitmap = new Bitmap(bitmapBoard);
             graph = Graphics.FromImage(bitmap);
-            for (int i = 0; i < map.GetMap().GetLength(0); i++)
+            for (int i = 0; i < mapy; i++)
             {
-                for (int j = 0; j < map.GetMap().GetLength(1); j++)
+                for (int j = 0; j < mapx; j++)
                 {
-                    if (goldMatris[i, j] != 0)
-                        graph.DrawImage(goldImages[(goldMatris[i, j] / 5) - 1], squareEdge * j, squareEdge * i, squareEdge, squareEdge);
-                    else if (privateGoldMatris[i, j] != 0 && hiddenActive == true)
-                        graph.DrawImage(goldImages[(privateGoldMatris[i, j] / 5) + 3], squareEdge * j, squareEdge * i, squareEdge, squareEdge);
+                    if (map.GetGoldPointValue(i, j) != 0)
+                        graph.DrawImage(goldImages[(map.GetGoldPointValue(i,j) / 5) - 1], squareEdge * j, squareEdge * i, squareEdge, squareEdge);
                 }
             }
-            graph.DrawImage(aPlayerImages[0], 0, 0, squareEdge, squareEdge);
-            graph.DrawImage(bPlayerImages[0], squareEdge * (mapx - 1), 0, squareEdge, squareEdge);
-            graph.DrawImage(cPlayerImages[0], 0, squareEdge * (mapy - 1), squareEdge, squareEdge);
-            graph.DrawImage(dPlayerImages[0], squareEdge * (mapx - 1), squareEdge * (mapy - 1), squareEdge, squareEdge);
+            graph.DrawImage(aPlayerImage, 0, 0, squareEdge, squareEdge);
+            graph.DrawImage(bPlayerImage, squareEdge * (mapx - 1), 0, squareEdge, squareEdge);
+            graph.DrawImage(cPlayerImage, 0, squareEdge * (mapy - 1), squareEdge, squareEdge);
+            graph.DrawImage(dPlayerImage, squareEdge * (mapx - 1), squareEdge * (mapy - 1), squareEdge, squareEdge);
             gamePictureBox.Image = bitmap;
         }
 
@@ -301,19 +269,25 @@ namespace AltınOyunuCSharp.UI
             {
                 for (int j = 0; j < map.GetMap().GetLength(1); j++)
                 {
-                    if (goldMatris[i, j] != 0)
-                        graph.DrawImage(goldImages[(goldMatris[i, j] / 5) - 1], squareEdge * j, squareEdge * i, squareEdge, squareEdge);
-                    else if (privateGoldMatris[i, j] != 0 && hiddenActive == true)
-                        graph.DrawImage(goldImages[(privateGoldMatris[i, j] / 5) + 3], squareEdge * j, squareEdge * i, squareEdge, squareEdge);
+                    // Altın resimleri
+                    if (map.GetGoldPointValue(i, j) != 0)
+                        graph.DrawImage(goldImages[(map.GetGoldPointValue(i, j) / 5) - 1], squareEdge * j, squareEdge * i, squareEdge, squareEdge);
+                    // Gizli altın resimleri (eğer gizli altınlar gösterilmek istenmiş ise)
+                    else if (map.GetPrivateGoldPointValue(i, j) != 0 && hiddenActive == true)
+                        graph.DrawImage(hiddenGoldImages[(map.GetPrivateGoldPointValue(i, j) / 5) - 1], squareEdge * j, squareEdge * i, squareEdge, squareEdge);
 
-                    if (aPlayerMatris[i, j] != 0)
-                        graph.DrawImage(aPlayerImages[0], j * squareEdge, i * squareEdge, squareEdge, squareEdge);
-                    else if (bPlayerMatris[i, j] != 0)
-                        graph.DrawImage(bPlayerImages[0], j * squareEdge, i * squareEdge, squareEdge, squareEdge);
-                    else if (cPlayerMatris[i, j] != 0)
-                        graph.DrawImage(cPlayerImages[0], j * squareEdge, i * squareEdge, squareEdge, squareEdge);
-                    else if (dPlayerMatris[i, j] != 0)
-                        graph.DrawImage(dPlayerImages[0], j * squareEdge, i * squareEdge, squareEdge, squareEdge);
+                    // Oyuncu resimleri
+                    if (aPlayer.GetPlayerMatris()[i,j] != 0)
+                        graph.DrawImage(aPlayerImage, j * squareEdge, i * squareEdge, squareEdge, squareEdge);
+                    
+                    else if (bPlayer.GetPlayerMatris()[i, j] != 0)
+                        graph.DrawImage(bPlayerImage, j * squareEdge, i * squareEdge, squareEdge, squareEdge);
+                   
+                    else if (cPlayer.GetPlayerMatris()[i, j] != 0)
+                        graph.DrawImage(cPlayerImage, j * squareEdge, i * squareEdge, squareEdge, squareEdge);
+                    
+                    else if (dPlayer.GetPlayerMatris()[i, j] != 0)
+                        graph.DrawImage(dPlayerImage, j * squareEdge, i * squareEdge, squareEdge, squareEdge);
                 }
             }
             gamePictureBox.Image = bitmap;
@@ -329,12 +303,12 @@ namespace AltınOyunuCSharp.UI
             if (StartBtn.Text == "Oyunu başlat")
             {
                 StartBtn.Text = "Oyunu durdur";
-                tm.Enabled = true;
+                tm.Start();
             }
             else
             {
                 StartBtn.Text = "Oyunu başlat";
-                tm.Enabled = false;
+                tm.Stop();
             }
         }
 
