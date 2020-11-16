@@ -82,6 +82,7 @@ namespace AltınOyunuCSharp.UI
                     {
                         map.RemovePlayersIsDeath(map.GetGameOrder());
                         map.SetGameOrder();
+                        playerDeathPictureDraw(aPlayer);
                         aPlayer.SetPlayerMapValue(aPlayer.GetLastCord()[0], aPlayer.GetLastCord()[1], 0);
                         graphicDraw();
                         break;
@@ -92,15 +93,16 @@ namespace AltınOyunuCSharp.UI
                     {
                         map.RemovePlayersIsDeath(map.GetGameOrder());
                         map.SetGameOrder();
+                        playerDeathPictureDraw(aPlayer);
                         aPlayer.SetPlayerMapValue(aPlayer.GetLastCord()[0], aPlayer.GetLastCord()[1], 0);
                         graphicDraw();
                         break;
                     }
                     graphicDraw();
-                    Console.WriteLine();
+                    ALog.Items.Clear();
                     foreach (var item in aPlayer.GetLog())
                     {
-                        Console.WriteLine(item);
+                        ALog.Items.Add(item);
                     }
                     map.SetGameOrder();
                     break;
@@ -110,6 +112,7 @@ namespace AltınOyunuCSharp.UI
                     {
                         map.RemovePlayersIsDeath(map.GetGameOrder());
                         map.SetGameOrder();
+                        playerDeathPictureDraw(bPlayer);
                         bPlayer.SetPlayerMapValue(bPlayer.GetLastCord()[0], bPlayer.GetLastCord()[1], 0);
                         graphicDraw();
                         break;
@@ -120,15 +123,16 @@ namespace AltınOyunuCSharp.UI
                     {
                         map.RemovePlayersIsDeath(map.GetGameOrder());
                         map.SetGameOrder();
+                        playerDeathPictureDraw(bPlayer);
                         bPlayer.SetPlayerMapValue(bPlayer.GetLastCord()[0], bPlayer.GetLastCord()[1], 0);
                         graphicDraw();
                         break;
                     }
-                    graphicDraw();
-                    Console.WriteLine();
+                    graphicDraw(); 
+                    BLog.Items.Clear();
                     foreach (var item in bPlayer.GetLog())
                     {
-                        Console.WriteLine(item);
+                        BLog.Items.Add(item);
                     }
                     map.SetGameOrder();
                     break;
@@ -138,6 +142,7 @@ namespace AltınOyunuCSharp.UI
                     {
                         map.RemovePlayersIsDeath(map.GetGameOrder());
                         map.SetGameOrder();
+                        playerDeathPictureDraw(cPlayer);
                         cPlayer.SetPlayerMapValue(cPlayer.GetLastCord()[0], cPlayer.GetLastCord()[1], 0);
                         graphicDraw();
                         break;
@@ -148,15 +153,16 @@ namespace AltınOyunuCSharp.UI
                     {
                         map.RemovePlayersIsDeath(map.GetGameOrder());
                         map.SetGameOrder();
+                        playerDeathPictureDraw(cPlayer);
                         cPlayer.SetPlayerMapValue(cPlayer.GetLastCord()[0], cPlayer.GetLastCord()[1], 0);
                         graphicDraw();
                         break;
                     }
                     graphicDraw();
-                    Console.WriteLine();
+                    CLog.Items.Clear();
                     foreach (var item in cPlayer.GetLog())
                     {
-                        Console.WriteLine(item);
+                        CLog.Items.Add(item);
                     }
                     map.SetGameOrder();
                     break;
@@ -166,6 +172,7 @@ namespace AltınOyunuCSharp.UI
                     {
                         map.RemovePlayersIsDeath(map.GetGameOrder());
                         map.SetGameOrder();
+                        playerDeathPictureDraw(dPlayer);
                         dPlayer.SetPlayerMapValue(dPlayer.GetLastCord()[0], dPlayer.GetLastCord()[1], 0);
                         graphicDraw();
                         break;
@@ -176,15 +183,16 @@ namespace AltınOyunuCSharp.UI
                     {
                         map.RemovePlayersIsDeath(map.GetGameOrder());
                         map.SetGameOrder();
+                        playerDeathPictureDraw(dPlayer);
                         dPlayer.SetPlayerMapValue(dPlayer.GetLastCord()[0], dPlayer.GetLastCord()[1], 0);
                         graphicDraw();
                         break;
                     }
                     graphicDraw();
-                    Console.WriteLine();
+                    DLog.Items.Clear();
                     foreach (var item in dPlayer.GetLog())
                     {
-                        Console.WriteLine(item);
+                        DLog.Items.Add(item);
                     }
                     map.SetGameOrder();
                     break;
@@ -294,17 +302,20 @@ namespace AltınOyunuCSharp.UI
             graph = Graphics.FromImage(bitmap);
             graph.Clear(Color.Transparent);
             graph.DrawImage(bitmapBoard, 0, 0);
+            Pen pen = new Pen(Color.Red,2);
             for (int i = 0; i < map.GetMap().GetLength(0); i++)
             {
                 for (int j = 0; j < map.GetMap().GetLength(1); j++)
                 {
                     // Altın resimleri
                     if (map.GetGoldPointValue(i, j) != 0)
-                        graph.DrawImage(goldImages[(map.GetGoldPointValue(i, j) / 5) - 1], (squareEdge * j)+ cordNumberGuide, (squareEdge * i)+ cordNumberGuide, squareEdge, squareEdge);
+                        graph.DrawImage(goldImages[(map.GetGoldPointValue(i, j) / 5) - 1], (squareEdge * j) + cordNumberGuide, (squareEdge * i) + cordNumberGuide, squareEdge, squareEdge);
                     // Gizli altın resimleri (eğer gizli altınlar gösterilmek istenmiş ise)
                     else if (map.GetPrivateGoldPointValue(i, j) != 0 && hiddenActive == true)
-                        graph.DrawImage(hiddenGoldImages[(map.GetPrivateGoldPointValue(i, j) / 5) - 1], (squareEdge * j)+ cordNumberGuide, (squareEdge * i)+ cordNumberGuide, squareEdge, squareEdge);
-
+                    {
+                        graph.DrawImage(hiddenGoldImages[(map.GetPrivateGoldPointValue(i, j) / 5) - 1], (squareEdge * j) + cordNumberGuide, (squareEdge * i) + cordNumberGuide, squareEdge, squareEdge);
+                        graph.DrawRectangle(pen, (squareEdge * j) + cordNumberGuide+1, (squareEdge * i) + cordNumberGuide+1, squareEdge-2, squareEdge-2);
+                    }
                     // Oyuncu resimleri
                     if (aPlayer.GetPlayerMatris()[i,j] != 0)
                         graph.DrawImage(aPlayerImage, (j * squareEdge)+ cordNumberGuide, (i * squareEdge)+ cordNumberGuide, squareEdge, squareEdge);
@@ -320,6 +331,45 @@ namespace AltınOyunuCSharp.UI
                 }
             }
             gamePictureBox.Image = bitmap;
+        }
+
+        public void playerDeathPictureDraw(Player player)
+        {
+            Bitmap bt = new Bitmap(1,1);
+            Pen pen = new Pen(Color.Red,5);
+            switch (player.name)
+            {
+                case "A":
+                    bt = new Bitmap(AplayerPicture.BackgroundImage);
+                    break;
+                case "B":
+                    bt = new Bitmap(BplayerPicture.BackgroundImage);
+                    break;
+                case "C":
+                    bt = new Bitmap(CplayerPicture.BackgroundImage);
+                    break;
+                case "D":
+                    bt = new Bitmap(DplayerPicture.BackgroundImage);
+                    break;
+            }
+            graph = Graphics.FromImage(bt);
+            graph.DrawLine(pen,2,2,bt.Width-2,bt.Height-2);
+            graph.DrawLine(pen, 2,bt.Height - 2,bt.Width-2,2);
+            switch (player.name)
+            {
+                case "A":
+                    AplayerPicture.BackgroundImage = bt;
+                    break;
+                case "B":
+                    BplayerPicture.BackgroundImage = bt; 
+                    break;
+                case "C":
+                    CplayerPicture.BackgroundImage = bt; 
+                    break;
+                case "D":
+                    DplayerPicture.BackgroundImage = bt;
+                    break;
+            }
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)

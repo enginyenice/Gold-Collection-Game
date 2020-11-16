@@ -43,7 +43,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
             this.SetTargetedGoldCord(-1, -1);
             this.targetedGoldValue = -1;
             log = new List<string>();
-            SetLog("Y: " + (cordY) + ", X: " + (cordX) + " kordinatından " + gold + " altın ile oyuna katıldı.");
+            SetLog("X: " + (cordY) + ", Y: " + (cordX) + " kordinatından " + gold + " altın ile oyuna katıldı.");
 
             playerMap = new int[gameY, gameX];
             for (int i = 0; i < gameY; i++)
@@ -224,7 +224,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                         {
                             map.UpdateGoldMapPoint(lastYCord, x, map.GetPrivateGoldMap()[lastYCord, x]);
                             map.RemovePrivateGoldPoint(lastYCord, x);
-                            this.SetLog("Y:" + lastYCord + " X:" + x + " kordinatındaki gizli altın açıldı.");
+                            this.SetLog("X:" + lastYCord + " Y:" + x + " kordinatındaki gizli altın açıldı.");
                         }
                     }
                 }
@@ -237,7 +237,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                         {
                             map.UpdateGoldMapPoint(lastYCord, x, map.GetPrivateGoldMap()[lastYCord, x]);
                             map.RemovePrivateGoldPoint(lastYCord, x);
-                            this.SetLog("Y:" + lastYCord + " X:" + x + " kordinatındaki gizli altın açıldı.");
+                            this.SetLog("X:" + lastYCord + " Y:" + x + " kordinatındaki gizli altın açıldı.");
                         }
                     }
                 }
@@ -253,7 +253,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                         {
                             map.UpdateGoldMapPoint(y, lastXCord, map.GetPrivateGoldMap()[y, lastXCord]);
                             map.RemovePrivateGoldPoint(y, lastXCord);
-                            this.SetLog("Y:" + y + " X:" + lastXCord + " kordinatındaki gizli altın açıldı.");
+                            this.SetLog("X:" + y + " Y:" + lastXCord + " kordinatındaki gizli altın açıldı.");
                         }
                     }
                 }
@@ -266,7 +266,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                         {
                             map.UpdateGoldMapPoint(y, lastXCord, map.GetPrivateGoldMap()[y, lastXCord]);
                             map.RemovePrivateGoldPoint(y, lastXCord);
-                            this.SetLog("Y:" + y + " X:" + lastXCord + " kordinatındaki gizli altın açıldı.");
+                            this.SetLog("X:" + y + " Y:" + lastXCord + " kordinatındaki gizli altın açıldı.");
                         }
                     }
                 }
@@ -289,7 +289,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                 {
                     if (map.GetGoldPointValue(this.GetTargetedGoldCord()[0], this.GetTargetedGoldCord()[1]) == 0)
                     {
-                        SetLog("Hedeflenen altın başka bir oyuncu tarafından alınmıştır. Yeni altın hedefleniyor.");
+                        SetLog("Hedeflenen altın başka bir oyuncu tarafından alınmış. Yeni altın hedefleniyor.");
                         SetGoldEarnedOnReachTarget(-1);
                         SetRemainingSteps(-1);
                         SetTargetedGoldCord(-1, -1);
@@ -431,12 +431,12 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
             sw.WriteLine("Oyuncu hedef belirleme maliyeti : " + this.GetSearchCost());
             sw.WriteLine("Oyuncu adım maliyeti            : " + this.cost);
             sw.WriteLine("Oyuncu başlangıç altını         : " + this.startGold);
-            sw.WriteLine("----- Oyun Sonucu -----");
+            sw.WriteLine("\r\n##### Oyun Sonucu #####");
             sw.WriteLine("Toplam adım sayısı              : " + this.GetTotalNumberOfSteps());
-            sw.WriteLine("Toplam kazanılan altın          : " + this.GetTotalAmountOfGoldSpent());
-            sw.WriteLine("Toplam harcanan altın           : " + this.GetTotalAmountOfGoldEarned());
+            sw.WriteLine("Toplam kazanılan altın          : " + this.GetTotalAmountOfGoldEarned());
+            sw.WriteLine("Toplam harcanan altın           : " + this.GetTotalAmountOfGoldSpent());
             sw.WriteLine("Kasada bulunan altın            : " + this.GetPlayerGold());
-            sw.WriteLine("##### Oyun Bilgisi #####");
+            sw.WriteLine("\r\n##### Oyun Bilgisi #####");
             foreach (var item in this.GetLog())
             {
                 sw.WriteLine(item);
