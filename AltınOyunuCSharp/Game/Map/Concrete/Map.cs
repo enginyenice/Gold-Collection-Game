@@ -8,6 +8,7 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
     public class Map : IMap
     {
         private readonly string[,] map; // Oyun alanındaki tüm öğeler
+        private readonly string[,] cloneMap; // oyun alanının başlangıçtaki şeklini turar.
         private readonly int[,] goldMap; // Oyun alan
         private readonly int[,] privateGoldMap;
         private readonly int mapSquare; // Oyun alanı kare sayısı
@@ -34,6 +35,7 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
 
 
             map = new string[ySize, xSize];
+            cloneMap = new string[ySize, xSize];
             goldMap = new int[ySize, xSize];
             privateGoldMap = new int[ySize, xSize];
             for (int i = 0; i < ySize; i++)
@@ -43,6 +45,7 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
                     goldMap[i, k] = 0;
                     privateGoldMap[i, k] = 0;
                     UpdateMapPointData(i, k, String.Empty);
+                    cloneMap[i, k] = String.Empty;
                 }
             }
             mapSquare = ySize * xSize;
@@ -210,6 +213,49 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
             return mapText;
         }//Console
 
+        public string GetMapString()//Log
+        {
+            string text = "";
+            for (int y = -1; y < this.GetMap().GetLength(0); y++)
+            {
+                for (int x = -1; x < this.GetMap().GetLength(1); x++)
+                { 
+                    if (y == -1)
+                    {
+                        if (x == -1)
+                            text += "|   ";
+                        else if (x < 10)
+                            text += "|" + x + "   ";
+                        else if (x > 9 && x < 100)
+                            text += "|" + x + "  ";
+                        else if (x > 99)
+                            text += "|" + x + " ";
+                    }
+                    else 
+                    {
+                        if (x == -1)
+                        {
+                            if (x == -1 && y < 10)
+                                text += "|  " + y + "";
+                            else if (x == -1 && y > 9 && y < 100)
+                                text += "| " + y + "";
+                            else if (x == -1 && y > 99)
+                                text += "|" + y + "";
+                        }
+                        else
+                        {
+                            text += "|" + this.GetMapPointValue(y, x);
+                            for (int i = 0; i < (4 - this.GetMapPointValue(y, x).Length); i++)
+                            {
+                                text += " ";
+                            }
+                        } 
+                    }
+                }
+                text += "|\r\n";
+            }
+            return text;
+        }
         #endregion GET
 
         #region SET
@@ -341,6 +387,7 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
         public void AddPlayer(int CordY, int CordX, string PlayerCode)
         {
             UpdateMapPointData(CordY, CordX, PlayerCode);
+            cloneMap[CordY, CordX] = PlayerCode;
         }
 
         public void AddAllGold(int GoldRate, int PrivateGoldRate)
@@ -360,6 +407,7 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
                 {
                     int gold = (rand.Next(1, 5) * 5);
                     UpdateMapPointData(randomY, randomX, gold.ToString());
+                    cloneMap[randomY, randomX] = gold.ToString();
                     UpdateGoldMapPoint(randomY, randomX, gold);
                     count++;
                 }
@@ -385,6 +433,7 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
                 {
                     int gold = (rand.Next(1, 5) * 5);
                     UpdateMapPointData(randomY, randomX, "G-" + gold.ToString());
+                    cloneMap[randomY, randomX] = "G-" + gold.ToString();
                     UpdatePrivateGoldMapPoint(randomY, randomX, gold);
                     count++;
                 }

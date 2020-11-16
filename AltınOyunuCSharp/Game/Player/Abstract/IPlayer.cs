@@ -71,7 +71,7 @@ namespace AltınOyunuCSharp.Game.Player.Abstract
 
         void CreateFolder(); //Oyun kayıtlarını tutan bir klasör oluşturur.
 
-        void WriteToFile(); //Oyun kayıtlarını txt dosyasına yaz.
+        void WriteToFile(string maptext); //Oyun kayıtlarını txt dosyasına yaz.
 
         #endregion WRITE TXT
     }

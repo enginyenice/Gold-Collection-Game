@@ -108,7 +108,7 @@
             this.gamePictureBox.Location = new System.Drawing.Point(10, 10);
             this.gamePictureBox.Margin = new System.Windows.Forms.Padding(0);
             this.gamePictureBox.Name = "gamePictureBox";
-            this.gamePictureBox.Size = new System.Drawing.Size(1085, 642);
+            this.gamePictureBox.Size = new System.Drawing.Size(1085, 662);
             this.gamePictureBox.TabIndex = 0;
             this.gamePictureBox.TabStop = false;
             // 

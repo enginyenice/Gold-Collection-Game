@@ -17,6 +17,7 @@ namespace AltınOyunuCSharp.UI
         private Image cPlayerImage;
         private Image dPlayerImage;
         private int squareEdge = 75; // Oyun alanı kare kenar uzunluğu, default: 75 pixel
+        private int cordNumberGuide; // Oyun alanı kılavuz numaralarının yerleşim uzunluğu. squareEdge / 2 
 
         public Form menuForm;
         public Map map;
@@ -36,6 +37,7 @@ namespace AltınOyunuCSharp.UI
             dPlayer = d;
             goldImages = new Image[4];
             hiddenGoldImages = new Image[4];
+            cordNumberGuide = squareEdge / 2;
 
             goldImages[0] = global::AltınOyunuCSharp.Properties.Resources.coin5;
             goldImages[1] = global::AltınOyunuCSharp.Properties.Resources.coin10;
@@ -203,24 +205,31 @@ namespace AltınOyunuCSharp.UI
                 bPlayer.SetLog("Oyun Bitti");
                 cPlayer.SetLog("Oyun Bitti");
                 dPlayer.SetLog("Oyun Bitti");
-                ScoreBoard scoreBoard = new ScoreBoard(aPlayer, bPlayer, cPlayer, dPlayer);
+                ScoreBoard scoreBoard = new ScoreBoard(aPlayer, bPlayer, cPlayer, dPlayer,map,this);
                 scoreBoard.Show();
             }
         }
+       
         public void graphicBoardSetup()
         {
             int mapy = map.GetMap().GetLength(0);
             int mapx = map.GetMap().GetLength(1);
             //Karelerin kenar boyutlarının, oyun alanının genişlik ve yüksekliğine göre
             //ekrana sığabilecek max boyuta getirilmesi
-            if (squareEdge * mapy > gamePictureBox.Height)
-                squareEdge = gamePictureBox.Height / mapy;
-            if (squareEdge * mapx > gamePictureBox.Width)
-                squareEdge = gamePictureBox.Width / mapx;
+            while((squareEdge * mapy) + cordNumberGuide > gamePictureBox.Height)
+            {
+                --squareEdge;
+                cordNumberGuide = squareEdge / 2;
+            }
+            while((squareEdge * mapx) + cordNumberGuide > gamePictureBox.Width)
+            {
+                --squareEdge;
+                cordNumberGuide = squareEdge / 2;
+            }
 
             //Picturebox'ın oyun alanı boyutlarına getirilmesi
-            gamePictureBox.Height = squareEdge * mapx;
-            gamePictureBox.Width = squareEdge * mapx;
+            gamePictureBox.Height = (squareEdge * mapy) + cordNumberGuide;
+            gamePictureBox.Width = (squareEdge * mapx) + cordNumberGuide;
 
             //Picturebox'ın panel içerisinde ortalanması
             int panelx = (((gamePanel.Width - 20) - gamePictureBox.Width) / 2) + 10;
@@ -232,14 +241,34 @@ namespace AltınOyunuCSharp.UI
             graphBoard = Graphics.FromImage(bitmapBoard);
             Color penColor = Color.FromArgb(100, 100, 100);
             Pen pen = new Pen(penColor, 2.0F);
-            for (int i = 0; i < mapy; i++)
+            SolidBrush brush = new SolidBrush(Color.FromArgb(100, 100, 100));
+            Font font = new Font("Arial", (cordNumberGuide/2));
+            int gap = (squareEdge - cordNumberGuide)/2;
+            for (int i = -1; i < mapy; i++)
             {
-                for (int j = 0; j < mapx; j++)
+                for (int j = -1; j < mapx; j++)
                 {
-                    graphBoard.DrawRectangle(pen, squareEdge * j, squareEdge * i, squareEdge, squareEdge);
+                    if (i == -1)
+                    {
+                        if (j == -1)
+                            graphBoard.DrawString("x,y", font, brush, 0, 0);
+                        else if (j == 0)
+                            graphBoard.DrawString(Convert.ToString(j), font, brush, cordNumberGuide + gap, 0);
+                        else
+                            graphBoard.DrawString(Convert.ToString(j), font, brush, (squareEdge * (j + 1)) - gap, 0);
+                    }
+                    else
+                    {
+                        if (j == -1 && i == 0)
+                            graphBoard.DrawString(Convert.ToString(i), font, brush, 0, cordNumberGuide + gap);
+                        else if (j == -1 && i > 0)
+                            graphBoard.DrawString(Convert.ToString(i), font, brush, 0, (squareEdge * (i + 1)) - gap);
+                        else if (j >= 0 && i >= 0) 
+                            graphBoard.DrawRectangle(pen, (squareEdge * (j) ) + cordNumberGuide, (squareEdge * (i) ) + cordNumberGuide, squareEdge, squareEdge);
+                    }
                 }
             }
-            graphBoard.DrawRectangle(pen, 1, 1, (squareEdge * mapx) - 2, (squareEdge * mapy) - 2);
+            graphBoard.DrawRectangle(pen, cordNumberGuide, cordNumberGuide, (squareEdge * mapx) - 1, (squareEdge * mapy) - 1);
             graphBoard.Dispose();
 
             // altın, player
@@ -250,13 +279,13 @@ namespace AltınOyunuCSharp.UI
                 for (int j = 0; j < mapx; j++)
                 {
                     if (map.GetGoldPointValue(i, j) != 0)
-                        graph.DrawImage(goldImages[(map.GetGoldPointValue(i,j) / 5) - 1], squareEdge * j, squareEdge * i, squareEdge, squareEdge);
+                        graph.DrawImage(goldImages[(map.GetGoldPointValue(i,j) / 5) - 1], (squareEdge * j)+cordNumberGuide, (squareEdge * i)+cordNumberGuide, squareEdge, squareEdge);
                 }
             }
-            graph.DrawImage(aPlayerImage, 0, 0, squareEdge, squareEdge);
-            graph.DrawImage(bPlayerImage, squareEdge * (mapx - 1), 0, squareEdge, squareEdge);
-            graph.DrawImage(cPlayerImage, 0, squareEdge * (mapy - 1), squareEdge, squareEdge);
-            graph.DrawImage(dPlayerImage, squareEdge * (mapx - 1), squareEdge * (mapy - 1), squareEdge, squareEdge);
+            graph.DrawImage(aPlayerImage, cordNumberGuide, cordNumberGuide, squareEdge, squareEdge);
+            graph.DrawImage(bPlayerImage, squareEdge * (mapx - 1)+ cordNumberGuide, cordNumberGuide, squareEdge, squareEdge);
+            graph.DrawImage(cPlayerImage, cordNumberGuide, squareEdge * (mapy - 1)+ cordNumberGuide, squareEdge, squareEdge);
+            graph.DrawImage(dPlayerImage, squareEdge * (mapx - 1)+ cordNumberGuide, squareEdge * (mapy - 1)+ cordNumberGuide, squareEdge, squareEdge);
             gamePictureBox.Image = bitmap;
         }
 
@@ -271,23 +300,23 @@ namespace AltınOyunuCSharp.UI
                 {
                     // Altın resimleri
                     if (map.GetGoldPointValue(i, j) != 0)
-                        graph.DrawImage(goldImages[(map.GetGoldPointValue(i, j) / 5) - 1], squareEdge * j, squareEdge * i, squareEdge, squareEdge);
+                        graph.DrawImage(goldImages[(map.GetGoldPointValue(i, j) / 5) - 1], (squareEdge * j)+ cordNumberGuide, (squareEdge * i)+ cordNumberGuide, squareEdge, squareEdge);
                     // Gizli altın resimleri (eğer gizli altınlar gösterilmek istenmiş ise)
                     else if (map.GetPrivateGoldPointValue(i, j) != 0 && hiddenActive == true)
-                        graph.DrawImage(hiddenGoldImages[(map.GetPrivateGoldPointValue(i, j) / 5) - 1], squareEdge * j, squareEdge * i, squareEdge, squareEdge);
+                        graph.DrawImage(hiddenGoldImages[(map.GetPrivateGoldPointValue(i, j) / 5) - 1], (squareEdge * j)+ cordNumberGuide, (squareEdge * i)+ cordNumberGuide, squareEdge, squareEdge);
 
                     // Oyuncu resimleri
                     if (aPlayer.GetPlayerMatris()[i,j] != 0)
-                        graph.DrawImage(aPlayerImage, j * squareEdge, i * squareEdge, squareEdge, squareEdge);
+                        graph.DrawImage(aPlayerImage, (j * squareEdge)+ cordNumberGuide, (i * squareEdge)+ cordNumberGuide, squareEdge, squareEdge);
                     
                     else if (bPlayer.GetPlayerMatris()[i, j] != 0)
-                        graph.DrawImage(bPlayerImage, j * squareEdge, i * squareEdge, squareEdge, squareEdge);
+                        graph.DrawImage(bPlayerImage, (j * squareEdge)+ cordNumberGuide, (i * squareEdge)+ cordNumberGuide, squareEdge, squareEdge);
                    
                     else if (cPlayer.GetPlayerMatris()[i, j] != 0)
-                        graph.DrawImage(cPlayerImage, j * squareEdge, i * squareEdge, squareEdge, squareEdge);
+                        graph.DrawImage(cPlayerImage, (j * squareEdge)+ cordNumberGuide, (i * squareEdge)+ cordNumberGuide, squareEdge, squareEdge);
                     
                     else if (dPlayer.GetPlayerMatris()[i, j] != 0)
-                        graph.DrawImage(dPlayerImage, j * squareEdge, i * squareEdge, squareEdge, squareEdge);
+                        graph.DrawImage(dPlayerImage, (j * squareEdge)+ cordNumberGuide, (i * squareEdge)+ cordNumberGuide, squareEdge, squareEdge);
                 }
             }
             gamePictureBox.Image = bitmap;

@@ -157,12 +157,7 @@
             // 
             this.StartGoldNum.Location = new System.Drawing.Point(154, 145);
             this.StartGoldNum.Maximum = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
-            this.StartGoldNum.Minimum = new decimal(new int[] {
-            1,
+            999999,
             0,
             0,
             0});
@@ -178,16 +173,6 @@
             // PrivateGoldNum
             // 
             this.PrivateGoldNum.Location = new System.Drawing.Point(154, 115);
-            this.PrivateGoldNum.Maximum = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
-            this.PrivateGoldNum.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
             this.PrivateGoldNum.Name = "PrivateGoldNum";
             this.PrivateGoldNum.Size = new System.Drawing.Size(61, 20);
             this.PrivateGoldNum.TabIndex = 4;
@@ -200,16 +185,6 @@
             // GoldNum
             // 
             this.GoldNum.Location = new System.Drawing.Point(154, 87);
-            this.GoldNum.Maximum = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
-            this.GoldNum.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
             this.GoldNum.Name = "GoldNum";
             this.GoldNum.Size = new System.Drawing.Size(61, 20);
             this.GoldNum.TabIndex = 3;
@@ -228,7 +203,7 @@
             0,
             0});
             this.CordYNum.Minimum = new decimal(new int[] {
-            1,
+            2,
             0,
             0,
             0});
@@ -250,7 +225,7 @@
             0,
             0});
             this.CordXNum.Minimum = new decimal(new int[] {
-            1,
+            2,
             0,
             0,
             0});
@@ -320,14 +295,19 @@
             // 
             // aCostNum
             // 
+            this.aCostNum.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
             this.aCostNum.Location = new System.Drawing.Point(155, 32);
             this.aCostNum.Maximum = new decimal(new int[] {
-            999,
+            20,
             0,
             0,
             0});
             this.aCostNum.Minimum = new decimal(new int[] {
-            1,
+            5,
             0,
             0,
             0});
@@ -342,14 +322,19 @@
             // 
             // aTargetCostNum
             // 
+            this.aTargetCostNum.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
             this.aTargetCostNum.Location = new System.Drawing.Point(155, 61);
             this.aTargetCostNum.Maximum = new decimal(new int[] {
-            999,
+            20,
             0,
             0,
             0});
             this.aTargetCostNum.Minimum = new decimal(new int[] {
-            1,
+            5,
             0,
             0,
             0});
@@ -399,14 +384,19 @@
             // 
             // bTargetCostNum
             // 
+            this.bTargetCostNum.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
             this.bTargetCostNum.Location = new System.Drawing.Point(141, 71);
             this.bTargetCostNum.Maximum = new decimal(new int[] {
-            999,
+            20,
             0,
             0,
             0});
             this.bTargetCostNum.Minimum = new decimal(new int[] {
-            1,
+            5,
             0,
             0,
             0});
@@ -421,14 +411,19 @@
             // 
             // bCostNum
             // 
+            this.bCostNum.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
             this.bCostNum.Location = new System.Drawing.Point(141, 32);
             this.bCostNum.Maximum = new decimal(new int[] {
-            999,
+            20,
             0,
             0,
             0});
             this.bCostNum.Minimum = new decimal(new int[] {
-            1,
+            5,
             0,
             0,
             0});
@@ -522,14 +517,19 @@
             // 
             // cTargetCostNum
             // 
+            this.cTargetCostNum.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
             this.cTargetCostNum.Location = new System.Drawing.Point(154, 70);
             this.cTargetCostNum.Maximum = new decimal(new int[] {
-            999,
+            20,
             0,
             0,
             0});
             this.cTargetCostNum.Minimum = new decimal(new int[] {
-            1,
+            5,
             0,
             0,
             0});
@@ -554,14 +554,19 @@
             // 
             // cCostNum
             // 
+            this.cCostNum.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
             this.cCostNum.Location = new System.Drawing.Point(154, 31);
             this.cCostNum.Maximum = new decimal(new int[] {
-            999,
+            20,
             0,
             0,
             0});
             this.cCostNum.Minimum = new decimal(new int[] {
-            1,
+            5,
             0,
             0,
             0});
@@ -591,14 +596,19 @@
             // 
             // dTargetCostNum
             // 
+            this.dTargetCostNum.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
             this.dTargetCostNum.Location = new System.Drawing.Point(155, 70);
             this.dTargetCostNum.Maximum = new decimal(new int[] {
-            999,
+            20,
             0,
             0,
             0});
             this.dTargetCostNum.Minimum = new decimal(new int[] {
-            1,
+            5,
             0,
             0,
             0});
@@ -613,14 +623,19 @@
             // 
             // dCostNum
             // 
+            this.dCostNum.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
             this.dCostNum.Location = new System.Drawing.Point(155, 31);
             this.dCostNum.Maximum = new decimal(new int[] {
-            999,
+            20,
             0,
             0,
             0});
             this.dCostNum.Minimum = new decimal(new int[] {
-            1,
+            5,
             0,
             0,
             0});

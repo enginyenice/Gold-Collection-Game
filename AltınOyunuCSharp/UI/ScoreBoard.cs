@@ -1,4 +1,5 @@
 ﻿using AltınOyunuCSharp.Game.Player.Concrete;
+using AltınOyunuCSharp.Game.Map.Concrete;
 using System;
 using System.Windows.Forms;
 
@@ -6,18 +7,22 @@ namespace AltınOyunuCSharp.UI
 {
     public partial class ScoreBoard : Form
     {
+        public Form gameForm;
         private APlayer aPlayer;
         private BPlayer bPlayer;
         private CPlayer cPlayer;
         private DPlayer dPlayer;
+        private Map map;
 
-        public ScoreBoard(APlayer aPlayer, BPlayer bPlayer, CPlayer cPlayer, DPlayer dPlayer)
+
+        public ScoreBoard(APlayer aPlayer, BPlayer bPlayer, CPlayer cPlayer, DPlayer dPlayer,Map map,Form gameForm)
         {
+            this.gameForm = gameForm;
             this.aPlayer = aPlayer;
             this.bPlayer = bPlayer;
             this.cPlayer = cPlayer;
             this.dPlayer = dPlayer;
-
+            this.map = map;
             InitializeComponent();
         }
 
@@ -47,10 +52,16 @@ namespace AltınOyunuCSharp.UI
             CLog.DataSource = cPlayer.GetLog();
             DLog.DataSource = dPlayer.GetLog();
 
-            aPlayer.WriteToFile();
-            bPlayer.WriteToFile();
-            cPlayer.WriteToFile();
-            dPlayer.WriteToFile();
+            aPlayer.WriteToFile(map.GetMapString());
+            bPlayer.WriteToFile(map.GetMapString());
+            cPlayer.WriteToFile(map.GetMapString());
+            dPlayer.WriteToFile(map.GetMapString());
+        }
+
+        private void ScoreBoard_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            gameForm.Close();
+
         }
     }
 }
