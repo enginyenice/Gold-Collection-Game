@@ -159,8 +159,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
 
         public void SetLog(string log)
         {//Oyuncunun hareketlerini listeye ekler.
-            
-            this.log.Add((++logCount)+")  "+log);
+            this.log.Add((++logCount) + ")  " + log);
         }
 
         public void SetGoldEarnedOnReachTarget(int gold)
@@ -305,7 +304,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                 int targetY = targetedGoldCord[0]; //Hedef koordinatları
                 int targetX = targetedGoldCord[1];
 
-                // Hedef ile oyuncu konumu arasındaki, y ve x koordinatındaki uzaklık (kaç kare) 
+                // Hedef ile oyuncu konumu arasındaki, y ve x koordinatındaki uzaklık (kaç kare)
                 int targetYToPlayerY = targetY - lastYCord;                 //- ise kordinat küçülür
                 int targetXToPlayerX = targetX - lastXCord;                // + ise kordinat büyür
 
@@ -326,7 +325,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                     {//  +X
                         tempCordX += totalMoveLenght;                                   //Hafızadaki X kordinatından tüm hareket hakkını çıkart.
                     }
-                    else 
+                    else
                     {//  -X
                         tempCordX -= totalMoveLenght;                                   //Hafızadaki X kordinatından tüm hareket hakkını ekle
                     }
@@ -335,7 +334,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
 
                 PrivateGoldShow('X', targetXToPlayerX, map);
                 this.UpdateCord(lastYCord, tempCordX);                                                                       //lastXCord = tempCordX;
-                                                                                                                        //Gelen data + ise azaltacan
+                                                                                                                             //Gelen data + ise azaltacan
                 if (totalMoveLenght > 0)                                                // hareket hakkı 0 dan büyükse
                 {
                     if (Math.Abs(targetYToPlayerY) <= totalMoveLenght)                   //hedefe olan mesafe toplam gideceği hakka küçük esitse
@@ -350,18 +349,17 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                             tempCordY += totalMoveLenght;
                         }
                         else
-                        {//  - Y 
-                            tempCordY -= totalMoveLenght;                               
+                        {//  - Y
+                            tempCordY -= totalMoveLenght;
                         }
-                        totalMoveLenght = 0;                                            
+                        totalMoveLenght = 0;
                     }
                 }
-                PrivateGoldShow('Y', targetYToPlayerY, map);                    
-                this.UpdateCord(tempCordY, tempCordX);                                  
-
+                PrivateGoldShow('Y', targetYToPlayerY, map);
+                this.UpdateCord(tempCordY, tempCordX);
 
                 // Hedefe ulaşıldı mı?
-                if (tempCordY == targetY && tempCordX == targetX)                      
+                if (tempCordY == targetY && tempCordX == targetX)
                 {
                     //Altını puan olarak ekle
                     this.UpdatePlayerGoldValue(GetTargetedGoldValue() - this.cost);
@@ -380,7 +378,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                 // Hedefe ulaşılamadıysa bilgileri güncelle
                 else
                 {
-                    this.SetRemainingSteps(this.GetRemainingSteps()-1);
+                    this.SetRemainingSteps(this.GetRemainingSteps() - 1);
                     map.SetPlayerRemainingSteps(map.GetPlayerRemainingSteps(this.name) - 1, this.name); //Oyuncunun adım sayısını 1 azalt
                     UpdatePlayerGoldValue((-1) * this.cost);
                     this.SetLog("Hedefine ulaşması için " + map.GetPlayerRemainingSteps(this.name) + " adım kaldı.");
@@ -427,7 +425,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
             //Yazma işlemi için bir StreamWriter nesnesi oluşturduk.
             sw.WriteLine("##### Oyun alanı altın dağılımı #####\r\n");
             sw.WriteLine("(!) 5: 5 değerinde altını ifade eder.  G-10: 10 değerinde gizli altını ifade eder.\r\n");
-            sw.WriteLine(maptext);;
+            sw.WriteLine(maptext); ;
             sw.WriteLine("##### Oyuncu Bilgileri #####");
             sw.WriteLine("Oyuncu adı                      : " + this.name);
             sw.WriteLine("Oyuncu hedef belirleme maliyeti : " + this.GetSearchCost());

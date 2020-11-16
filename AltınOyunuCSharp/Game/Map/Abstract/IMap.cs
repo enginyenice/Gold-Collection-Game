@@ -53,7 +53,8 @@
 
         string GetgameOverReason();// Oyunun bitiş sebebini döndürür.
 
-        public string GetMapString();// 
+        public string GetMapString();//
+
         #endregion GET
 
         #region SET

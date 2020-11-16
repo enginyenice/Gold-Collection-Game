@@ -30,9 +30,8 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
             cPlayerTarget = new int[2];
             dPlayerTarget = new int[2];
             playersRemainingSteps = new int[4];
-            playersIsDeath = new List<int> {1,2,3,4};
+            playersIsDeath = new List<int> { 1, 2, 3, 4 };
             gameOver = false;
-
 
             map = new string[ySize, xSize];
             cloneMap = new string[ySize, xSize];
@@ -219,7 +218,7 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
             for (int y = -1; y < this.GetMap().GetLength(0); y++)
             {
                 for (int x = -1; x < this.GetMap().GetLength(1); x++)
-                { 
+                {
                     if (y == -1)
                     {
                         if (x == -1)
@@ -231,7 +230,7 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
                         else if (x > 99)
                             text += "|" + x + " ";
                     }
-                    else 
+                    else
                     {
                         if (x == -1)
                         {
@@ -249,13 +248,14 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
                             {
                                 text += " ";
                             }
-                        } 
+                        }
                     }
                 }
                 text += "|\r\n";
             }
             return text;
         }
+
         #endregion GET
 
         #region SET

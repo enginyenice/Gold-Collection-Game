@@ -135,7 +135,6 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                 this.SetLog("Hedef " + whoseTarget + " Oyuncusunun hedefi olan: ");
                 this.SetLog("X:" + nearestGoldY + " Y:" + nearestGoldX + " olarak belirlendi.");
                 this.SetLog("Tahmini Kazanç: " + GetGoldEarnedOnReachTarget() + " Altının Degeri: " + this.GetTargetedGoldValue());
-
             }
             else
             {

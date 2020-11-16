@@ -1,5 +1,5 @@
-﻿using AltınOyunuCSharp.Game.Player.Concrete;
-using AltınOyunuCSharp.Game.Map.Concrete;
+﻿using AltınOyunuCSharp.Game.Map.Concrete;
+using AltınOyunuCSharp.Game.Player.Concrete;
 using System;
 using System.Windows.Forms;
 
@@ -14,8 +14,7 @@ namespace AltınOyunuCSharp.UI
         private DPlayer dPlayer;
         private Map map;
 
-
-        public ScoreBoard(APlayer aPlayer, BPlayer bPlayer, CPlayer cPlayer, DPlayer dPlayer,Map map,Form gameForm)
+        public ScoreBoard(APlayer aPlayer, BPlayer bPlayer, CPlayer cPlayer, DPlayer dPlayer, Map map, Form gameForm)
         {
             this.gameForm = gameForm;
             this.aPlayer = aPlayer;
@@ -60,7 +59,6 @@ namespace AltınOyunuCSharp.UI
 
         private void ScoreBoard_FormClosing(object sender, FormClosingEventArgs e)
         {
-
         }
     }
 }
