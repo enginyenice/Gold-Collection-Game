@@ -60,7 +60,6 @@ namespace AltınOyunuCSharp.UI
 
         private void ScoreBoard_FormClosing(object sender, FormClosingEventArgs e)
         {
-            gameForm.Close();
 
         }
     }

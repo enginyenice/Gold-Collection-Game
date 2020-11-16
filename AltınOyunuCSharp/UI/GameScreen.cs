@@ -37,7 +37,7 @@ namespace AltınOyunuCSharp.UI
             dPlayer = d;
             goldImages = new Image[4];
             hiddenGoldImages = new Image[4];
-            cordNumberGuide = squareEdge / 2;
+            cordNumberGuide = (squareEdge * 3) / 4;
 
             goldImages[0] = global::AltınOyunuCSharp.Properties.Resources.coin5;
             goldImages[1] = global::AltınOyunuCSharp.Properties.Resources.coin10;
@@ -100,9 +100,9 @@ namespace AltınOyunuCSharp.UI
                     }
                     graphicDraw();
                     ALog.Items.Clear();
-                    foreach (var item in aPlayer.GetLog())
+                    for (int i = aPlayer.GetLog().Count - 1; i >= 0; i--) 
                     {
-                        ALog.Items.Add(item);
+                        ALog.Items.Add(aPlayer.GetLog()[i]);
                     }
                     map.SetGameOrder();
                     break;
@@ -130,9 +130,9 @@ namespace AltınOyunuCSharp.UI
                     }
                     graphicDraw(); 
                     BLog.Items.Clear();
-                    foreach (var item in bPlayer.GetLog())
+                    for (int i = bPlayer.GetLog().Count - 1; i >= 0; i--)
                     {
-                        BLog.Items.Add(item);
+                        BLog.Items.Add(bPlayer.GetLog()[i]);
                     }
                     map.SetGameOrder();
                     break;
@@ -160,9 +160,9 @@ namespace AltınOyunuCSharp.UI
                     }
                     graphicDraw();
                     CLog.Items.Clear();
-                    foreach (var item in cPlayer.GetLog())
+                    for(int i = cPlayer.GetLog().Count - 1; i >= 0; i--) 
                     {
-                        CLog.Items.Add(item);
+                        CLog.Items.Add(cPlayer.GetLog()[i]);
                     }
                     map.SetGameOrder();
                     break;
@@ -190,9 +190,9 @@ namespace AltınOyunuCSharp.UI
                     }
                     graphicDraw();
                     DLog.Items.Clear();
-                    foreach (var item in dPlayer.GetLog())
+                    for (int i = dPlayer.GetLog().Count - 1; i >= 0; i--)
                     {
-                        DLog.Items.Add(item);
+                        DLog.Items.Add(dPlayer.GetLog()[i]);
                     }
                     map.SetGameOrder();
                     break;
@@ -220,6 +220,7 @@ namespace AltınOyunuCSharp.UI
        
         public void graphicBoardSetup()
         {
+            
             int mapy = map.GetMap().GetLength(0);
             int mapx = map.GetMap().GetLength(1);
             //Karelerin kenar boyutlarının, oyun alanının genişlik ve yüksekliğine göre
@@ -249,8 +250,8 @@ namespace AltınOyunuCSharp.UI
             graphBoard = Graphics.FromImage(bitmapBoard);
             Color penColor = Color.FromArgb(100, 100, 100);
             Pen pen = new Pen(penColor, 2.0F);
-            SolidBrush brush = new SolidBrush(Color.FromArgb(100, 100, 100));
-            Font font = new Font("Arial", (cordNumberGuide/2));
+            SolidBrush brush = new SolidBrush(Color.Black);
+            Font font = new Font("Calibri", ((cordNumberGuide)/2)+1);
             int gap = (squareEdge - cordNumberGuide)/2;
             for (int i = -1; i < mapy; i++)
             {
@@ -259,7 +260,9 @@ namespace AltınOyunuCSharp.UI
                     if (i == -1)
                     {
                         if (j == -1)
-                            graphBoard.DrawString("x,y", font, brush, 0, 0);
+                        {
+                           
+                        }
                         else if (j == 0)
                             graphBoard.DrawString(Convert.ToString(j), font, brush, cordNumberGuide + gap, 0);
                         else
@@ -295,6 +298,7 @@ namespace AltınOyunuCSharp.UI
             graph.DrawImage(cPlayerImage, cordNumberGuide, squareEdge * (mapy - 1)+ cordNumberGuide, squareEdge, squareEdge);
             graph.DrawImage(dPlayerImage, squareEdge * (mapx - 1)+ cordNumberGuide, squareEdge * (mapy - 1)+ cordNumberGuide, squareEdge, squareEdge);
             gamePictureBox.Image = bitmap;
+            cordGuide();
         }
 
         public void graphicDraw()
@@ -332,7 +336,26 @@ namespace AltınOyunuCSharp.UI
             }
             gamePictureBox.Image = bitmap;
         }
+        public void cordGuide()
+        {
+            Bitmap btm = new Bitmap(100,100);
+            Graphics g = Graphics.FromImage(btm);
+            Pen pen = new Pen(Color.Black, 3);
+            Font font = new Font("Calibri", 19);
+            SolidBrush brush = new SolidBrush(Color.Black);
 
+            g.DrawLine(pen,10,10,75,10);
+            g.DrawLine(pen,10,10,10,75);
+            g.DrawLine(pen,75,10,70,4);
+            g.DrawLine(pen,75,10,70,14);
+            g.DrawLine(pen,10,75,4,70);
+            g.DrawLine(pen,10,75,14,70);
+            g.DrawString("X", font, brush, 1, 76);
+            g.DrawString("Y", font, brush, 76, 1);
+            gamePanel.BackgroundImage = btm;
+
+
+        }
         public void playerDeathPictureDraw(Player player)
         {
             Bitmap bt = new Bitmap(1,1);

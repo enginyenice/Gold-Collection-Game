@@ -24,8 +24,8 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
         public int[] targetedGoldCord; // Hedeflenen altının koordinatları
         public int targetedGoldValue; // Hedeflenen altının değeri
         public int remainingSteps; // Hedefe kalan tur sayısı
-        public int GoldEarnedOnReachTarget; //Hedefe ulaşıldığında alınacak kazanç
-
+        public int GoldEarnedOnReachTarget; // Hedefe ulaşıldığında alınacak kazanç
+        public int logCount = 0; // Log kayıt sayısı
 
         public Player(int gold, string name, int cordY, int cordX, int cost, int moveLenght, int searchCost, int gameY, int gameX)
         {
@@ -159,7 +159,8 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
 
         public void SetLog(string log)
         {//Oyuncunun hareketlerini listeye ekler.
-            this.log.Add(log);
+            
+            this.log.Add((++logCount)+")  "+log);
         }
 
         public void SetGoldEarnedOnReachTarget(int gold)
@@ -212,7 +213,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
         public abstract void SearchForGold(IMap map);
 
         public void PrivateGoldShow(char duzlem, int hareket, IMap map)
-        {
+        {//Hareketler tersine idi onu düzelttim + ise o yünde artacak
             if (duzlem == 'X')
             {
                 // -X yönünde
@@ -289,7 +290,8 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                 {
                     if (map.GetGoldPointValue(this.GetTargetedGoldCord()[0], this.GetTargetedGoldCord()[1]) == 0)
                     {
-                        SetLog("Hedeflenen altın başka bir oyuncu tarafından alınmış. Yeni altın hedefleniyor.");
+                        SetLog("Hedeflenen altın başka bir oyuncu tarafından alınmış.");
+                        SetLog("Yeni altın hedefleniyor.");
                         SetGoldEarnedOnReachTarget(-1);
                         SetRemainingSteps(-1);
                         SetTargetedGoldCord(-1, -1);

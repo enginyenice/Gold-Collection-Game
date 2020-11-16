@@ -74,7 +74,8 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
             this.SetTotalAmountOfGoldSpent(this.GetSearchCost());
 
             this.SetLog("Hedef belirlemek için " + this.GetSearchCost() + " altın harcadı.");
-            this.SetLog("Hedef: X:" + nearestGoldY + " Y:" + nearestGoldX + " olarak belirlendi. Toplam tahmini Kazanç: " + this.GetGoldEarnedOnReachTarget() + " Altının Degeri: " + nearestGoldValue);
+            this.SetLog("Hedef: X:" + nearestGoldY + " Y:" + nearestGoldX + " olarak belirlendi.");
+            this.SetLog("Tahmini Kazanç: " + GetGoldEarnedOnReachTarget() + " Altının Degeri: " + this.GetTargetedGoldValue());
 
             map.SetPlayerTarget(nearestGoldY, nearestGoldX, "C");
             map.SetPlayerRemainingSteps(remainingSteps, "C");
@@ -119,7 +120,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
 
                 map.UpdateGoldMapPoint(nearestPrivateGoldY, nearestPrivateGoldX, nearestPrivateGoldValue);
                 map.RemovePrivateGoldPoint(nearestPrivateGoldY, nearestPrivateGoldX);
-                this.SetLog("[Özellik] X: " + nearestPrivateGoldY + " Y:" + nearestPrivateGoldX + " kordinatındaki " + nearestPrivateGoldValue + " puanlık " + (control + 1) + ". gizli altın açıldı");
+                this.SetLog("[Özellik] X: " + nearestPrivateGoldY + " Y:" + nearestPrivateGoldX + " kordinatında " + nearestPrivateGoldValue + " puanlık " + (control + 1) + ". gizli altın açıldı");
                 control++;
             }
         }
