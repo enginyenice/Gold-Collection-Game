@@ -43,7 +43,7 @@ namespace AltınOyunuCSharp.Game.Player.Abstract
 
         void SetTargetedGoldValue(int goldValue);//Hedeflenen altının değerini belirler.
 
-        void SetPlayerMapValue(int CordY, int CordX, int data);
+        void SetPlayerMapValue(int CordY, int CordX, int data); //Belirtilen kordinattaki değeri değiştirir.
 
         #endregion SET
 

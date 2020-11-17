@@ -1,11 +1,6 @@
 ﻿using AltınOyunuCSharp.Game.Map.Abstract;
 using System;
 
-/* TODO:
- * []Hedefleme düştü ama hamle düşmedi. !!
-   [x]B Hamle yaptığında hedeflenen altına ulaşamadığında altını sildi.
-*/
-
 namespace AltınOyunuCSharp.Game.Player.Concrete
 {
     public class APlayer : Player
@@ -16,7 +11,6 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
 
         public override void SearchForGold(IMap map)
         {
-            //TODO: Hedef alındı mı?
             int nearestGoldY = int.MaxValue, nearestGoldX = int.MaxValue; // Hedeflenen en yakın altının koordinatları
             int nearestGoldDistance = int.MaxValue;  // Hedeflenen en yakın altının uzaklığı
             int nearestGoldValue = Int32.MinValue;  // Hedeflenen en yakın altının değeri

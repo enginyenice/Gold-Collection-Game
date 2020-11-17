@@ -9,6 +9,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
         {
         }
 
+        //D'nin diğer oyuncuların hedeflerine ulaşması için gereken tur sayısı
         public int GetStepsOfOtherPlayersTarget(int[] dPlayerCord, int[] otherPlayerCord)
         {
             int steps = Math.Abs(dPlayerCord[0] - otherPlayerCord[0]) + Math.Abs(dPlayerCord[1] - otherPlayerCord[1]);
@@ -42,7 +43,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                 nearestGoldX = aPlayerTarget[1];
                 nearestGoldValue = map.GetGoldPointValue(aPlayerTarget[0], aPlayerTarget[1]);
                 remainingSteps = remainingSteps_ATarget;
-                nearestGoldProfit = (nearestGoldValue) - ((remainingSteps_ATarget * this.cost) + GetSearchCost());
+                _ = (nearestGoldValue) - ((remainingSteps_ATarget * this.cost) + GetSearchCost());
             }
             else if (remainingSteps_BTarget < map.GetPlayerRemainingSteps("B") && map.GetPlayerRemainingSteps("B") != -1)
             {// B'nın hedefini hedef belirleme.
@@ -51,7 +52,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                 nearestGoldX = bPlayerTarget[1];
                 nearestGoldValue = map.GetGoldPointValue(bPlayerTarget[0], bPlayerTarget[1]);
                 remainingSteps = remainingSteps_BTarget;
-                nearestGoldProfit = (nearestGoldValue) - ((remainingSteps_BTarget * this.cost) + GetSearchCost());
+                _ = (nearestGoldValue) - ((remainingSteps_BTarget * this.cost) + GetSearchCost());
             }
             else if (remainingSteps_CTarget < map.GetPlayerRemainingSteps("C") && map.GetPlayerRemainingSteps("C") != -1)
             {// C'nın hedefini hedef belirleme.
@@ -60,7 +61,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                 nearestGoldX = cPlayerTarget[1];
                 nearestGoldValue = map.GetGoldPointValue(cPlayerTarget[0], cPlayerTarget[1]);
                 remainingSteps = remainingSteps_CTarget;
-                nearestGoldProfit = (nearestGoldValue) - ((remainingSteps_CTarget * this.cost) + GetSearchCost());
+                _ = (nearestGoldValue) - ((remainingSteps_CTarget * this.cost) + GetSearchCost());
             }
             else
             {//D diğer oyuncuların hedefine ulaşamadığında kendine hedef belirleme

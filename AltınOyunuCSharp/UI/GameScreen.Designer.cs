@@ -63,7 +63,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.AplayerPicture = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.TimerIntervalNum = new System.Windows.Forms.NumericUpDown();
             this.button1 = new System.Windows.Forms.Button();
             this.HiddenGoldBtn = new System.Windows.Forms.Button();
             this.StartBtn = new System.Windows.Forms.Button();
@@ -80,7 +80,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.BplayerPicture)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AplayerPicture)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TimerIntervalNum)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -157,7 +157,7 @@
             this.sideMenuPanel.Controls.Add(this.label1);
             this.sideMenuPanel.Controls.Add(this.AplayerPicture);
             this.sideMenuPanel.Controls.Add(this.label2);
-            this.sideMenuPanel.Controls.Add(this.numericUpDown1);
+            this.sideMenuPanel.Controls.Add(this.TimerIntervalNum);
             this.sideMenuPanel.Controls.Add(this.button1);
             this.sideMenuPanel.Controls.Add(this.HiddenGoldBtn);
             this.sideMenuPanel.Controls.Add(this.StartBtn);
@@ -479,35 +479,35 @@
             this.label2.TabIndex = 12;
             this.label2.Text = "Timer Interval :";
             // 
-            // numericUpDown1
+            // TimerIntervalNum
             // 
-            this.numericUpDown1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.numericUpDown1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.numericUpDown1.Increment = new decimal(new int[] {
+            this.TimerIntervalNum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.TimerIntervalNum.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.TimerIntervalNum.Increment = new decimal(new int[] {
             100,
             0,
             0,
             0});
-            this.numericUpDown1.Location = new System.Drawing.Point(123, 599);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
+            this.TimerIntervalNum.Location = new System.Drawing.Point(123, 599);
+            this.TimerIntervalNum.Maximum = new decimal(new int[] {
             1000,
             0,
             0,
             0});
-            this.numericUpDown1.Minimum = new decimal(new int[] {
+            this.TimerIntervalNum.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(78, 26);
-            this.numericUpDown1.TabIndex = 11;
-            this.numericUpDown1.Value = new decimal(new int[] {
+            this.TimerIntervalNum.Name = "TimerIntervalNum";
+            this.TimerIntervalNum.Size = new System.Drawing.Size(78, 26);
+            this.TimerIntervalNum.TabIndex = 11;
+            this.TimerIntervalNum.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            this.TimerIntervalNum.ValueChanged += new System.EventHandler(this.TimerIntervalNum_ValueChanged);
             // 
             // button1
             // 
@@ -520,7 +520,7 @@
             this.button1.TabIndex = 10;
             this.button1.Text = "Tur";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.tm_Tick);
+            this.button1.Click += new System.EventHandler(this.Tm_Tick);
             // 
             // HiddenGoldBtn
             // 
@@ -551,7 +551,7 @@
             // tm
             // 
             this.tm.Interval = 400;
-            this.tm.Tick += new System.EventHandler(this.tm_Tick);
+            this.tm.Tick += new System.EventHandler(this.Tm_Tick);
             // 
             // GameScreen
             // 
@@ -580,7 +580,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.BplayerPicture)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.AplayerPicture)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TimerIntervalNum)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -595,7 +595,7 @@
         private System.Windows.Forms.Button HiddenGoldBtn;
         private System.Windows.Forms.Timer tm;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown TimerIntervalNum;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.PictureBox pictureBox1;

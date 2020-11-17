@@ -8,11 +8,11 @@ namespace AltınOyunuCSharp.UI
     public partial class ScoreBoard : Form
     {
         public Form gameForm;
-        private APlayer aPlayer;
-        private BPlayer bPlayer;
-        private CPlayer cPlayer;
-        private DPlayer dPlayer;
-        private Map map;
+        private readonly APlayer aPlayer;
+        private readonly BPlayer bPlayer;
+        private readonly CPlayer cPlayer;
+        private readonly DPlayer dPlayer;
+        private readonly Map map;
 
         public ScoreBoard(APlayer aPlayer, BPlayer bPlayer, CPlayer cPlayer, DPlayer dPlayer, Map map, Form gameForm)
         {

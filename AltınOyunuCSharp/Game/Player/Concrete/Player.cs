@@ -340,7 +340,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                     if (Math.Abs(targetYToPlayerY) <= totalMoveLenght)                   //hedefe olan mesafe toplam gideceği hakka küçük esitse
                     {
                         tempCordY = targetY;                                              // tempy yi hedef y yap
-                        totalMoveLenght -= Math.Abs(targetYToPlayerY);                    // hakkı güncelle
+                        _ = Math.Abs(targetYToPlayerY);                    // hakkı güncelle
                     }
                     else
                     {                                                                    //hedefe olan mesafe toplam gideceği haktan büyükse
@@ -352,7 +352,6 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                         {//  - Y
                             tempCordY -= totalMoveLenght;
                         }
-                        totalMoveLenght = 0;
                     }
                 }
                 PrivateGoldShow('Y', targetYToPlayerY, map);

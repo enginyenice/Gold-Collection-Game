@@ -10,12 +10,12 @@ namespace AltınOyunuCSharp.UI
     {
         private Bitmap bitmapBoard, bitmap;
         private Graphics graphBoard, graph;
-        private Image[] goldImages;
-        private Image[] hiddenGoldImages;
-        private Image aPlayerImage;
-        private Image bPlayerImage;
-        private Image cPlayerImage;
-        private Image dPlayerImage;
+        private readonly Image[] goldImages;
+        private readonly Image[] hiddenGoldImages;
+        private readonly Image aPlayerImage;
+        private readonly Image bPlayerImage;
+        private readonly Image cPlayerImage;
+        private readonly Image dPlayerImage;
         private int squareEdge = 75; // Oyun alanı kare kenar uzunluğu, default: 75 pixel
         private int cordNumberGuide; // Oyun alanı kılavuz numaralarının yerleşim uzunluğu. squareEdge / 2
 
@@ -64,8 +64,8 @@ namespace AltınOyunuCSharp.UI
             bPlayerKasa.Text = bPlayer.GetPlayerGold().ToString();
             cPlayerKasa.Text = cPlayer.GetPlayerGold().ToString();
             dPlayerKasa.Text = dPlayer.GetPlayerGold().ToString();
-            numericUpDown1.Value = tm.Interval;
-            graphicBoardSetup();
+            TimerIntervalNum.Value = tm.Interval;
+            GraphicBoardSetup();
         }
 
         private void GameScreen_FormClosing(object sender, FormClosingEventArgs e)
@@ -73,152 +73,7 @@ namespace AltınOyunuCSharp.UI
             menuForm.Show();
         }
 
-        private void tm_Tick(object sender, EventArgs e)
-        {
-            switch (map.GetGameOrder())
-            {
-                case 1:
-                    if (aPlayer.IsDeath() == true)
-                    {
-                        map.RemovePlayersIsDeath(map.GetGameOrder());
-                        map.SetGameOrder();
-                        playerDeathPictureDraw(aPlayer);
-                        aPlayer.SetPlayerMapValue(aPlayer.GetLastCord()[0], aPlayer.GetLastCord()[1], 0);
-                        graphicDraw();
-                        break;
-                    }
-                    aPlayer.Move(map);
-                    aPlayerKasa.Text = aPlayer.GetPlayerGold().ToString();
-                    if (aPlayer.IsDeath() == true)
-                    {
-                        map.RemovePlayersIsDeath(map.GetGameOrder());
-                        map.SetGameOrder();
-                        playerDeathPictureDraw(aPlayer);
-                        aPlayer.SetPlayerMapValue(aPlayer.GetLastCord()[0], aPlayer.GetLastCord()[1], 0);
-                        graphicDraw();
-                        break;
-                    }
-                    graphicDraw();
-                    ALog.Items.Clear();
-                    for (int i = aPlayer.GetLog().Count - 1; i >= 0; i--)
-                    {
-                        ALog.Items.Add(aPlayer.GetLog()[i]);
-                    }
-                    map.SetGameOrder();
-                    break;
-
-                case 2:
-                    if (bPlayer.IsDeath() == true)
-                    {
-                        map.RemovePlayersIsDeath(map.GetGameOrder());
-                        map.SetGameOrder();
-                        playerDeathPictureDraw(bPlayer);
-                        bPlayer.SetPlayerMapValue(bPlayer.GetLastCord()[0], bPlayer.GetLastCord()[1], 0);
-                        graphicDraw();
-                        break;
-                    }
-                    bPlayer.Move(map);
-                    bPlayerKasa.Text = bPlayer.GetPlayerGold().ToString();
-                    if (bPlayer.IsDeath() == true)
-                    {
-                        map.RemovePlayersIsDeath(map.GetGameOrder());
-                        map.SetGameOrder();
-                        playerDeathPictureDraw(bPlayer);
-                        bPlayer.SetPlayerMapValue(bPlayer.GetLastCord()[0], bPlayer.GetLastCord()[1], 0);
-                        graphicDraw();
-                        break;
-                    }
-                    graphicDraw();
-                    BLog.Items.Clear();
-                    for (int i = bPlayer.GetLog().Count - 1; i >= 0; i--)
-                    {
-                        BLog.Items.Add(bPlayer.GetLog()[i]);
-                    }
-                    map.SetGameOrder();
-                    break;
-
-                case 3:
-                    if (cPlayer.IsDeath() == true)
-                    {
-                        map.RemovePlayersIsDeath(map.GetGameOrder());
-                        map.SetGameOrder();
-                        playerDeathPictureDraw(cPlayer);
-                        cPlayer.SetPlayerMapValue(cPlayer.GetLastCord()[0], cPlayer.GetLastCord()[1], 0);
-                        graphicDraw();
-                        break;
-                    }
-                    cPlayer.Move(map);
-                    cPlayerKasa.Text = cPlayer.GetPlayerGold().ToString();
-                    if (cPlayer.IsDeath() == true)
-                    {
-                        map.RemovePlayersIsDeath(map.GetGameOrder());
-                        map.SetGameOrder();
-                        playerDeathPictureDraw(cPlayer);
-                        cPlayer.SetPlayerMapValue(cPlayer.GetLastCord()[0], cPlayer.GetLastCord()[1], 0);
-                        graphicDraw();
-                        break;
-                    }
-                    graphicDraw();
-                    CLog.Items.Clear();
-                    for (int i = cPlayer.GetLog().Count - 1; i >= 0; i--)
-                    {
-                        CLog.Items.Add(cPlayer.GetLog()[i]);
-                    }
-                    map.SetGameOrder();
-                    break;
-
-                case 4:
-                    if (dPlayer.IsDeath() == true)
-                    {
-                        map.RemovePlayersIsDeath(map.GetGameOrder());
-                        map.SetGameOrder();
-                        playerDeathPictureDraw(dPlayer);
-                        dPlayer.SetPlayerMapValue(dPlayer.GetLastCord()[0], dPlayer.GetLastCord()[1], 0);
-                        graphicDraw();
-                        break;
-                    }
-                    dPlayer.Move(map);
-                    dPlayerKasa.Text = dPlayer.GetPlayerGold().ToString();
-                    if (dPlayer.IsDeath() == true)
-                    {
-                        map.RemovePlayersIsDeath(map.GetGameOrder());
-                        map.SetGameOrder();
-                        playerDeathPictureDraw(dPlayer);
-                        dPlayer.SetPlayerMapValue(dPlayer.GetLastCord()[0], dPlayer.GetLastCord()[1], 0);
-                        graphicDraw();
-                        break;
-                    }
-                    graphicDraw();
-                    DLog.Items.Clear();
-                    for (int i = dPlayer.GetLog().Count - 1; i >= 0; i--)
-                    {
-                        DLog.Items.Add(dPlayer.GetLog()[i]);
-                    }
-                    map.SetGameOrder();
-                    break;
-
-                default:
-                    break;
-            }
-
-            if (map.GetgameOver() == true)
-            {
-                tm.Stop();
-                MessageBox.Show(map.GetgameOverReason() + " Oyun bitti.");
-                aPlayer.SetLog(map.GetgameOverReason());
-                bPlayer.SetLog(map.GetgameOverReason());
-                cPlayer.SetLog(map.GetgameOverReason());
-                dPlayer.SetLog(map.GetgameOverReason());
-                aPlayer.SetLog("Oyun Bitti");
-                bPlayer.SetLog("Oyun Bitti");
-                cPlayer.SetLog("Oyun Bitti");
-                dPlayer.SetLog("Oyun Bitti");
-                ScoreBoard scoreBoard = new ScoreBoard(aPlayer, bPlayer, cPlayer, dPlayer, map, this);
-                scoreBoard.Show();
-            }
-        }
-
-        public void graphicBoardSetup()
+        public void GraphicBoardSetup()
         {
             int mapy = map.GetMap().GetLength(0);
             int mapx = map.GetMap().GetLength(1);
@@ -296,10 +151,10 @@ namespace AltınOyunuCSharp.UI
             graph.DrawImage(cPlayerImage, cordNumberGuide, squareEdge * (mapy - 1) + cordNumberGuide, squareEdge, squareEdge);
             graph.DrawImage(dPlayerImage, squareEdge * (mapx - 1) + cordNumberGuide, squareEdge * (mapy - 1) + cordNumberGuide, squareEdge, squareEdge);
             gamePictureBox.Image = bitmap;
-            cordGuide();
+            CordGuide();
         }
 
-        public void graphicDraw()
+        public void GraphicDraw()
         {
             graph = Graphics.FromImage(bitmap);
             graph.Clear(Color.Transparent);
@@ -332,7 +187,7 @@ namespace AltınOyunuCSharp.UI
             gamePictureBox.Image = bitmap;
         }
 
-        public void cordGuide()
+        public void CordGuide()
         {
             Bitmap btm = new Bitmap(100, 100);
             Graphics g = Graphics.FromImage(btm);
@@ -351,7 +206,7 @@ namespace AltınOyunuCSharp.UI
             gamePanel.BackgroundImage = btm;
         }
 
-        public void playerDeathPictureDraw(Player player)
+        public void PlayerDeathPictureDraw(Player player)
         {
             Bitmap bt = new Bitmap(1, 1);
             Pen pen = new Pen(Color.Red, 5);
@@ -396,9 +251,154 @@ namespace AltınOyunuCSharp.UI
             }
         }
 
-        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        private void TimerIntervalNum_ValueChanged(object sender, EventArgs e)
         {
-            tm.Interval = Convert.ToInt32(numericUpDown1.Value);
+            tm.Interval = Convert.ToInt32(TimerIntervalNum.Value);
+        }
+
+        private void Tm_Tick(object sender, EventArgs e)
+        {
+            switch (map.GetGameOrder())
+            {
+                case 1:
+                    if (aPlayer.IsDeath() == true)
+                    {
+                        map.RemovePlayersIsDeath(map.GetGameOrder());
+                        map.SetGameOrder();
+                        PlayerDeathPictureDraw(aPlayer);
+                        aPlayer.SetPlayerMapValue(aPlayer.GetLastCord()[0], aPlayer.GetLastCord()[1], 0);
+                        GraphicDraw();
+                        break;
+                    }
+                    aPlayer.Move(map);
+                    aPlayerKasa.Text = aPlayer.GetPlayerGold().ToString();
+                    if (aPlayer.IsDeath() == true)
+                    {
+                        map.RemovePlayersIsDeath(map.GetGameOrder());
+                        map.SetGameOrder();
+                        PlayerDeathPictureDraw(aPlayer);
+                        aPlayer.SetPlayerMapValue(aPlayer.GetLastCord()[0], aPlayer.GetLastCord()[1], 0);
+                        GraphicDraw();
+                        break;
+                    }
+                    GraphicDraw();
+                    ALog.Items.Clear();
+                    for (int i = aPlayer.GetLog().Count - 1; i >= 0; i--)
+                    {
+                        ALog.Items.Add(aPlayer.GetLog()[i]);
+                    }
+                    map.SetGameOrder();
+                    break;
+
+                case 2:
+                    if (bPlayer.IsDeath() == true)
+                    {
+                        map.RemovePlayersIsDeath(map.GetGameOrder());
+                        map.SetGameOrder();
+                        PlayerDeathPictureDraw(bPlayer);
+                        bPlayer.SetPlayerMapValue(bPlayer.GetLastCord()[0], bPlayer.GetLastCord()[1], 0);
+                        GraphicDraw();
+                        break;
+                    }
+                    bPlayer.Move(map);
+                    bPlayerKasa.Text = bPlayer.GetPlayerGold().ToString();
+                    if (bPlayer.IsDeath() == true)
+                    {
+                        map.RemovePlayersIsDeath(map.GetGameOrder());
+                        map.SetGameOrder();
+                        PlayerDeathPictureDraw(bPlayer);
+                        bPlayer.SetPlayerMapValue(bPlayer.GetLastCord()[0], bPlayer.GetLastCord()[1], 0);
+                        GraphicDraw();
+                        break;
+                    }
+                    GraphicDraw();
+                    BLog.Items.Clear();
+                    for (int i = bPlayer.GetLog().Count - 1; i >= 0; i--)
+                    {
+                        BLog.Items.Add(bPlayer.GetLog()[i]);
+                    }
+                    map.SetGameOrder();
+                    break;
+
+                case 3:
+                    if (cPlayer.IsDeath() == true)
+                    {
+                        map.RemovePlayersIsDeath(map.GetGameOrder());
+                        map.SetGameOrder();
+                        PlayerDeathPictureDraw(cPlayer);
+                        cPlayer.SetPlayerMapValue(cPlayer.GetLastCord()[0], cPlayer.GetLastCord()[1], 0);
+                        GraphicDraw();
+                        break;
+                    }
+                    cPlayer.Move(map);
+                    cPlayerKasa.Text = cPlayer.GetPlayerGold().ToString();
+                    if (cPlayer.IsDeath() == true)
+                    {
+                        map.RemovePlayersIsDeath(map.GetGameOrder());
+                        map.SetGameOrder();
+                        PlayerDeathPictureDraw(cPlayer);
+                        cPlayer.SetPlayerMapValue(cPlayer.GetLastCord()[0], cPlayer.GetLastCord()[1], 0);
+                        GraphicDraw();
+                        break;
+                    }
+                    GraphicDraw();
+                    CLog.Items.Clear();
+                    for (int i = cPlayer.GetLog().Count - 1; i >= 0; i--)
+                    {
+                        CLog.Items.Add(cPlayer.GetLog()[i]);
+                    }
+                    map.SetGameOrder();
+                    break;
+
+                case 4:
+                    if (dPlayer.IsDeath() == true)
+                    {
+                        map.RemovePlayersIsDeath(map.GetGameOrder());
+                        map.SetGameOrder();
+                        PlayerDeathPictureDraw(dPlayer);
+                        dPlayer.SetPlayerMapValue(dPlayer.GetLastCord()[0], dPlayer.GetLastCord()[1], 0);
+                        GraphicDraw();
+                        break;
+                    }
+                    dPlayer.Move(map);
+                    dPlayerKasa.Text = dPlayer.GetPlayerGold().ToString();
+                    if (dPlayer.IsDeath() == true)
+                    {
+                        map.RemovePlayersIsDeath(map.GetGameOrder());
+                        map.SetGameOrder();
+                        PlayerDeathPictureDraw(dPlayer);
+                        dPlayer.SetPlayerMapValue(dPlayer.GetLastCord()[0], dPlayer.GetLastCord()[1], 0);
+                        GraphicDraw();
+                        break;
+                    }
+                    GraphicDraw();
+                    DLog.Items.Clear();
+                    for (int i = dPlayer.GetLog().Count - 1; i >= 0; i--)
+                    {
+                        DLog.Items.Add(dPlayer.GetLog()[i]);
+                    }
+                    map.SetGameOrder();
+                    break;
+
+                default:
+                    break;
+            }
+
+            if (map.GetgameOver() == true)
+            {
+                tm.Stop();
+                MessageBox.Show(map.GetgameOverReason() + " Oyun bitti.");
+                aPlayer.SetLog(map.GetgameOverReason());
+                bPlayer.SetLog(map.GetgameOverReason());
+                cPlayer.SetLog(map.GetgameOverReason());
+                dPlayer.SetLog(map.GetgameOverReason());
+                aPlayer.SetLog("Oyun Bitti");
+                bPlayer.SetLog("Oyun Bitti");
+                cPlayer.SetLog("Oyun Bitti");
+                dPlayer.SetLog("Oyun Bitti");
+                ScoreBoard scoreBoard = new ScoreBoard(aPlayer, bPlayer, cPlayer, dPlayer, map, this);
+                scoreBoard.Show();
+            }
         }
 
         private void StartBtn_Click(object sender, EventArgs e)
@@ -427,7 +427,7 @@ namespace AltınOyunuCSharp.UI
                 hiddenActive = true;
                 HiddenGoldBtn.Text = "Gizli altınları gizle";
             }
-            graphicDraw();
+            GraphicDraw();
         }
     }
 }

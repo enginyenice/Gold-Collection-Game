@@ -13,11 +13,12 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
         private readonly int[,] privateGoldMap;
         private readonly int mapSquare; // Oyun alanı kare sayısı
 
-        private int[] aPlayerTarget;
-        private int[] bPlayerTarget;
-        private int[] cPlayerTarget;
-        private int[] dPlayerTarget;
-        private int[] playersRemainingSteps;
+        private readonly int[] aPlayerTarget;
+        private readonly int[] bPlayerTarget;
+        private readonly int[] cPlayerTarget;
+        private readonly int[] dPlayerTarget;
+        private readonly int[] playersRemainingSteps;
+
         private List<int> playersIsDeath;
         private int gameOrder = 1;
         private bool gameOver;
@@ -69,44 +70,26 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
 
         public int[] GetPlayerTarget(string playerName)
         {
-            switch (playerName)
+            return playerName switch
             {
-                case "A":
-                    return aPlayerTarget;
-
-                case "B":
-                    return bPlayerTarget;
-
-                case "C":
-                    return cPlayerTarget;
-
-                case "D":
-                    return dPlayerTarget;
-
-                default:
-                    return aPlayerTarget;
-            }
+                "A" => aPlayerTarget,
+                "B" => bPlayerTarget,
+                "C" => cPlayerTarget,
+                "D" => dPlayerTarget,
+                _ => aPlayerTarget,
+            };
         }
 
         public int GetPlayerRemainingSteps(string playerName)
         {
-            switch (playerName)
+            return playerName switch
             {
-                case "A":
-                    return playersRemainingSteps[0];
-
-                case "B":
-                    return playersRemainingSteps[1];
-
-                case "C":
-                    return playersRemainingSteps[2];
-
-                case "D":
-                    return playersRemainingSteps[3];
-
-                default:
-                    return playersRemainingSteps[0];
-            }
+                "A" => playersRemainingSteps[0],
+                "B" => playersRemainingSteps[1],
+                "C" => playersRemainingSteps[2],
+                "D" => playersRemainingSteps[3],
+                _ => playersRemainingSteps[0],
+            };
         }
 
         public int GetGoldCount()
@@ -394,7 +377,7 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
         {
             int goldField = (mapSquare * GoldRate) / 100;
             int privateGoldField = (goldField * PrivateGoldRate) / 100;
-            goldField = goldField - privateGoldField;
+            goldField -= privateGoldField;
             Random rand = new Random();
 
             int count = 0;
