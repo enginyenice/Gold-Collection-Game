@@ -340,7 +340,6 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                     if (Math.Abs(targetYToPlayerY) <= totalMoveLenght)                   //hedefe olan mesafe toplam gideceği hakka küçük esitse
                     {
                         tempCordY = targetY;                                              // tempy yi hedef y yap
-                        _ = Math.Abs(targetYToPlayerY);                    // hakkı güncelle
                     }
                     else
                     {                                                                    //hedefe olan mesafe toplam gideceği haktan büyükse

@@ -68,6 +68,7 @@
             this.HiddenGoldBtn = new System.Windows.Forms.Button();
             this.StartBtn = new System.Windows.Forms.Button();
             this.tm = new System.Windows.Forms.Timer(this.components);
+            this.label14 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.gamePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gamePictureBox)).BeginInit();
@@ -128,6 +129,7 @@
             // sideMenuPanel
             // 
             this.sideMenuPanel.BackColor = System.Drawing.Color.DarkGray;
+            this.sideMenuPanel.Controls.Add(this.label14);
             this.sideMenuPanel.Controls.Add(this.DLog);
             this.sideMenuPanel.Controls.Add(this.label13);
             this.sideMenuPanel.Controls.Add(this.label6);
@@ -553,6 +555,17 @@
             this.tm.Interval = 400;
             this.tm.Tick += new System.EventHandler(this.Tm_Tick);
             // 
+            // label14
+            // 
+            this.label14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Corbel", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.label14.Location = new System.Drawing.Point(207, 601);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(30, 19);
+            this.label14.TabIndex = 44;
+            this.label14.Text = "ms";
+            // 
             // GameScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -625,5 +638,6 @@
         private System.Windows.Forms.Label cPlayerKasa;
         private System.Windows.Forms.PictureBox CplayerPicture;
         private System.Windows.Forms.ListBox DLog;
+        private System.Windows.Forms.Label label14;
     }
 }
