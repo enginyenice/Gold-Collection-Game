@@ -1,5 +1,5 @@
-﻿using AltınOyunuCSharp.Game.Map.Concrete;
-using AltınOyunuCSharp.Game.Player.Concrete;
+﻿using AltınOyunuCSharp.Game.Map.Concrete; // Map sınıfının bulunduğu adres
+using AltınOyunuCSharp.Game.Player.Concrete.Players; // Oyuncuların sınıflarının bulunduğu adres
 using AltınOyunuCSharp.UI;
 using System;
 using System.Windows.Forms;

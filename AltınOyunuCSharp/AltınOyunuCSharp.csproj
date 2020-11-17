@@ -54,10 +54,10 @@
     <Compile Include="UI\GameScreen.Designer.cs">
       <DependentUpon>GameScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="Game\Player\Concrete\APlayer.cs" />
-    <Compile Include="Game\Player\Concrete\BPlayer.cs" />
-    <Compile Include="Game\Player\Concrete\CPlayer.cs" />
-    <Compile Include="Game\Player\Concrete\DPlayer.cs" />
+    <Compile Include="Game\Player\Concrete\Players\APlayer.cs" />
+    <Compile Include="Game\Player\Concrete\Players\BPlayer.cs" />
+    <Compile Include="Game\Player\Concrete\Players\CPlayer.cs" />
+    <Compile Include="Game\Player\Concrete\Players\DPlayer.cs" />
     <Compile Include="Game\Player\Concrete\Player.cs" />
     <Compile Include="UI\ScoreBoard.cs">
       <SubType>Form</SubType>

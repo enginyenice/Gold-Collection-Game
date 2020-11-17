@@ -1,7 +1,7 @@
 ﻿using AltınOyunuCSharp.Game.Map.Abstract;
 using System;
 
-namespace AltınOyunuCSharp.Game.Player.Concrete
+namespace AltınOyunuCSharp.Game.Player.Concrete.Players
 {
     public class APlayer : Player
     {
