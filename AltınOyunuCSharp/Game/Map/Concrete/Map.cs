@@ -21,6 +21,7 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
 
         private List<int> playersIsDeath;
         private int gameOrder = 1;
+        private int prevGameOrderIndex = 0;
         private bool gameOver;
         private String gameOverReason = "";
 
@@ -303,11 +304,33 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
             {
                 if (playersIsDeath.Count != 0)
                 {
-                    int order = playersIsDeath.IndexOf(gameOrder);
-                    if (order == (playersIsDeath.Count() - 1))
-                        gameOrder = playersIsDeath[0];
+                    //Eğer oyuncu ölmüş ise
+                    if (playersIsDeath.IndexOf(gameOrder) == -1)
+                    {
+                        if (prevGameOrderIndex == playersIsDeath.Count())
+                        {
+                            gameOrder = playersIsDeath[0];
+
+                        }
+                        else
+                        {
+                            gameOrder = playersIsDeath[prevGameOrderIndex];
+                        }
+                    }
+                    //Eğer oyuncu ölmüyor ise
                     else
-                        gameOrder = playersIsDeath[order + 1];
+                    {
+                        if (playersIsDeath.IndexOf(gameOrder) == (playersIsDeath.Count() - 1)) 
+                        {
+                            gameOrder = playersIsDeath[0];
+                            prevGameOrderIndex = playersIsDeath.Count() - 1;
+                        }
+                        else
+                        {
+                            prevGameOrderIndex = playersIsDeath.IndexOf(gameOrder);
+                            gameOrder = playersIsDeath[prevGameOrderIndex + 1];
+                        }
+                    }
                 }
                 else
                 {
@@ -334,6 +357,7 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
 
         public void RemovePlayersIsDeath(int gameOrder)
         {
+            this.prevGameOrderIndex = playersIsDeath.IndexOf(gameOrder);
             this.playersIsDeath.Remove(gameOrder);
             playersIsDeath = playersIsDeath.OrderBy(a => a).ToList();
         }

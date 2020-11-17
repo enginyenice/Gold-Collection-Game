@@ -257,6 +257,18 @@ namespace AltınOyunuCSharp.UI
             tm.Interval = Convert.ToInt32(TimerIntervalNum.Value);
         }
 
+        public string GameOrderString(int order)
+        {
+            switch (order)
+            {
+                case 1: return "A";
+                case 2: return "B";
+                case 3: return "C";
+                case 4: return "D";
+            }
+            return "";
+        }
+
         private void Tm_Tick(object sender, EventArgs e)
         {
             switch (map.GetGameOrder())
@@ -266,9 +278,14 @@ namespace AltınOyunuCSharp.UI
                     {
                         map.RemovePlayersIsDeath(map.GetGameOrder());
                         map.SetGameOrder();
+                        siradaki.Text = GameOrderString(map.GetGameOrder()); 
                         PlayerDeathPictureDraw(aPlayer);
                         aPlayer.SetPlayerMapValue(aPlayer.GetLastCord()[0], aPlayer.GetLastCord()[1], 0);
                         GraphicDraw();
+                        for (int i = aPlayer.GetLog().Count - 1; i >= 0; i--)
+                        {
+                            ALog.Items.Add(aPlayer.GetLog()[i]);
+                        }
                         break;
                     }
                     aPlayer.Move(map);
@@ -277,9 +294,14 @@ namespace AltınOyunuCSharp.UI
                     {
                         map.RemovePlayersIsDeath(map.GetGameOrder());
                         map.SetGameOrder();
+                        siradaki.Text = GameOrderString(map.GetGameOrder());
                         PlayerDeathPictureDraw(aPlayer);
                         aPlayer.SetPlayerMapValue(aPlayer.GetLastCord()[0], aPlayer.GetLastCord()[1], 0);
                         GraphicDraw();
+                        for (int i = aPlayer.GetLog().Count - 1; i >= 0; i--)
+                        {
+                            ALog.Items.Add(aPlayer.GetLog()[i]);
+                        }
                         break;
                     }
                     GraphicDraw();
@@ -289,6 +311,7 @@ namespace AltınOyunuCSharp.UI
                         ALog.Items.Add(aPlayer.GetLog()[i]);
                     }
                     map.SetGameOrder();
+                    siradaki.Text = GameOrderString(map.GetGameOrder());
                     break;
 
                 case 2:
@@ -296,9 +319,14 @@ namespace AltınOyunuCSharp.UI
                     {
                         map.RemovePlayersIsDeath(map.GetGameOrder());
                         map.SetGameOrder();
+                        siradaki.Text = GameOrderString(map.GetGameOrder());
                         PlayerDeathPictureDraw(bPlayer);
                         bPlayer.SetPlayerMapValue(bPlayer.GetLastCord()[0], bPlayer.GetLastCord()[1], 0);
                         GraphicDraw();
+                        for (int i = bPlayer.GetLog().Count - 1; i >= 0; i--)
+                        {
+                            BLog.Items.Add(bPlayer.GetLog()[i]);
+                        }
                         break;
                     }
                     bPlayer.Move(map);
@@ -307,9 +335,14 @@ namespace AltınOyunuCSharp.UI
                     {
                         map.RemovePlayersIsDeath(map.GetGameOrder());
                         map.SetGameOrder();
+                        siradaki.Text = GameOrderString(map.GetGameOrder());
                         PlayerDeathPictureDraw(bPlayer);
                         bPlayer.SetPlayerMapValue(bPlayer.GetLastCord()[0], bPlayer.GetLastCord()[1], 0);
                         GraphicDraw();
+                        for (int i = bPlayer.GetLog().Count - 1; i >= 0; i--)
+                        {
+                            BLog.Items.Add(bPlayer.GetLog()[i]);
+                        }
                         break;
                     }
                     GraphicDraw();
@@ -319,6 +352,7 @@ namespace AltınOyunuCSharp.UI
                         BLog.Items.Add(bPlayer.GetLog()[i]);
                     }
                     map.SetGameOrder();
+                    siradaki.Text = GameOrderString(map.GetGameOrder());
                     break;
 
                 case 3:
@@ -326,9 +360,14 @@ namespace AltınOyunuCSharp.UI
                     {
                         map.RemovePlayersIsDeath(map.GetGameOrder());
                         map.SetGameOrder();
+                        siradaki.Text = GameOrderString(map.GetGameOrder());
                         PlayerDeathPictureDraw(cPlayer);
                         cPlayer.SetPlayerMapValue(cPlayer.GetLastCord()[0], cPlayer.GetLastCord()[1], 0);
                         GraphicDraw();
+                        for (int i = cPlayer.GetLog().Count - 1; i >= 0; i--)
+                        {
+                            CLog.Items.Add(cPlayer.GetLog()[i]);
+                        }
                         break;
                     }
                     cPlayer.Move(map);
@@ -337,9 +376,14 @@ namespace AltınOyunuCSharp.UI
                     {
                         map.RemovePlayersIsDeath(map.GetGameOrder());
                         map.SetGameOrder();
+                        siradaki.Text = GameOrderString(map.GetGameOrder());
                         PlayerDeathPictureDraw(cPlayer);
                         cPlayer.SetPlayerMapValue(cPlayer.GetLastCord()[0], cPlayer.GetLastCord()[1], 0);
                         GraphicDraw();
+                        for (int i = cPlayer.GetLog().Count - 1; i >= 0; i--)
+                        {
+                            CLog.Items.Add(cPlayer.GetLog()[i]);
+                        }
                         break;
                     }
                     GraphicDraw();
@@ -349,6 +393,7 @@ namespace AltınOyunuCSharp.UI
                         CLog.Items.Add(cPlayer.GetLog()[i]);
                     }
                     map.SetGameOrder();
+                    siradaki.Text = GameOrderString(map.GetGameOrder());
                     break;
 
                 case 4:
@@ -356,9 +401,14 @@ namespace AltınOyunuCSharp.UI
                     {
                         map.RemovePlayersIsDeath(map.GetGameOrder());
                         map.SetGameOrder();
+                        siradaki.Text = GameOrderString(map.GetGameOrder());
                         PlayerDeathPictureDraw(dPlayer);
                         dPlayer.SetPlayerMapValue(dPlayer.GetLastCord()[0], dPlayer.GetLastCord()[1], 0);
                         GraphicDraw();
+                        for (int i = dPlayer.GetLog().Count - 1; i >= 0; i--)
+                        {
+                            DLog.Items.Add(dPlayer.GetLog()[i]);
+                        }
                         break;
                     }
                     dPlayer.Move(map);
@@ -367,9 +417,14 @@ namespace AltınOyunuCSharp.UI
                     {
                         map.RemovePlayersIsDeath(map.GetGameOrder());
                         map.SetGameOrder();
+                        siradaki.Text = GameOrderString(map.GetGameOrder());
                         PlayerDeathPictureDraw(dPlayer);
                         dPlayer.SetPlayerMapValue(dPlayer.GetLastCord()[0], dPlayer.GetLastCord()[1], 0);
                         GraphicDraw();
+                        for (int i = dPlayer.GetLog().Count - 1; i >= 0; i--)
+                        {
+                            DLog.Items.Add(dPlayer.GetLog()[i]);
+                        }
                         break;
                     }
                     GraphicDraw();
@@ -379,6 +434,7 @@ namespace AltınOyunuCSharp.UI
                         DLog.Items.Add(dPlayer.GetLog()[i]);
                     }
                     map.SetGameOrder();
+                    siradaki.Text = GameOrderString(map.GetGameOrder());
                     break;
 
                 default:
@@ -400,6 +456,11 @@ namespace AltınOyunuCSharp.UI
                 ScoreBoard scoreBoard = new ScoreBoard(aPlayer, bPlayer, cPlayer, dPlayer, map, this);
                 scoreBoard.Show();
             }
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void StartBtn_Click(object sender, EventArgs e)
