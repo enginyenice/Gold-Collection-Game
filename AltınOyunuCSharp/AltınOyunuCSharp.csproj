@@ -118,22 +118,10 @@
     <None Include="Resource\hiddenCoin10.png" />
     <None Include="Resource\hiddenCoin15.png" />
     <None Include="Resource\hiddenCoin20.png" />
-    <Content Include="Resource\playerA_back.png" />
     <Content Include="Resource\playerA_front.png" />
-    <Content Include="Resource\playerA_left.png" />
-    <Content Include="Resource\playerA_right.png" />
-    <Content Include="Resource\playerB_back.png" />
     <Content Include="Resource\playerB_front.png" />
-    <Content Include="Resource\playerB_left.png" />
-    <Content Include="Resource\playerB_right.png" />
-    <Content Include="Resource\playerC_back.png" />
     <Content Include="Resource\playerC_front.png" />
-    <Content Include="Resource\playerC_left.png" />
-    <Content Include="Resource\playerC_right.png" />
-    <Content Include="Resource\playerD_back.png" />
     <Content Include="Resource\playerD_front.png" />
-    <Content Include="Resource\playerD_left.png" />
-    <Content Include="Resource\playerD_right.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

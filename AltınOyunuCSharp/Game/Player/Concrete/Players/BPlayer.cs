@@ -61,7 +61,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete.Players
             this.SetRemainingSteps(remainingSteps);
             this.SetTargetedGoldCord(nearestGoldY, nearestGoldX);
             this.SetTargetedGoldValue(nearestGoldValue);
-            //this.SetGoldEarnedOnReachTarget(nearestGoldProfit);
+           
 
             // Hedef belirleme maliyeti çıkartıldı.
             this.SetGoldEarnedOnReachTarget(nearestGoldValue - ((this.GetRemainingSteps() * this.cost) + this.GetSearchCost()));

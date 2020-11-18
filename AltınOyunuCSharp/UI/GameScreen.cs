@@ -282,6 +282,7 @@ namespace AltınOyunuCSharp.UI
                         PlayerDeathPictureDraw(aPlayer);
                         aPlayer.SetPlayerMapValue(aPlayer.GetLastCord()[0], aPlayer.GetLastCord()[1], 0);
                         GraphicDraw();
+                        ALog.Items.Clear();
                         for (int i = aPlayer.GetLog().Count - 1; i >= 0; i--)
                         {
                             ALog.Items.Add(aPlayer.GetLog()[i]);
@@ -298,6 +299,7 @@ namespace AltınOyunuCSharp.UI
                         PlayerDeathPictureDraw(aPlayer);
                         aPlayer.SetPlayerMapValue(aPlayer.GetLastCord()[0], aPlayer.GetLastCord()[1], 0);
                         GraphicDraw();
+                        ALog.Items.Clear();
                         for (int i = aPlayer.GetLog().Count - 1; i >= 0; i--)
                         {
                             ALog.Items.Add(aPlayer.GetLog()[i]);
@@ -323,6 +325,7 @@ namespace AltınOyunuCSharp.UI
                         PlayerDeathPictureDraw(bPlayer);
                         bPlayer.SetPlayerMapValue(bPlayer.GetLastCord()[0], bPlayer.GetLastCord()[1], 0);
                         GraphicDraw();
+                        BLog.Items.Clear();
                         for (int i = bPlayer.GetLog().Count - 1; i >= 0; i--)
                         {
                             BLog.Items.Add(bPlayer.GetLog()[i]);
@@ -339,6 +342,7 @@ namespace AltınOyunuCSharp.UI
                         PlayerDeathPictureDraw(bPlayer);
                         bPlayer.SetPlayerMapValue(bPlayer.GetLastCord()[0], bPlayer.GetLastCord()[1], 0);
                         GraphicDraw();
+                        BLog.Items.Clear();
                         for (int i = bPlayer.GetLog().Count - 1; i >= 0; i--)
                         {
                             BLog.Items.Add(bPlayer.GetLog()[i]);
@@ -364,6 +368,7 @@ namespace AltınOyunuCSharp.UI
                         PlayerDeathPictureDraw(cPlayer);
                         cPlayer.SetPlayerMapValue(cPlayer.GetLastCord()[0], cPlayer.GetLastCord()[1], 0);
                         GraphicDraw();
+                        CLog.Items.Clear();
                         for (int i = cPlayer.GetLog().Count - 1; i >= 0; i--)
                         {
                             CLog.Items.Add(cPlayer.GetLog()[i]);
@@ -380,6 +385,7 @@ namespace AltınOyunuCSharp.UI
                         PlayerDeathPictureDraw(cPlayer);
                         cPlayer.SetPlayerMapValue(cPlayer.GetLastCord()[0], cPlayer.GetLastCord()[1], 0);
                         GraphicDraw();
+                        CLog.Items.Clear();
                         for (int i = cPlayer.GetLog().Count - 1; i >= 0; i--)
                         {
                             CLog.Items.Add(cPlayer.GetLog()[i]);
@@ -405,6 +411,7 @@ namespace AltınOyunuCSharp.UI
                         PlayerDeathPictureDraw(dPlayer);
                         dPlayer.SetPlayerMapValue(dPlayer.GetLastCord()[0], dPlayer.GetLastCord()[1], 0);
                         GraphicDraw();
+                        DLog.Items.Clear();
                         for (int i = dPlayer.GetLog().Count - 1; i >= 0; i--)
                         {
                             DLog.Items.Add(dPlayer.GetLog()[i]);
@@ -421,6 +428,7 @@ namespace AltınOyunuCSharp.UI
                         PlayerDeathPictureDraw(dPlayer);
                         dPlayer.SetPlayerMapValue(dPlayer.GetLastCord()[0], dPlayer.GetLastCord()[1], 0);
                         GraphicDraw();
+                        DLog.Items.Clear();
                         for (int i = dPlayer.GetLog().Count - 1; i >= 0; i--)
                         {
                             DLog.Items.Add(dPlayer.GetLog()[i]);

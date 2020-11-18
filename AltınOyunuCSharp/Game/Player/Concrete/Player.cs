@@ -37,8 +37,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
             this.totalAmountOfGoldEarned = 0;
             this.totalAmountOfGoldSpent = 0;
             this.totalNumberOfSteps = 0;
-
-            SetPlayerGold(gold);
+            this.gold = gold;
             this.targetedGoldCord = new int[2];
             this.SetTargetedGoldCord(-1, -1);
             this.targetedGoldValue = -1;
@@ -59,17 +58,17 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
         #region GET
 
         public int GetTotalNumberOfSteps()
-        {
+        {// Oyuncunun oyun boyunca toplam hamle sayısı
             return this.totalNumberOfSteps;
         }
 
         public int GetTotalAmountOfGoldSpent()
-        {
+        {// Oyuncunun oyun boyunca harcadığı toplam altın
             return this.totalAmountOfGoldSpent;
         }
 
         public int GetTotalAmountOfGoldEarned()
-        {
+        {// Oyuncunun oyun boyunca kazandığı toplam altın
             return this.totalAmountOfGoldEarned;
         }
 
@@ -138,17 +137,17 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
         #region SET
 
         public void SetTotalNumberOfSteps(int value)
-        {
+        {// Oyuncunun oyun boyunca yaptığı toplam hamle değerini arttırır.
             this.totalNumberOfSteps += value;
         }
 
         public void SetTotalAmountOfGoldSpent(int value)
-        {
+        {// Oyuncunun oyun boyunca harcadığı toplam altın değerini arttırır.
             this.totalAmountOfGoldSpent += value;
         }
 
         public void SetTotalAmountOfGoldEarned(int value)
-        {
+        {// Oyuncunun oyun boyunca kazandığı toplam altın değerini arttırır.
             this.totalAmountOfGoldEarned += value;
         }
 
@@ -184,7 +183,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
         }
 
         public void SetPlayerMapValue(int CordY, int CordX, int data)
-        {
+        {// Oyuncu konumunu tutan haritada girilen koordinattaki değeri belirler.
             this.playerMap[CordY, CordX] = data;
         }
 
@@ -210,15 +209,19 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
         #region GAME FUNCTION
 
         public abstract void SearchForGold(IMap map);
+        //Hedef belirleme, altın arama
 
-        public void PrivateGoldShow(char duzlem, int hareket, IMap map)
-        {//Hareketler tersine idi onu düzelttim + ise o yünde artacak
-            if (duzlem == 'X')
+        public void PrivateGoldShow(char cord, int move, IMap map)
+        {// Yapınlan hareketin sonucunda gidilen yol üzerinde gizli altın bulunuyor ise onu görünür hale geririr.
+         // cord: Hangi düzlemde hareket yapılacak
+         // move: Kaç kare hareket edilecek
+
+            if (cord == 'X')
             {
                 // -X yönünde
-                if (hareket < 0)
+                if (move < 0)
                 {
-                    for (int x = lastXCord; x >= lastXCord - Math.Abs(hareket); x--)
+                    for (int x = lastXCord; x >= lastXCord - Math.Abs(move); x--)
                     {
                         if (map.GetPrivateGoldMap()[lastYCord, x] != 0)
                         {
@@ -229,9 +232,9 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                     }
                 }
                 // +X yönünde
-                else if (hareket > 0)
+                else if (move > 0)
                 {
-                    for (int x = lastXCord; x <= Math.Abs(hareket) + lastXCord; x++)
+                    for (int x = lastXCord; x <= Math.Abs(move) + lastXCord; x++)
                     {
                         if (map.GetPrivateGoldMap()[lastYCord, x] != 0)
                         {
@@ -245,9 +248,9 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
             else
             {
                 // -Y yönünde
-                if (hareket < 0)
+                if (move < 0)
                 {
-                    for (int y = lastYCord; y >= lastYCord - Math.Abs(hareket); y--)
+                    for (int y = lastYCord; y >= lastYCord - Math.Abs(move); y--)
                     {
                         if (map.GetPrivateGoldMap()[y, lastXCord] != 0)
                         {
@@ -258,9 +261,9 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                     }
                 }
                 // +Y yönünde
-                else if (hareket > 0)
+                else if (move > 0)
                 {
-                    for (int y = lastYCord; y <= Math.Abs(hareket) + lastYCord; y++)
+                    for (int y = lastYCord; y <= Math.Abs(move) + lastYCord; y++)
                     {
                         if (map.GetPrivateGoldMap()[y, lastXCord] != 0)
                         {
@@ -308,53 +311,60 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                 int targetYToPlayerY = targetY - lastYCord;                 //- ise kordinat küçülür
                 int targetXToPlayerX = targetX - lastXCord;                // + ise kordinat büyür
 
-                /*
-                 * Önce Yatayda eşitle
-                 */
-                int totalMoveLenght = moveLenght;                           //Oyuncunun toplam yapması gereken maksimum hamle
-                int tempCordX = lastXCord, tempCordY = lastYCord;           // Hafızada tutulan X ve Y kordinatları
+                
+                // Önce Yatayda eşitleme
+                int totalMoveLenght = moveLenght;                       // Oyuncunun toplam yapması gereken 1 hamledeki adım sayısı
+                int tempCordX = lastXCord, tempCordY = lastYCord;       // Oyuncunun son konumunu geçici bir değişkene atama
 
-                if (Math.Abs(targetXToPlayerX) <= totalMoveLenght)           //Gitmesi gereken X kordinatı ile arasındaki mesafe toplam yapabileceği hareketten küçük eşit ise
-                {
-                    tempCordX = targetX;                                        //Gitmesi gereken kordinata git
-                    totalMoveLenght -= Math.Abs(targetXToPlayerX);              //Aradaki hamle sayısını toplam hamle sayısı
+                
+                if (Math.Abs(targetXToPlayerX) <= totalMoveLenght)          
+                {// Yatayda gitmesi gereken hareket, bir turda yapabileceği 
+                 //maksimum hareket sayısından küçük veya eşit ise  
+                    tempCordX = targetX;                                        
+                    totalMoveLenght -= Math.Abs(targetXToPlayerX);      // Gidilen hareket sayısını toplam hareket sayısından düş       
                 }
-                else                                                         //Gitmesi gereken X kordinatı ile arasındaki mesafe toplam yapabileceği hareketten büyük ise
-                {
-                    if (targetXToPlayerX > 0)                                  //Hedeflenen kordinat ile arasındaki fark 0'dan büyük ise
+                else
+                {// Yatayda gitmesi gereken hareket, bir turda yapabileceği 
+                 //maksimum hareket sayısından büyük ise  
+                    if (targetXToPlayerX > 0)//  Hedef altına hareket pozitif yönde ise                                 
                     {//  +X
-                        tempCordX += totalMoveLenght;                                   //Hafızadaki X kordinatından tüm hareket hakkını çıkart.
+                        tempCordX += totalMoveLenght;                                   
                     }
-                    else
+                    else                     //  Hedef altına hareket negatif yönde ise
                     {//  -X
-                        tempCordX -= totalMoveLenght;                                   //Hafızadaki X kordinatından tüm hareket hakkını ekle
-                    }
-                    totalMoveLenght = 0;                                                //Toplam adım hakkını 0 yap.
+                        tempCordX -= totalMoveLenght;                                   
+                    }                    
+                    // Bir turda gidilecek maksimun hareket yapıldığından bu tur için kalan hareketi sıfırla
+                    totalMoveLenght = 0; 
                 }
 
-                PrivateGoldShow('X', targetXToPlayerX, map);
-                this.UpdateCord(lastYCord, tempCordX);                                                                       //lastXCord = tempCordX;
-                                                                                                                             //Gelen data + ise azaltacan
-                if (totalMoveLenght > 0)                                                // hareket hakkı 0 dan büyükse
+                PrivateGoldShow('X', targetXToPlayerX, map);// Gidilen yolda gizli altın var ise görünür yap
+                this.UpdateCord(lastYCord, tempCordX);// Oyuncunun konumunu güncelle                                                                 
+                                 
+                // Yatayda yapılan hareketten sonra kalan adım var ise veya 
+                //yatayda hiç hareket edilmemiş ise dikeyde hareket yap
+                if (totalMoveLenght > 0)                                                
                 {
-                    if (Math.Abs(targetYToPlayerY) <= totalMoveLenght)                   //hedefe olan mesafe toplam gideceği hakka küçük esitse
-                    {
-                        tempCordY = targetY;                                              // tempy yi hedef y yap
+                    if (Math.Abs(targetYToPlayerY) <= totalMoveLenght)                  
+                    {// Dikeyde gitmesi gereken hareket, bir turda yapabileceği 
+                     //maksimum hareket sayısından küçük veya eşit ise  
+                        tempCordY = targetY;                                             
                     }
                     else
-                    {                                                                    //hedefe olan mesafe toplam gideceği haktan büyükse
-                        if (targetYToPlayerY > 0)                                   // fark + ise çıkart
+                    {// Dikeyde gitmesi gereken hareket, bir turda yapabileceği 
+                     //maksimum hareket sayısından büyük ise                                                               //hedefe olan mesafe toplam gideceği haktan büyükse
+                        if (targetYToPlayerY > 0)//  Hedef altına hareket pozitif yönde ise  
                         {//  + Y
                             tempCordY += totalMoveLenght;
                         }
-                        else
+                        else                     //  Hedef altına hareket negatif yönde ise  
                         {//  - Y
                             tempCordY -= totalMoveLenght;
                         }
                     }
                 }
-                PrivateGoldShow('Y', targetYToPlayerY, map);
-                this.UpdateCord(tempCordY, tempCordX);
+                PrivateGoldShow('Y', targetYToPlayerY, map);// Gidilen yolda gizli altın var ise görünür
+                this.UpdateCord(tempCordY, tempCordX);// Oyuncunun konumunu güncelle   
 
                 // Hedefe ulaşıldı mı?
                 if (tempCordY == targetY && tempCordX == targetX)

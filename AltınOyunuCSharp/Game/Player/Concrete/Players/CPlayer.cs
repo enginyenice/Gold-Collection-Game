@@ -66,7 +66,6 @@ namespace AltınOyunuCSharp.Game.Player.Concrete.Players
             this.SetRemainingSteps(remainingSteps);
             this.SetTargetedGoldCord(nearestGoldY, nearestGoldX);
             this.SetTargetedGoldValue(nearestGoldValue);
-            //this.SetGoldEarnedOnReachTarget(nearestGoldProfit);
 
             // Hedef belirleme maliyeti çıkartıldı.
             this.SetGoldEarnedOnReachTarget(nearestGoldValue - ((this.GetRemainingSteps() * this.cost) + this.GetSearchCost()));
@@ -82,7 +81,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete.Players
         }
 
         public void PrivateGoldShow(IMap map)
-        {
+        {//C oyuncusunun her tur en yakın 2 gizli altını görünür hale getirmesi
             int control = 0;
 
             while (control < this.howManyGoldToShow)

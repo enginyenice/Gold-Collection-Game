@@ -9,7 +9,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete.Players
         {
         }
 
-        //D'nin diğer oyuncuların hedeflerine ulaşması için gereken tur sayısı
+        // D'nin diğer oyuncuların hedeflerine ulaşması için gereken tur sayısı
         public int GetStepsOfOtherPlayersTarget(int[] dPlayerCord, int[] otherPlayerCord)
         {
             int steps = Math.Abs(dPlayerCord[0] - otherPlayerCord[0]) + Math.Abs(dPlayerCord[1] - otherPlayerCord[1]);
@@ -61,12 +61,11 @@ namespace AltınOyunuCSharp.Game.Player.Concrete.Players
                 remainingSteps = remainingSteps_CTarget;
             }
             else
-            {//D diğer oyuncuların hedefine ulaşamadığında kendine hedef belirleme
+            {// D diğer oyuncuların hedefine ulaşamadığında kendine hedef belirleme
                 int[,] goldArray = map.GetGoldMap();
                 int[,] tempGoldArray;
                 tempGoldArray = (int[,])goldArray.Clone();
-                if (map.GetGoldCount() > 3)
-                {
+                // Diğer oyuncuların hedeflerini matristen çıkar 
                     if (map.GetPlayerRemainingSteps("A") != -1)
                         tempGoldArray[aPlayerTarget[0], aPlayerTarget[1]] = 0;
 
@@ -75,6 +74,23 @@ namespace AltınOyunuCSharp.Game.Player.Concrete.Players
 
                     if (map.GetPlayerRemainingSteps("C") != -1)
                         tempGoldArray[cPlayerTarget[0], cPlayerTarget[1]] = 0;
+                
+                // eğer diğer oyuncuların hedefleri çıkarıldığında hedeflenecek başka altın
+                //kalmıyor ise o altınları hedeflenebilir yap.
+                int goldCount = 0;
+                for(int i = 0; i < tempGoldArray.GetLength(0);i++)
+                {
+                    for (int j = 0; j < tempGoldArray.GetLength(0);j++)
+                    {
+                        if (tempGoldArray[i, j] != 0)
+                            goldCount++;
+                    }
+                }
+                if(goldCount==0)
+                {
+                    tempGoldArray[aPlayerTarget[0], aPlayerTarget[1]] = map.GetGoldPointValue(aPlayerTarget[0], aPlayerTarget[1]);
+                    tempGoldArray[bPlayerTarget[0], bPlayerTarget[1]] = map.GetGoldPointValue(bPlayerTarget[0], bPlayerTarget[1]);
+                    tempGoldArray[cPlayerTarget[0], cPlayerTarget[1]] = map.GetGoldPointValue(cPlayerTarget[0], cPlayerTarget[1]);
                 }
                 for (int goldY = 0; goldY < tempGoldArray.GetLength(0); goldY++)
                 {
