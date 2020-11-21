@@ -34,6 +34,8 @@
             this.gamePanel = new System.Windows.Forms.Panel();
             this.gamePictureBox = new System.Windows.Forms.PictureBox();
             this.sideMenuPanel = new System.Windows.Forms.Panel();
+            this.siradaki = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
             this.DLog = new System.Windows.Forms.ListBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -68,8 +70,6 @@
             this.HiddenGoldBtn = new System.Windows.Forms.Button();
             this.StartBtn = new System.Windows.Forms.Button();
             this.tm = new System.Windows.Forms.Timer(this.components);
-            this.label15 = new System.Windows.Forms.Label();
-            this.siradaki = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.gamePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gamePictureBox)).BeginInit();
@@ -120,7 +120,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gamePictureBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.gamePictureBox.Location = new System.Drawing.Point(20, 20);
+            this.gamePictureBox.Location = new System.Drawing.Point(30, 30);
             this.gamePictureBox.Margin = new System.Windows.Forms.Padding(0);
             this.gamePictureBox.Name = "gamePictureBox";
             this.gamePictureBox.Size = new System.Drawing.Size(883, 646);
@@ -171,6 +171,28 @@
             this.sideMenuPanel.Name = "sideMenuPanel";
             this.sideMenuPanel.Size = new System.Drawing.Size(341, 686);
             this.sideMenuPanel.TabIndex = 0;
+            // 
+            // siradaki
+            // 
+            this.siradaki.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.siradaki.AutoSize = true;
+            this.siradaki.Font = new System.Drawing.Font("Corbel", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.siradaki.Location = new System.Drawing.Point(285, 597);
+            this.siradaki.Name = "siradaki";
+            this.siradaki.Size = new System.Drawing.Size(26, 26);
+            this.siradaki.TabIndex = 46;
+            this.siradaki.Text = "A";
+            // 
+            // label15
+            // 
+            this.label15.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Corbel", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.label15.Location = new System.Drawing.Point(207, 601);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(76, 19);
+            this.label15.TabIndex = 45;
+            this.label15.Text = "Sıradaki : ";
             // 
             // DLog
             // 
@@ -557,28 +579,6 @@
             // 
             this.tm.Interval = 400;
             this.tm.Tick += new System.EventHandler(this.Tm_Tick);
-            // 
-            // label15
-            // 
-            this.label15.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Corbel", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.label15.Location = new System.Drawing.Point(207, 601);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(76, 19);
-            this.label15.TabIndex = 45;
-            this.label15.Text = "Sıradaki : ";
-            // 
-            // siradaki
-            // 
-            this.siradaki.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.siradaki.AutoSize = true;
-            this.siradaki.Font = new System.Drawing.Font("Corbel", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.siradaki.Location = new System.Drawing.Point(285, 597);
-            this.siradaki.Name = "siradaki";
-            this.siradaki.Size = new System.Drawing.Size(26, 26);
-            this.siradaki.TabIndex = 46;
-            this.siradaki.Text = "A";
             // 
             // GameScreen
             // 

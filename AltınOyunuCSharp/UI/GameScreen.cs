@@ -96,8 +96,8 @@ namespace AltınOyunuCSharp.UI
             gamePictureBox.Width = (squareEdge * mapx) + cordNumberGuide;
 
             //Picturebox'ın panel içerisinde ortalanması
-            int panelx = (((gamePanel.Width - 20) - gamePictureBox.Width) / 2) + 10;
-            int panely = (((gamePanel.Height - 20) - gamePictureBox.Height) / 2) + 10;
+            int panelx = (((gamePanel.Width) - gamePictureBox.Width) / 2) + 10;
+            int panely = (((gamePanel.Height) - gamePictureBox.Height) / 2) + 10;
             gamePictureBox.Location = new Point(panelx, panely);
 
             //Oyun alanının oluşturulması ve çizdirilmesi
