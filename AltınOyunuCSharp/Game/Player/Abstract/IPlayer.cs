@@ -7,14 +7,13 @@ namespace AltınOyunuCSharp.Game.Player.Abstract
     {
         #region GET
 
+        string GetName(); // Oyuncunun adını geriye döndürür.
+
         int GetTotalNumberOfSteps();// Oyuncunun oyun boyunca toplam hamle sayısı
-        
 
         int GetTotalAmountOfGoldSpent();// Oyuncunun oyun boyunca harcadığı toplam altın
 
-
         int GetTotalAmountOfGoldEarned();// Oyuncunun oyun boyunca kazandığı toplam altın
-        
 
         int[,] GetPlayerMatris();// Oyuncu matrisini (int) döndürür.
 
@@ -39,6 +38,7 @@ namespace AltınOyunuCSharp.Game.Player.Abstract
         #endregion GET
 
         #region SET
+
         void SetTotalNumberOfSteps(int value);// Oyuncunun oyun boyunca yaptığı toplam hamle değerini arttırır.
 
         void SetTotalAmountOfGoldSpent(int value); // Oyuncunun oyun boyunca harcadığı toplam altın değerini arttırır.

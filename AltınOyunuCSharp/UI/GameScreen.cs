@@ -196,14 +196,14 @@ namespace AltınOyunuCSharp.UI
             Font font = new Font("Calibri", 19);
             SolidBrush brush = new SolidBrush(Color.Black);
 
-            g.DrawLine(pen, (10+10), (10+10), (75+10),( 10+10));
-            g.DrawLine(pen, (10+10), (10+10), (10+10),( 75+10));
-            g.DrawLine(pen, (75+10), (10+10), (70+10),( 4+10));
-            g.DrawLine(pen, (75+10), (10+10), (70+10),( 14+10));
-            g.DrawLine(pen, (10+10), (75+10), (4+10), (70+10));
-            g.DrawLine(pen, (10+10), (75+10), (14+10),( 70+10));
-            g.DrawString("Y", font, brush, (1+9), (76+5));
-            g.DrawString("X", font, brush, (76+9), (1+5));
+            g.DrawLine(pen, (10 + 10), (10 + 10), (75 + 10), (10 + 10));
+            g.DrawLine(pen, (10 + 10), (10 + 10), (10 + 10), (75 + 10));
+            g.DrawLine(pen, (75 + 10), (10 + 10), (70 + 10), (4 + 10));
+            g.DrawLine(pen, (75 + 10), (10 + 10), (70 + 10), (14 + 10));
+            g.DrawLine(pen, (10 + 10), (75 + 10), (4 + 10), (70 + 10));
+            g.DrawLine(pen, (10 + 10), (75 + 10), (14 + 10), (70 + 10));
+            g.DrawString("Y", font, brush, (1 + 9), (76 + 5));
+            g.DrawString("X", font, brush, (76 + 9), (1 + 5));
             gamePanel.BackgroundImage = btm;
         }
 
@@ -211,7 +211,7 @@ namespace AltınOyunuCSharp.UI
         {
             Bitmap bt = new Bitmap(1, 1);
             Pen pen = new Pen(Color.Red, 5);
-            switch (player.name)
+            switch (player.GetName())
             {
                 case "A":
                     bt = new Bitmap(AplayerPicture.BackgroundImage);
@@ -232,7 +232,7 @@ namespace AltınOyunuCSharp.UI
             graph = Graphics.FromImage(bt);
             graph.DrawLine(pen, 2, 2, bt.Width - 2, bt.Height - 2);
             graph.DrawLine(pen, 2, bt.Height - 2, bt.Width - 2, 2);
-            switch (player.name)
+            switch (player.GetName())
             {
                 case "A":
                     AplayerPicture.BackgroundImage = bt;
@@ -265,6 +265,8 @@ namespace AltınOyunuCSharp.UI
                 case 2: return "B";
                 case 3: return "C";
                 case 4: return "D";
+                default:
+                    break;
             }
             return "";
         }
@@ -278,7 +280,7 @@ namespace AltınOyunuCSharp.UI
                     {
                         map.RemovePlayersIsDeath(map.GetGameOrder());
                         map.SetGameOrder();
-                        siradaki.Text = GameOrderString(map.GetGameOrder()); 
+                        siradaki.Text = GameOrderString(map.GetGameOrder());
                         PlayerDeathPictureDraw(aPlayer);
                         aPlayer.SetPlayerMapValue(aPlayer.GetLastCord()[0], aPlayer.GetLastCord()[1], 0);
                         GraphicDraw();
@@ -464,11 +466,6 @@ namespace AltınOyunuCSharp.UI
                 ScoreBoard scoreBoard = new ScoreBoard(aPlayer, bPlayer, cPlayer, dPlayer, map, this);
                 scoreBoard.Show();
             }
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void StartBtn_Click(object sender, EventArgs e)

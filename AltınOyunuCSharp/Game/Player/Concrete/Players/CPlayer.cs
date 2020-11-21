@@ -5,7 +5,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete.Players
 {
     public class CPlayer : Player
     {
-        private readonly int howManyGoldToShow; //Oyuncunun hamle başı kaç adet gizli altın açacağı
+        //private readonly int howManyGoldToShow; //Oyuncunun hamle başı kaç adet gizli altın açacağı
 
         public CPlayer(int gold, string name, int cordY, int cordX, int cost, int moveLenght, int showGold, int searchCost, int gameY, int gameX) : base(gold, name, cordY, cordX, cost, moveLenght, searchCost, gameY, gameX)
         {

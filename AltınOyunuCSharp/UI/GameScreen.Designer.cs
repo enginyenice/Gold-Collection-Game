@@ -504,7 +504,6 @@
             this.label2.Size = new System.Drawing.Size(70, 38);
             this.label2.TabIndex = 12;
             this.label2.Text = "Timer \r\nInterval :";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // TimerIntervalNum
             // 

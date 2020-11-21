@@ -65,28 +65,28 @@ namespace AltınOyunuCSharp.Game.Player.Concrete.Players
                 int[,] goldArray = map.GetGoldMap();
                 int[,] tempGoldArray;
                 tempGoldArray = (int[,])goldArray.Clone();
-                // Diğer oyuncuların hedeflerini matristen çıkar 
-                    if (map.GetPlayerRemainingSteps("A") != -1)
-                        tempGoldArray[aPlayerTarget[0], aPlayerTarget[1]] = 0;
+                // Diğer oyuncuların hedeflerini matristen çıkar
+                if (map.GetPlayerRemainingSteps("A") != -1)
+                    tempGoldArray[aPlayerTarget[0], aPlayerTarget[1]] = 0;
 
-                    if (map.GetPlayerRemainingSteps("B") != -1)
-                        tempGoldArray[bPlayerTarget[0], bPlayerTarget[1]] = 0;
+                if (map.GetPlayerRemainingSteps("B") != -1)
+                    tempGoldArray[bPlayerTarget[0], bPlayerTarget[1]] = 0;
 
-                    if (map.GetPlayerRemainingSteps("C") != -1)
-                        tempGoldArray[cPlayerTarget[0], cPlayerTarget[1]] = 0;
-                
+                if (map.GetPlayerRemainingSteps("C") != -1)
+                    tempGoldArray[cPlayerTarget[0], cPlayerTarget[1]] = 0;
+
                 // eğer diğer oyuncuların hedefleri çıkarıldığında hedeflenecek başka altın
                 //kalmıyor ise o altınları hedeflenebilir yap.
                 int goldCount = 0;
-                for(int i = 0; i < tempGoldArray.GetLength(0);i++)
+                for (int i = 0; i < tempGoldArray.GetLength(0); i++)
                 {
-                    for (int j = 0; j < tempGoldArray.GetLength(0);j++)
+                    for (int j = 0; j < tempGoldArray.GetLength(0); j++)
                     {
                         if (tempGoldArray[i, j] != 0)
                             goldCount++;
                     }
                 }
-                if(goldCount==0)
+                if (goldCount == 0)
                 {
                     tempGoldArray[aPlayerTarget[0], aPlayerTarget[1]] = map.GetGoldPointValue(aPlayerTarget[0], aPlayerTarget[1]);
                     tempGoldArray[bPlayerTarget[0], bPlayerTarget[1]] = map.GetGoldPointValue(bPlayerTarget[0], bPlayerTarget[1]);
@@ -148,7 +148,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete.Players
                 this.SetLog("Hedef belirlemek için " + this.GetSearchCost() + " altın harcadı.");
                 this.SetLog("Hedef " + whoseTarget + " Oyuncusunun hedefi olan: ");
                 //this.SetLog("Y:" + nearestGoldY + " X:" + nearestGoldX + " olarak belirlendi.");
-                this.SetLog("X:" + nearestGoldX +  " Y:" + nearestGoldY + " olarak belirlendi.");
+                this.SetLog("X:" + nearestGoldX + " Y:" + nearestGoldY + " olarak belirlendi.");
                 this.SetLog("Tahmini Kazanç: " + GetGoldEarnedOnReachTarget() + " Altının Degeri: " + this.GetTargetedGoldValue());
             }
             else

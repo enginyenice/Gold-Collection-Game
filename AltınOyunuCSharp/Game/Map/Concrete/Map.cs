@@ -310,7 +310,6 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
                         if (prevGameOrderIndex == playersIsDeath.Count())
                         {
                             gameOrder = playersIsDeath[0];
-
                         }
                         else
                         {
@@ -320,7 +319,7 @@ namespace AltınOyunuCSharp.Game.Map.Concrete
                     //Eğer oyuncu ölmüyor ise
                     else
                     {
-                        if (playersIsDeath.IndexOf(gameOrder) == (playersIsDeath.Count() - 1)) 
+                        if (playersIsDeath.IndexOf(gameOrder) == (playersIsDeath.Count() - 1))
                         {
                             gameOrder = playersIsDeath[0];
                             prevGameOrderIndex = playersIsDeath.Count() - 1;
