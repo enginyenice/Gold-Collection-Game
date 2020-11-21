@@ -147,13 +147,15 @@ namespace AltınOyunuCSharp.Game.Player.Concrete.Players
                 this.SetLog(whoseTarget + " oyuncusunun hedefine ondan önce ulaşılabilir.");
                 this.SetLog("Hedef belirlemek için " + this.GetSearchCost() + " altın harcadı.");
                 this.SetLog("Hedef " + whoseTarget + " Oyuncusunun hedefi olan: ");
-                this.SetLog("X:" + nearestGoldY + " Y:" + nearestGoldX + " olarak belirlendi.");
+                //this.SetLog("Y:" + nearestGoldY + " X:" + nearestGoldX + " olarak belirlendi.");
+                this.SetLog("X:" + nearestGoldX +  " Y:" + nearestGoldY + " olarak belirlendi.");
                 this.SetLog("Tahmini Kazanç: " + GetGoldEarnedOnReachTarget() + " Altının Degeri: " + this.GetTargetedGoldValue());
             }
             else
             {
                 this.SetLog("Hedef belirlemek için " + this.GetSearchCost() + " altın harcadı.");
-                this.SetLog("Hedef: X:" + nearestGoldY + " Y:" + nearestGoldX + " olarak belirlendi.");
+                //this.SetLog("Hedef: Y:" + nearestGoldY + " X:" + nearestGoldX + " olarak belirlendi.");
+                this.SetLog("Hedef: X:" + nearestGoldX + " Y:" + nearestGoldY + " olarak belirlendi.");
                 this.SetLog("Tahmini Kazanç: " + GetGoldEarnedOnReachTarget() + " Altının Degeri: " + this.GetTargetedGoldValue());
             }
 

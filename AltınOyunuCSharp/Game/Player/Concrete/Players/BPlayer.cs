@@ -69,7 +69,8 @@ namespace AltınOyunuCSharp.Game.Player.Concrete.Players
             this.SetTotalAmountOfGoldSpent(this.GetSearchCost());
 
             this.SetLog("Hedef belirlemek için " + this.GetSearchCost() + " altın harcadı.");
-            this.SetLog("Hedef: X:" + nearestGoldY + " Y:" + nearestGoldX + " olarak belirlendi.");
+            //this.SetLog("Hedef: Y:" + nearestGoldY + " X:" + nearestGoldX + " olarak belirlendi.");
+            this.SetLog("Hedef: X:" + nearestGoldX + " Y:" + nearestGoldY + " olarak belirlendi.");
             this.SetLog("Tahmini Kazanç: " + GetGoldEarnedOnReachTarget() + " Altının Degeri: " + this.GetTargetedGoldValue());
 
             map.SetPlayerTarget(nearestGoldY, nearestGoldX, "B");

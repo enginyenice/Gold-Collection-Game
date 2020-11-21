@@ -190,20 +190,20 @@ namespace AltınOyunuCSharp.UI
 
         public void CordGuide()
         {
-            Bitmap btm = new Bitmap(100, 100);
+            Bitmap btm = new Bitmap(150, 150);
             Graphics g = Graphics.FromImage(btm);
             Pen pen = new Pen(Color.Black, 3);
             Font font = new Font("Calibri", 19);
             SolidBrush brush = new SolidBrush(Color.Black);
 
-            g.DrawLine(pen, 10, 10, 75, 10);
-            g.DrawLine(pen, 10, 10, 10, 75);
-            g.DrawLine(pen, 75, 10, 70, 4);
-            g.DrawLine(pen, 75, 10, 70, 14);
-            g.DrawLine(pen, 10, 75, 4, 70);
-            g.DrawLine(pen, 10, 75, 14, 70);
-            g.DrawString("X", font, brush, 1, 76);
-            g.DrawString("Y", font, brush, 76, 1);
+            g.DrawLine(pen, (10+10), (10+10), (75+10),( 10+10));
+            g.DrawLine(pen, (10+10), (10+10), (10+10),( 75+10));
+            g.DrawLine(pen, (75+10), (10+10), (70+10),( 4+10));
+            g.DrawLine(pen, (75+10), (10+10), (70+10),( 14+10));
+            g.DrawLine(pen, (10+10), (75+10), (4+10), (70+10));
+            g.DrawLine(pen, (10+10), (75+10), (14+10),( 70+10));
+            g.DrawString("Y", font, brush, (1+9), (76+5));
+            g.DrawString("X", font, brush, (76+9), (1+5));
             gamePanel.BackgroundImage = btm;
         }
 
