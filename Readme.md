@@ -6,6 +6,10 @@
 ## CEMRE CAN KAYA - 190201137
 ## ENGİN YENİCE - 190201133
 ---
+### BRANCH LİSTESİ
+1. master => Proje dosyalarının bulunduğu **branch**
+2.  Teslim-Dosyaları Projenin teslim edilmesi için gerekli dökümanların bulunduğu **branch**
+---
 ### PROJE HAKKINDA
 Oyun C# Programlama dili kullanılarak nesne tabanlı programlama mantığı ile geliştirildi. Oyun kullanıcının belirlediği m x n karelik bir oyun alanında ve belirlenen kurallara göre bir simülasyon şeklinde çalışmaktadır. Kullanıcı oyun alanının boyutunu ve oyuncuların özelliklerini belirledikten sonra oyun başlatılır oyun sonunda oyuncuların tüm hareketleri ve tüm bilgileri ekrana tablo olarak yansıtılır. Bu bilgiler her kullanıcı için ayrı ayrı dosyalara yazdırılır.	
 ### TESLİM EDİLEN DOSYALAR VE İÇERİKLERİ
