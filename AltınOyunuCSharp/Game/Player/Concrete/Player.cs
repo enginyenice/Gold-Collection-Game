@@ -228,9 +228,9 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
             if (cord == 'X')
             {
                 // -X yönünde
-                if (move < 0)
+                if (this.lastXCord > move)
                 {
-                    for (int x = lastXCord; x >= lastXCord - Math.Abs(move); x--)
+                    for (int x = lastXCord; x >= move; x--)
                     {
                         if (map.GetPrivateGoldMap()[lastYCord, x] != 0)
                         {
@@ -242,9 +242,9 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                     }
                 }
                 // +X yönünde
-                else if (move > 0)
+                else if (this.lastXCord < move)
                 {
-                    for (int x = lastXCord; x <= Math.Abs(move) + lastXCord; x++)
+                    for (int x = lastXCord; x <= move; x++)
                     {
                         if (map.GetPrivateGoldMap()[lastYCord, x] != 0)
                         {
@@ -258,30 +258,31 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
             }
             else
             {
+
                 // -Y yönünde
-                if (move < 0)
+                if (this.lastYCord > move)
                 {
-                    for (int y = lastYCord; y >= lastYCord - Math.Abs(move); y--)
+                    for (int y = lastYCord; y >= move; y--)
                     {
                         if (map.GetPrivateGoldMap()[y, lastXCord] != 0)
                         {
                             map.UpdateGoldMapPoint(y, lastXCord, map.GetPrivateGoldMap()[y, lastXCord]);
                             map.RemovePrivateGoldPoint(y, lastXCord);
-                            //this.SetLog("Y:" + y + " X:" + lastXCord + " kordinatındaki gizli altın açıldı.");
+                            //this.SetLog("Y:" + lastYCord + " X:" + x + " kordinatındaki gizli altın açıldı.");
                             this.SetLog("X:" + lastXCord + " Y:" + y + " kordinatındaki gizli altın açıldı.");
                         }
                     }
                 }
-                // +Y yönünde
-                else if (move > 0)
+                // +X yönünde
+                else if (this.lastYCord < move)
                 {
-                    for (int y = lastYCord; y <= Math.Abs(move) + lastYCord; y++)
+                    for (int y = lastYCord; y <= move; y++)
                     {
                         if (map.GetPrivateGoldMap()[y, lastXCord] != 0)
                         {
                             map.UpdateGoldMapPoint(y, lastXCord, map.GetPrivateGoldMap()[y, lastXCord]);
                             map.RemovePrivateGoldPoint(y, lastXCord);
-                            //this.SetLog("Y:" + y + " X:" + lastXCord + " kordinatındaki gizli altın açıldı.");
+                            //this.SetLog("Y:" + lastYCord + " X:" + x + " kordinatındaki gizli altın açıldı.");
                             this.SetLog("X:" + lastXCord + " Y:" + y + " kordinatındaki gizli altın açıldı.");
                         }
                     }
@@ -349,7 +350,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                     totalMoveLenght = 0;
                 }
 
-                PrivateGoldShow('X', targetXToPlayerX, map);// Gidilen yolda gizli altın var ise görünür yap
+                PrivateGoldShow('X', tempCordX, map);// Gidilen yolda gizli altın var ise görünür yap
                 this.UpdateCord(lastYCord, tempCordX);// Oyuncunun konumunu güncelle
 
                 // Yatayda yapılan hareketten sonra kalan adım var ise veya
@@ -374,7 +375,7 @@ namespace AltınOyunuCSharp.Game.Player.Concrete
                         }
                     }
                 }
-                PrivateGoldShow('Y', targetYToPlayerY, map);// Gidilen yolda gizli altın var ise görünür
+                PrivateGoldShow('Y', tempCordY, map);// Gidilen yolda gizli altın var ise görünür
                 this.UpdateCord(tempCordY, tempCordX);// Oyuncunun konumunu güncelle
 
                 // Hedefe ulaşıldı mı?
