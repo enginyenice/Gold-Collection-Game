@@ -27,18 +27,20 @@
 |																|
 |190201137-190201133-Rapor.pdf      : Projenin raporu										|
 |190201137-190201133-Kaba-Kod.pdf   : Proje içerisinde yazıların kodların kaba kod çıktıları					|
-|190201137-190201133-Tüm-Kodlar.txt : Projenin tüm kodlarının kopyalandığı metin belgesi					|
 |190201137-190201133-Proje.zip	    : Proje dosyalarının bulunduğu zip dosyası							|
-|190201137-190201133-README.txt	    : Projenin nasıl çalıştırılacağı ve önemli notların bulunduğu metin belgesi			|
+|Altın Oyunu Exe		    : Projenin exe olarak çalıştırılabilir hali bulunmaktadır.					|
+|190201137-190201133.txt 	    : Projenin tüm kodlarının kopyalandığı metin belgesi					|	
+|readme.txt	    		    : Projenin nasıl çalıştırılacağı ve önemli notların bulunduğu metin belgesi			|
 |_______________________________________________________________________________________________________________________________|
 
  _______________________________________________________________________________________________________________________________
 |PROJE NASIL ÇALIŞTIRILIR													|
 |																|
-|Projeyi çalıştırmak için 2 farklı yol izleyebilirsiniz.									|
+|Projeyi çalıştırmak için 3 farklı yol izleyebilirsiniz.									|
 |																|
-|1-)AltınOyunuCSharp\bin\Debug klasörü altında bulunan AltınOyunuCSharp.exe uygulaması ile çalıştırabilirsiniz.			|
-|2-)Proje dizini içerisindeki AltınOyunuCSharp.sln proje dosyasını açarak visual studio programından projeyi başlatabilirsiniz.	|
+|1-)Altın Oyunu Exe klasörü içerisindeki Altın Oyunu.exe uygulaması ile çalıştırabilirsiniz.					|
+|2-)AltınOyunuCSharp\bin\Debug klasörü altında bulunan AltınOyunuCSharp.exe uygulaması ile çalıştırabilirsiniz.			|
+|3-)Proje dizini içerisindeki AltınOyunuCSharp.sln proje dosyasını açarak visual studio programından projeyi başlatabilirsiniz.	|
 |_______________________________________________________________________________________________________________________________|
 
  _______________________________________________________________________________________________________________________________
@@ -46,7 +48,8 @@
 |Oyuncu hareketleri önce yatay düzlemde(X) tamamlanır. Ardından dikey düzlemde(Y) tamamlanır.					|
 |Örneğin:															|
 |X:0 Y:0 koordinatında bulunan bir oyuncunun X:3 Y:3 koordinatına gidebilmesi için						|
-|Oyuncu önce yatay düzlemde (X koordinatında) 3 brim hareket eder. Ardından dikey düzlemde (Y koordinatında) 3 brim hareket eder|
+| ->Oyuncu önce yatay düzlemde (X koordinatında) 3 birim hareket eder. 								|
+| ->Ardından dikey düzlemde (Y koordinatında) 3 birim hareket eder.								|
 |_______________________________________________________________________________________________________________________________|
 
  _______________________________________________________________________________________________________________________________

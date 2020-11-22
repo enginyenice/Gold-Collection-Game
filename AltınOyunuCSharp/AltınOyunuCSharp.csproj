@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>altintoplama.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -109,6 +112,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="altintoplama.ico" />
+    <Content Include="favicon.ico" />
     <Content Include="Resource\coin10.png" />
     <Content Include="Resource\coin15.png" />
     <Content Include="Resource\coin20.png" />

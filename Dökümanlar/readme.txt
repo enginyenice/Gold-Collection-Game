@@ -7,11 +7,9 @@
 					|    YAZILIM LABORATUVARI-1 PROJE -1	|
 					|	  ALTIN TOPLAMA OYUNU		|
 					|_______________________________________|
-					|	ENGİN YENİCE - 190201133	|
 					|	CEMRE CAN KAYA - 190201137	|
+					|	 ENGİN YENİCE - 190201133	|
 					|_______________________________________|
-
-
 
  _______________________________________________________________________________________________________________________________
 |PROJE HAKKINDA															|
@@ -32,10 +30,6 @@
 |190201137-190201133.zip	    : Proje dosyalarının bulunduğu zip dosyası							|
 |_______________________________________________________________________________________________________________________________|
 
-
-
-
-
  _______________________________________________________________________________________________________________________________
 |PROJE NASIL ÇALIŞTIRILIR													|
 |																|
@@ -43,6 +37,8 @@
 |																|
 |1-)AltınOyunuCSharp\bin\Debug klasörü altında bulunan AltınOyunuCSharp.exe uygulaması ile çalıştırabilirsiniz.			|
 |2-)Proje dizini içerisindeki AltınOyunuCSharp.sln proje dosyasını açarak visual studio programından projeyi başlatabilirsiniz.	|
+|3-)Proje dizini içerisindeki 190201137-190201133-Exe klasörü altındaki Altın-Toplama-Oyunu.exe uygulamasını çalıştırarak oyuna |
+|erişebilirsiniz.														|
 |_______________________________________________________________________________________________________________________________|
 
  _______________________________________________________________________________________________________________________________
