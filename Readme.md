@@ -43,20 +43,6 @@ Oyun C# Programlama dili kullanılarak nesne tabanlı programlama mantığı ile
 | C Oyuncusu | C.txt |
 | D Oyuncusu | D.txt |
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Önemli Notlar
 
  - Üstünden geçilen altın
@@ -85,3 +71,14 @@ Oyun C# Programlama dili kullanılarak nesne tabanlı programlama mantığı ile
 ## Önemli Not: *Varsayılan yazan tüm parametreler değiştirilebilir olmalıdır.*
 
 ***
+
+## Oyun Ekranından Kareler
+
+###  Genel Ayarlar
+![Genel Ayarlar](https://raw.githubusercontent.com/enginyenice/Altin-Toplama-Oyunu-YazLab-1-Proje-1/master/D%C3%B6k%C3%BCmanlar/Resimler/GenelAyarlar.png)
+
+### Oyun Ekranı
+![Oyun](https://raw.githubusercontent.com/enginyenice/Altin-Toplama-Oyunu-YazLab-1-Proje-1/master/D%C3%B6k%C3%BCmanlar/Resimler/OyunEkran%C4%B1.png)
+
+### Oyun Sonu Ekranı
+![Oyun Sonu](https://raw.githubusercontent.com/enginyenice/Altin-Toplama-Oyunu-YazLab-1-Proje-1/master/D%C3%B6k%C3%BCmanlar/Resimler/ScoreBoard.png)
