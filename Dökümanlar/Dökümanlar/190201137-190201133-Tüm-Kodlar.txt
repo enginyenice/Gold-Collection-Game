@@ -1,0 +1,2229 @@
+//---------------------------------------------------------------------
+//Game/Map/Abstract/IMap.cs
+//---------------------------------------------------------------------
+namespace AltınOyunuCSharp.Game.Map.Abstract
+{
+    /*
+     *  Harita Matrisi değerleri   |  Örnek Gösterim
+     *                             |
+     *  Boş kare           :       |     |0   |1   |2   |3   |4   |
+     *  ---------------------------|  0  |A   |    |5   |10  |B   |
+     *  A kullanıcı        : A     |  1  |G-5 |10  |G-5 |    |20  |
+     *  B kullanıcı        : B     |  2  |G-20|    |15  |10  |    |
+     *  C kullanıcı        : C     |  3  |20  |5   |G-15|    |    |
+     *  D kullanıcı        : D     |  4  |C   |    |    |15  |D   |
+     *  ---------------------------|
+     *  Altın 5            : 5     |
+     *  Altın 10           : 10    |
+     *  Altın 15           : 15    |
+     *  Altın 20           : 20    |
+     *  ---------------------------|
+     *  Gizli altın 5      : G-5   |
+     *  Gizli altın 10     : G-10  |
+     *  Gizli altın 15     : G-15  |
+     *  Gizli altın 20     : G-20  |
+     */
+
+    public interface IMap
+    {
+        #region GET
+
+        string[,] GetMap();// Harita Matrisini döndürür.
+
+        int[,] GetGoldMap();// Altın harita matrisini geri döndürür.
+
+        int[,] GetPrivateGoldMap();// Gizli Altın harita matrisini geri döndürür.
+
+        int[] GetPlayerTarget(string playerName);// Oyuncunun hedefinin koordinatlarını döndürür.
+
+        int GetPlayerRemainingSteps(string playerName);// Oyuncunun hedefe kalan adim sayisini verir.
+
+        int GetGoldCount();// Oyun alanında bulunan toplam görünür altın sayısını döndürür.
+
+        int GetPrivateGoldCount();// Oyun alanında bulunan toplam gizli altın sayısını döndürür.
+
+        string GetMapPointValue(int CordY, int CordX); // Harita matrisinin girilen koordinatlardaki değerini döndürür.
+
+        int GetGoldPointValue(int CordY, int CordX);// Koordinatları girilen altının değerini döndürür.
+
+        int GetPrivateGoldPointValue(int CordY, int CordX);// Koordinatları girilen gizli altının değerini döndürür.
+
+        int GetGameOrder();// Oyun sırasının hangi oyuncuda olduğunu döndürür.
+
+        bool IsFull();// Harita tamamen dolu mu ?
+
+        bool GetgameOver();// Oyun bitti mi ?
+
+        string GetgameOverReason();// Oyunun bitiş sebebini döndürür.
+
+        public string GetMapString();//
+
+        #endregion GET
+
+        #region SET
+
+        void SetPlayerTarget(int targetY, int targetX, string playerName);// Oyuncuya hedef ver.
+
+        void SetPlayerRemainingSteps(int steps, string playerName);// Oyuncunun hedefe kaç adımı var.
+
+        void SetGameOrder();// Oyun sırasını belirler.
+
+        #endregion SET
+
+        #region REMOVE
+
+        void RemovePlayersIsDeath(int gameOrder);// Altını bitip ölen oyuncuyu oyun sırasından çıkarır.
+
+        public void RemoveGoldPoint(int CordY, int CordX);// Altın haritasinda girilen koordinatlardaki altını siler.
+
+        void RemovePrivateGoldPoint(int yCord, int xCord);// Gizli Altın haritasinda girilen koordinatlardaki altını siler.
+
+        #endregion REMOVE
+
+        #region UPDATE
+
+        void UpdateGoldMapPoint(int CordY, int CordX, int data);// Altın matrisinin girilen koordinatındaki değeri değiştirir.
+
+        void UpdateMapPointData(int CordY, int CordX, string data);// Harita matrisinin girilen koordinatındaki değeri değiştirir.
+
+        void UpdatePrivateGoldMapPoint(int CordY, int CordX, int data);// Gizli aktın matrisinin girilen koordinatındaki değeri değiştirir.
+
+        void AddPlayer(int CordY, int CordX, string PlayerCode); // Oyuncuyu haritaya ekler.
+
+        void AddAllGold(int GoldRate, int PrivateGoldRate); // Kaç adet altın eklenecek. Yüzde kaçı gizli.
+
+        #endregion UPDATE
+    }
+}
+//---------------------------------------------------------------------
+//Game/Map/Concrete/Map.cs
+//---------------------------------------------------------------------
+using AltınOyunuCSharp.Game.Map.Abstract;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace AltınOyunuCSharp.Game.Map.Concrete
+{
+    public class Map : IMap
+    {
+        private readonly string[,] map; // Oyun alanındaki tüm öğeler
+        private readonly string[,] cloneMap; // oyun alanının başlangıçtaki şeklini turar.
+        private readonly int[,] goldMap; // Oyun alan
+        private readonly int[,] privateGoldMap;
+        private readonly int mapSquare; // Oyun alanı kare sayısı
+
+        private readonly int[] aPlayerTarget;
+        private readonly int[] bPlayerTarget;
+        private readonly int[] cPlayerTarget;
+        private readonly int[] dPlayerTarget;
+        private readonly int[] playersRemainingSteps;
+
+        private List<int> playersIsDeath;
+        private int gameOrder = 1;
+        private int prevGameOrderIndex = 0;
+        private bool gameOver;
+        private String gameOverReason = "";
+
+        public Map(int ySize, int xSize)
+        {
+            aPlayerTarget = new int[2];
+            bPlayerTarget = new int[2];
+            cPlayerTarget = new int[2];
+            dPlayerTarget = new int[2];
+            playersRemainingSteps = new int[4];
+            playersIsDeath = new List<int> { 1, 2, 3, 4 };
+            gameOver = false;
+
+            map = new string[ySize, xSize];
+            cloneMap = new string[ySize, xSize];
+            goldMap = new int[ySize, xSize];
+            privateGoldMap = new int[ySize, xSize];
+            for (int i = 0; i < ySize; i++)
+            {
+                for (int k = 0; k < xSize; k++)
+                {
+                    goldMap[i, k] = 0;
+                    privateGoldMap[i, k] = 0;
+                    UpdateMapPointData(i, k, String.Empty);
+                    cloneMap[i, k] = String.Empty;
+                }
+            }
+            mapSquare = ySize * xSize;
+        }
+
+        #region GET
+
+        public string[,] GetMap()
+        {
+            return this.map;
+        }
+
+        public int[,] GetGoldMap()
+        {
+            return this.goldMap;
+        }
+
+        public int[,] GetPrivateGoldMap()
+        {
+            return this.privateGoldMap;
+        }
+
+        public int[] GetPlayerTarget(string playerName)
+        {
+            return playerName switch
+            {
+                "A" => aPlayerTarget,
+                "B" => bPlayerTarget,
+                "C" => cPlayerTarget,
+                "D" => dPlayerTarget,
+                _ => aPlayerTarget,
+            };
+        }
+
+        public int GetPlayerRemainingSteps(string playerName)
+        {
+            return playerName switch
+            {
+                "A" => playersRemainingSteps[0],
+                "B" => playersRemainingSteps[1],
+                "C" => playersRemainingSteps[2],
+                "D" => playersRemainingSteps[3],
+                _ => playersRemainingSteps[0],
+            };
+        }
+
+        public int GetGoldCount()
+        {
+            int count = 0;
+            for (int y = 0; y < goldMap.GetLength(0); y++)
+            {
+                for (int x = 0; x < goldMap.GetLength(1); x++)
+                {
+                    if (goldMap[y, x] != 0)
+                    {
+                        count++;
+                    }
+                }
+            }
+            return count;
+        }
+
+        public int GetPrivateGoldCount()
+        {
+            int count = 0;
+            for (int y = 0; y < privateGoldMap.GetLength(0); y++)
+            {
+                for (int x = 0; x < privateGoldMap.GetLength(1); x++)
+                {
+                    if (privateGoldMap[y, x] != 0)
+                    {
+                        count++;
+                    }
+                }
+            }
+            return count;
+        }
+
+        public string GetMapPointValue(int CordY, int CordX)
+        {
+            return map[CordY, CordX];
+        }
+
+        public int GetGoldPointValue(int CordY, int CordX)
+        {
+            return goldMap[CordY, CordX];
+        }
+
+        public int GetPrivateGoldPointValue(int CordY, int CordX)
+        {
+            return privateGoldMap[CordY, CordX];
+        }
+
+        public int GetGameOrder()
+        {
+            return gameOrder;
+        }
+
+        public bool IsFull()
+        {
+            for (int y = 0; y < map.GetLength(0); y++)
+            {
+                for (int x = 0; x < map.GetLength(1); x++)
+                {
+                    if (map[y, x] == String.Empty)
+                        return false;
+                }
+            }
+            return true;
+        }
+
+        public bool GetgameOver()
+        {
+            return this.gameOver;
+        }
+
+        public string GetgameOverReason()
+        {
+            return this.gameOverReason;
+        }
+
+        public string GetGoldMapString()
+        {
+            string mapText = "Normal Altın\n";
+            for (int y = 0; y < goldMap.GetLength(0); y++)
+            {
+                for (int x = 0; x < goldMap.GetLength(1); x++)
+                {
+                    mapText += " | " + goldMap[y, x];
+                }
+                mapText += " |\n";
+            }
+            return mapText;
+        }//Console
+
+        public string GetPrivateGoldMapString()
+        {
+            string mapText = "Gizli Altın\n";
+            for (int y = 0; y < privateGoldMap.GetLength(0); y++)
+            {
+                for (int x = 0; x < privateGoldMap.GetLength(1); x++)
+                {
+                    mapText += " | " + privateGoldMap[y, x];
+                }
+                mapText += " |\n";
+            }
+            return mapText;
+        }//Console
+
+        public string GetMapString()//Log
+        {
+            string text = "";
+            for (int y = -1; y < this.GetMap().GetLength(0); y++)
+            {
+                for (int x = -1; x < this.GetMap().GetLength(1); x++)
+                {
+                    if (y == -1)
+                    {
+                        if (x == -1)
+                            text += "|   ";
+                        else if (x < 10)
+                            text += "|" + x + "   ";
+                        else if (x > 9 && x < 100)
+                            text += "|" + x + "  ";
+                        else if (x > 99)
+                            text += "|" + x + " ";
+                    }
+                    else
+                    {
+                        if (x == -1)
+                        {
+                            if (x == -1 && y < 10)
+                                text += "|  " + y + "";
+                            else if (x == -1 && y > 9 && y < 100)
+                                text += "| " + y + "";
+                            else if (x == -1 && y > 99)
+                                text += "|" + y + "";
+                        }
+                        else
+                        {
+                            text += "|" + this.GetMapPointValue(y, x);
+                            for (int i = 0; i < (4 - this.GetMapPointValue(y, x).Length); i++)
+                            {
+                                text += " ";
+                            }
+                        }
+                    }
+                }
+                text += "|\r\n";
+            }
+            return text;
+        }
+
+        #endregion GET
+
+        #region SET
+
+        public void SetPlayerTarget(int targetY, int targetX, string playerName)
+        {
+            switch (playerName)
+            {
+                case "A":
+                    aPlayerTarget[0] = targetY;
+                    aPlayerTarget[1] = targetX;
+                    break;
+
+                case "B":
+                    bPlayerTarget[0] = targetY;
+                    bPlayerTarget[1] = targetX;
+                    break;
+
+                case "C":
+                    cPlayerTarget[0] = targetY;
+                    cPlayerTarget[1] = targetX;
+                    break;
+
+                case "D":
+                    dPlayerTarget[0] = targetY;
+                    dPlayerTarget[1] = targetX;
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        public void SetPlayerRemainingSteps(int steps, string playerName)
+        {
+            switch (playerName)
+            {
+                case "A":
+                    playersRemainingSteps[0] = steps;
+                    break;
+
+                case "B":
+                    playersRemainingSteps[1] = steps;
+                    break;
+
+                case "C":
+                    playersRemainingSteps[2] = steps;
+                    break;
+
+                case "D":
+                    playersRemainingSteps[3] = steps;
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        public void SetGameOrder()
+        {
+            if (GetGoldCount() > 0)
+            {
+                if (playersIsDeath.Count != 0)
+                {
+                    //Eğer oyuncu ölmüş ise
+                    if (playersIsDeath.IndexOf(gameOrder) == -1)
+                    {
+                        if (prevGameOrderIndex == playersIsDeath.Count())
+                        {
+                            gameOrder = playersIsDeath[0];
+                        }
+                        else
+                        {
+                            gameOrder = playersIsDeath[prevGameOrderIndex];
+                        }
+                    }
+                    //Eğer oyuncu ölmüyor ise
+                    else
+                    {
+                        if (playersIsDeath.IndexOf(gameOrder) == (playersIsDeath.Count() - 1))
+                        {
+                            gameOrder = playersIsDeath[0];
+                            prevGameOrderIndex = playersIsDeath.Count() - 1;
+                        }
+                        else
+                        {
+                            prevGameOrderIndex = playersIsDeath.IndexOf(gameOrder);
+                            gameOrder = playersIsDeath[prevGameOrderIndex + 1];
+                        }
+                    }
+                }
+                else
+                {
+                    gameOrder = -1;
+                    gameOverReason = "Tüm oyuncular elendi.";
+                    gameOver = true;
+                }
+            }
+            else
+            {
+                gameOverReason = "Oyun alanında altın kalmadı.";
+                gameOver = true;
+            }
+            //gameOrder = -1;
+            /*if (gameOrder > 3)
+                gameOrder = 1;
+            else
+                gameOrder++;*/
+        }
+
+        #endregion SET
+
+        #region REMOVE
+
+        public void RemovePlayersIsDeath(int gameOrder)
+        {
+            this.prevGameOrderIndex = playersIsDeath.IndexOf(gameOrder);
+            this.playersIsDeath.Remove(gameOrder);
+            playersIsDeath = playersIsDeath.OrderBy(a => a).ToList();
+        }
+
+        public void RemoveGoldPoint(int CordY, int CordX)
+        {//Gold Haritası Noktadaki Değeri Sil
+            this.goldMap[CordY, CordX] = 0;
+        }
+
+        public void RemovePrivateGoldPoint(int CordY, int CordX)
+        {//Private Gold Haritası Noktadaki Değer
+            this.privateGoldMap[CordY, CordX] = 0;
+        }
+
+        #endregion REMOVE
+
+        #region UPDATE
+
+        public void UpdateMapPointData(int CordY, int CordX, string data)
+        {
+            map[CordY, CordX] = data;
+        }
+
+        public void UpdateGoldMapPoint(int CordY, int CordX, int data)
+        {  //Gold Haritası Noktasına Değer Ekle
+            this.goldMap[CordY, CordX] = data;
+        }
+
+        public void UpdatePrivateGoldMapPoint(int CordY, int CordX, int data)
+        {  //Gold Haritası Noktasına Değer Ekle
+            this.privateGoldMap[CordY, CordX] = data;
+        }
+
+        public void AddPlayer(int CordY, int CordX, string PlayerCode)
+        {
+            UpdateMapPointData(CordY, CordX, PlayerCode);
+            cloneMap[CordY, CordX] = PlayerCode;
+        }
+
+        public void AddAllGold(int GoldRate, int PrivateGoldRate)
+        {
+            int goldField = (mapSquare * GoldRate) / 100;
+            int privateGoldField = (goldField * PrivateGoldRate) / 100;
+            goldField -= privateGoldField;
+            Random rand = new Random();
+
+            int count = 0;
+            while (count < goldField)
+            {
+            GoldDetected:
+                int randomY = rand.Next(map.GetLength(0));
+                int randomX = rand.Next(map.GetLength(1));
+                if (GetMapPointValue(randomY, randomX) == String.Empty)
+                {
+                    int gold = (rand.Next(1, 5) * 5);
+                    UpdateMapPointData(randomY, randomX, gold.ToString());
+                    cloneMap[randomY, randomX] = gold.ToString();
+                    UpdateGoldMapPoint(randomY, randomX, gold);
+                    count++;
+                }
+                else
+                {
+                    if (IsFull() == false)
+                    {
+                        goto GoldDetected;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+            count = 0;
+            while (count < privateGoldField)
+            {
+            PrivateGoldDetected:
+                int randomY = rand.Next(map.GetLength(0));
+                int randomX = rand.Next(map.GetLength(1));
+                if (GetMapPointValue(randomY, randomX) == String.Empty)
+                {
+                    int gold = (rand.Next(1, 5) * 5);
+                    UpdateMapPointData(randomY, randomX, "G-" + gold.ToString());
+                    cloneMap[randomY, randomX] = "G-" + gold.ToString();
+                    UpdatePrivateGoldMapPoint(randomY, randomX, gold);
+                    count++;
+                }
+                else
+                {
+                    if (IsFull() == false)
+                    {
+                        goto PrivateGoldDetected;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+
+        #endregion UPDATE
+    }
+}
+//---------------------------------------------------------------------
+//Game/Player/Abstract/IPlayer.cs
+//---------------------------------------------------------------------
+using AltınOyunuCSharp.Game.Map.Abstract;
+using System.Collections.Generic;
+
+namespace AltınOyunuCSharp.Game.Player.Abstract
+{
+    internal interface IPlayer
+    {
+        #region GET
+
+        string GetName(); // Oyuncunun adını geriye döndürür.
+
+        int GetTotalNumberOfSteps();// Oyuncunun oyun boyunca toplam hamle sayısı
+
+        int GetTotalAmountOfGoldSpent();// Oyuncunun oyun boyunca harcadığı toplam altın
+
+        int GetTotalAmountOfGoldEarned();// Oyuncunun oyun boyunca kazandığı toplam altın
+
+        int[,] GetPlayerMatris();// Oyuncu matrisini (int) döndürür.
+
+        string GetPlayerMapString();//Oyuncu matrisini(string) Consol için text olarak döndürür.
+
+        int GetPlayerGold();//Oyuncunun kasasında bulunan altını döndürür.
+
+        int GetGoldEarnedOnReachTarget();//Hedeflenen altına ulaşıldığında elde edeceği kar değerini döndürür.
+
+        int[] GetLastCord();//Oyuncunun oyun alanında bulunduğu son konumu döndürür.
+
+        int GetSearchCost();//Hedef belirleme maliyetini döndürür.
+
+        int GetRemainingSteps();//Oyuncunun hedefine kalan hamle sayısını döndürür.
+
+        List<string> GetLog();//Oyuncunun oyun sırasında yaptığı tüm işlemlerin kaydını döndürür.
+
+        int[] GetTargetedGoldCord();//Hedeflenen altının bulunduğu koordinatı döndürür.
+
+        int GetTargetedGoldValue();//Hedeflenen altının değerini döndürür.
+
+        #endregion GET
+
+        #region SET
+
+        void SetTotalNumberOfSteps(int value);// Oyuncunun oyun boyunca yaptığı toplam hamle değerini arttırır.
+
+        void SetTotalAmountOfGoldSpent(int value); // Oyuncunun oyun boyunca harcadığı toplam altın değerini arttırır.
+
+        void SetTotalAmountOfGoldEarned(int value); // Oyuncunun oyun boyunca kazandığı toplam altın değerini arttırır.
+
+        void SetPlayerGold(int gold);//Oyuncunun kasasında bulunan altını belirler.
+
+        void SetLog(string log);//Oyuncunun hareketlerini listeye ekler.
+
+        void SetGoldEarnedOnReachTarget(int gold);//Hedeflenen altına ulaşıldığında elde edeceği kar değerini belirler.
+
+        void SetRemainingSteps(int remainingSteps);//Oyuncunun hedefine kalan hamle sayısını belirler.
+
+        void SetTargetedGoldCord(int CordY, int CordX);//Hedeflenen altının koordinatlarını belirler.
+
+        void SetTargetedGoldValue(int goldValue);//Hedeflenen altının değerini belirler.
+
+        void SetPlayerMapValue(int CordY, int CordX, int data); //Belirtilen kordinattaki değeri değiştirir.
+
+        #endregion SET
+
+        #region UPDATE
+
+        void UpdatePlayerGoldValue(int gold);//Oyuncunun kasasındaki altına ekleme, çıkarma yapar.
+
+        void UpdateCord(int yCord, int xCord);//Oyuncunun bulunduğu konumu belirler.
+
+        #endregion UPDATE
+
+        #region GAME FUNCTION
+
+        abstract void SearchForGold(IMap map);
+
+        void PrivateGoldShow(char duzlem, int hareket, IMap map);
+
+        void Move(IMap map);
+
+        bool IsDeath();
+
+        #endregion GAME FUNCTION
+
+        #region WRITE TXT
+
+        void CreateFolder(); //Oyun kayıtlarını tutan bir klasör oluşturur.
+
+        void WriteToFile(string maptext); //Oyun kayıtlarını txt dosyasına yaz.
+
+        #endregion WRITE TXT
+    }
+}
+//---------------------------------------------------------------------
+//Game/Player/Concrete/Player.cs
+//---------------------------------------------------------------------
+using AltınOyunuCSharp.Game.Map.Abstract;
+using AltınOyunuCSharp.Game.Player.Abstract;
+using System;
+using System.Collections.Generic;
+using System.IO;
+
+namespace AltınOyunuCSharp.Game.Player.Concrete
+{
+    public abstract class Player : IPlayer
+    {
+        protected int totalNumberOfSteps; // Toplam adım sayısı
+        protected int totalAmountOfGoldSpent; // Toplam harcanan altın miktarı
+        protected int totalAmountOfGoldEarned; // Toplam kazanılan altın miktarı
+
+        protected int[,] playerMap;//Oyuncunun oyun alanındaki konumu
+        protected string name; //Oyuncu adı
+        protected int gold; // Oyuncunun sahip olduğu altın.
+        protected int startGold; // Oyuncunun sahip olduğu altın.
+        protected int moveLenght; //Bir turdaki(hamle) hareket uzunluğu
+        protected int lastYCord, lastXCord; // O an bulunduğu kordinat
+        protected int cost; //Hamle maliyeti
+        protected int searchCost; //Hedef belirleme maliyeti
+        protected List<string> log; // Log kayıtları
+        protected int[] targetedGoldCord; // Hedeflenen altının koordinatları
+        protected int targetedGoldValue; // Hedeflenen altının değeri
+        protected int remainingSteps; // Hedefe kalan tur sayısı
+        protected int GoldEarnedOnReachTarget; // Hedefe ulaşıldığında alınacak kazanç
+        protected int logCount = 0; // Log kayıt sayısı
+
+        protected int howManyGoldToShow = -1; //Oyuncunun hamle başı kaç adet gizli altın açacağı
+
+        public Player(int gold, string name, int cordY, int cordX, int cost, int moveLenght, int searchCost, int gameY, int gameX)
+        {
+            this.name = name;
+            this.cost = cost;
+            this.moveLenght = moveLenght;
+            this.searchCost = searchCost;
+            this.startGold = gold;
+            this.totalAmountOfGoldEarned = 0;
+            this.totalAmountOfGoldSpent = 0;
+            this.totalNumberOfSteps = 0;
+            this.gold = gold;
+            this.targetedGoldCord = new int[2];
+            this.SetTargetedGoldCord(-1, -1);
+            this.targetedGoldValue = -1;
+            log = new List<string>();
+            //SetLog("Y: " + (cordY) + ", X: " + (cordX) + " kordinatından " + gold + " altın ile oyuna katıldı.");
+            SetLog("X: " + (cordX) + " Y: " + (cordY) + " kordinatından " + gold + " altın ile oyuna katıldı.");
+
+            playerMap = new int[gameY, gameX];
+            for (int i = 0; i < gameY; i++)
+            {
+                for (int k = 0; k < gameX; k++)
+                {
+                    playerMap[i, k] = 0;
+                }
+            }
+            UpdateCord(cordY, cordX);
+        }
+
+        #region GET
+
+        public string GetName()
+        {
+            return this.name;
+        }
+
+        public int GetTotalNumberOfSteps()
+        {// Oyuncunun oyun boyunca toplam hamle sayısı
+            return this.totalNumberOfSteps;
+        }
+
+        public int GetTotalAmountOfGoldSpent()
+        {// Oyuncunun oyun boyunca harcadığı toplam altın
+            return this.totalAmountOfGoldSpent;
+        }
+
+        public int GetTotalAmountOfGoldEarned()
+        {// Oyuncunun oyun boyunca kazandığı toplam altın
+            return this.totalAmountOfGoldEarned;
+        }
+
+        public int[,] GetPlayerMatris()
+        {// Oyuncu matrisini (int) döndürür.
+            return playerMap;
+        }
+
+        public string GetPlayerMapString()
+        {//Oyuncu matrisini(string) Consol için text olarak döndürür.
+            string mapText = this.name + " oyuncusunun haritası \n";
+            for (int y = 0; y < playerMap.GetLength(0); y++)
+            {
+                for (int x = 0; x < playerMap.GetLength(1); x++)
+                {
+                    mapText += " | " + playerMap[y, x];
+                }
+                mapText += " |\n";
+            }
+            return mapText;
+        }
+
+        public int GetPlayerGold()
+        {//Oyuncunun kasasında bulunan altını döndürür.
+            return this.gold;
+        }
+
+        public int GetGoldEarnedOnReachTarget()
+        {//Hedeflenen altına ulaşıldığında elde edeceği kar değerini döndürür.
+            return GoldEarnedOnReachTarget;
+        }
+
+        public int[] GetLastCord()
+        {//Oyuncunun oyun alanında bulunduğu son konumu döndürür.
+            int[] cord = { this.lastYCord, this.lastXCord };
+            return cord;
+        }
+
+        public int GetSearchCost()
+        {//Hedef belirleme maliyetini döndürür.
+            return this.searchCost;
+        }
+
+        public int GetRemainingSteps()
+        {//Oyuncunun hedefine kalan hamle sayısını döndürür.
+            return this.remainingSteps;
+        }
+
+        public List<string> GetLog()
+        {//Oyuncunun oyun sırasında yaptığı tüm işlemlerin kaydını döndürür.
+            return this.log;
+        }
+
+        public int[] GetTargetedGoldCord()
+        {//Hedeflenen altının bulunduğu koordinatı döndürür.
+            return this.targetedGoldCord;
+        }
+
+        public int GetTargetedGoldValue()
+        {//Hedeflenen altının değerini döndürür.
+            return this.targetedGoldValue;
+        }
+
+        #endregion GET
+
+        #region SET
+
+        public void SetTotalNumberOfSteps(int value)
+        {// Oyuncunun oyun boyunca yaptığı toplam hamle değerini arttırır.
+            this.totalNumberOfSteps += value;
+        }
+
+        public void SetTotalAmountOfGoldSpent(int value)
+        {// Oyuncunun oyun boyunca harcadığı toplam altın değerini arttırır.
+            this.totalAmountOfGoldSpent += value;
+        }
+
+        public void SetTotalAmountOfGoldEarned(int value)
+        {// Oyuncunun oyun boyunca kazandığı toplam altın değerini arttırır.
+            this.totalAmountOfGoldEarned += value;
+        }
+
+        public void SetPlayerGold(int gold)
+        {//Oyuncunun kasasında bulunan altını belirler.
+            this.gold = gold;
+        }
+
+        public void SetLog(string log)
+        {//Oyuncunun hareketlerini listeye ekler.
+            this.log.Add((++logCount) + ")  " + log);
+        }
+
+        public void SetGoldEarnedOnReachTarget(int gold)
+        {//Hedeflenen altına ulaşıldığında elde edeceği kar değerini belirler.
+            this.GoldEarnedOnReachTarget = gold;
+        }
+
+        public void SetRemainingSteps(int remainingSteps)
+        {//Oyuncunun hedefine kalan hamle sayısını belirler.
+            this.remainingSteps = remainingSteps;
+        }
+
+        public void SetTargetedGoldCord(int CordY, int CordX)
+        {//Hedeflenen altının koordinatlarını belirler.
+            this.targetedGoldCord[0] = CordY;
+            this.targetedGoldCord[1] = CordX;
+        }
+
+        public void SetTargetedGoldValue(int goldValue)
+        {//Hedeflenen altının değerini belirler.
+            this.targetedGoldValue = goldValue;
+        }
+
+        public void SetPlayerMapValue(int CordY, int CordX, int data)
+        {// Oyuncu konumunu tutan haritada girilen koordinattaki değeri belirler.
+            this.playerMap[CordY, CordX] = data;
+        }
+
+        #endregion SET
+
+        #region UPDATE
+
+        public void UpdatePlayerGoldValue(int gold)
+        {//Oyuncunun kasasındaki altına ekleme, çıkarma yapar.
+            this.gold += gold;
+        }
+
+        public void UpdateCord(int yCord, int xCord)
+        {//Oyuncunun bulunduğu konumu belirler.
+            this.playerMap[this.lastYCord, this.lastXCord] = 0;
+            this.lastYCord = yCord;
+            this.lastXCord = xCord;
+            this.playerMap[this.lastYCord, this.lastXCord] = 1;
+        }
+
+        #endregion UPDATE
+
+        #region GAME FUNCTION
+
+        public abstract void SearchForGold(IMap map);
+
+        //Hedef belirleme, altın arama
+
+        public void PrivateGoldShow(char cord, int move, IMap map)
+        {// Yapınlan hareketin sonucunda gidilen yol üzerinde gizli altın bulunuyor ise onu görünür hale geririr.
+         // cord: Hangi düzlemde hareket yapılacak
+         // move: Kaç kare hareket edilecek
+
+            if (cord == 'X')
+            {
+                // -X yönünde
+                if (this.lastXCord > move)
+                {
+                    for (int x = lastXCord; x >= move; x--)
+                    {
+                        if (map.GetPrivateGoldMap()[lastYCord, x] != 0)
+                        {
+                            map.UpdateGoldMapPoint(lastYCord, x, map.GetPrivateGoldMap()[lastYCord, x]);
+                            map.RemovePrivateGoldPoint(lastYCord, x);
+                            //this.SetLog("Y:" + lastYCord + " X:" + x + " kordinatındaki gizli altın açıldı.");
+                            this.SetLog("X:" + x + " Y:" + lastYCord + " kordinatındaki gizli altın açıldı.");
+                        }
+                    }
+                }
+                // +X yönünde
+                else if (this.lastXCord < move)
+                {
+                    for (int x = lastXCord; x <= move; x++)
+                    {
+                        if (map.GetPrivateGoldMap()[lastYCord, x] != 0)
+                        {
+                            map.UpdateGoldMapPoint(lastYCord, x, map.GetPrivateGoldMap()[lastYCord, x]);
+                            map.RemovePrivateGoldPoint(lastYCord, x);
+                            //this.SetLog("Y:" + lastYCord + " X:" + x + " kordinatındaki gizli altın açıldı.");
+                            this.SetLog("X:" + x + " Y:" + lastYCord + " kordinatındaki gizli altın açıldı.");
+                        }
+                    }
+                }
+            }
+            else
+            {
+
+                // -Y yönünde
+                if (this.lastYCord > move)
+                {
+                    for (int y = lastYCord; y >= move; y--)
+                    {
+                        if (map.GetPrivateGoldMap()[y, lastXCord] != 0)
+                        {
+                            map.UpdateGoldMapPoint(y, lastXCord, map.GetPrivateGoldMap()[y, lastXCord]);
+                            map.RemovePrivateGoldPoint(y, lastXCord);
+                            //this.SetLog("Y:" + lastYCord + " X:" + x + " kordinatındaki gizli altın açıldı.");
+                            this.SetLog("X:" + lastXCord + " Y:" + y + " kordinatındaki gizli altın açıldı.");
+                        }
+                    }
+                }
+                // +X yönünde
+                else if (this.lastYCord < move)
+                {
+                    for (int y = lastYCord; y <= move; y++)
+                    {
+                        if (map.GetPrivateGoldMap()[y, lastXCord] != 0)
+                        {
+                            map.UpdateGoldMapPoint(y, lastXCord, map.GetPrivateGoldMap()[y, lastXCord]);
+                            map.RemovePrivateGoldPoint(y, lastXCord);
+                            //this.SetLog("Y:" + lastYCord + " X:" + x + " kordinatındaki gizli altın açıldı.");
+                            this.SetLog("X:" + lastXCord + " Y:" + y + " kordinatındaki gizli altın açıldı.");
+                        }
+                    }
+                }
+            }
+        }
+
+        public void Move(IMap map)
+        {
+            if (map.GetGoldCount() > 0)
+            {
+                //Eğer hedef belirlenmemiş ise hedef belirle
+                if (this.GetTargetedGoldValue() == -1 || targetedGoldCord[0] == Int32.MaxValue)
+                {
+                    this.SearchForGold(map);
+                }
+
+                //Eğer hedef belirlenmiş ancak belirlenen hedef yerinde yoksa hedefi başka oyuncu almıştır
+                //Yeni hedef belirle
+                if (this.GetTargetedGoldValue() != -1)
+                {
+                    if (map.GetGoldPointValue(this.GetTargetedGoldCord()[0], this.GetTargetedGoldCord()[1]) == 0)
+                    {
+                        SetLog("Hedeflenen altın başka bir oyuncu tarafından alınmış.");
+                        SetLog("Yeni altın hedefleniyor.");
+                        SetGoldEarnedOnReachTarget(-1);
+                        SetRemainingSteps(-1);
+                        SetTargetedGoldCord(-1, -1);
+                        SetTargetedGoldValue(-1);
+                        map.SetPlayerRemainingSteps(-1, this.name);
+                        map.SetPlayerTarget(-1, -1, this.name);
+                        this.SearchForGold(map);
+                    }
+                }
+
+                int targetY = targetedGoldCord[0]; //Hedef koordinatları
+                int targetX = targetedGoldCord[1];
+
+                // Hedef ile oyuncu konumu arasındaki, y ve x koordinatındaki uzaklık (kaç kare)
+                int targetYToPlayerY = targetY - lastYCord;                 //- ise kordinat küçülür
+                int targetXToPlayerX = targetX - lastXCord;                // + ise kordinat büyür
+
+                // Önce Yatayda eşitleme
+                int totalMoveLenght = moveLenght;                       // Oyuncunun toplam yapması gereken 1 hamledeki adım sayısı
+                int tempCordX = lastXCord, tempCordY = lastYCord;       // Oyuncunun son konumunu geçici bir değişkene atama
+
+                if (Math.Abs(targetXToPlayerX) <= totalMoveLenght)
+                {// Yatayda gitmesi gereken hareket, bir turda yapabileceği
+                 //maksimum hareket sayısından küçük veya eşit ise
+                    tempCordX = targetX;
+                    totalMoveLenght -= Math.Abs(targetXToPlayerX);      // Gidilen hareket sayısını toplam hareket sayısından düş
+                }
+                else
+                {// Yatayda gitmesi gereken hareket, bir turda yapabileceği
+                 //maksimum hareket sayısından büyük ise
+                    if (targetXToPlayerX > 0)//  Hedef altına hareket pozitif yönde ise
+                    {//  +X
+                        tempCordX += totalMoveLenght;
+                    }
+                    else                     //  Hedef altına hareket negatif yönde ise
+                    {//  -X
+                        tempCordX -= totalMoveLenght;
+                    }
+                    // Bir turda gidilecek maksimun hareket yapıldığından bu tur için kalan hareketi sıfırla
+                    totalMoveLenght = 0;
+                }
+
+                PrivateGoldShow('X', tempCordX, map);// Gidilen yolda gizli altın var ise görünür yap
+                this.UpdateCord(lastYCord, tempCordX);// Oyuncunun konumunu güncelle
+
+                // Yatayda yapılan hareketten sonra kalan adım var ise veya
+                //yatayda hiç hareket edilmemiş ise dikeyde hareket yap
+                if (totalMoveLenght > 0)
+                {
+                    if (Math.Abs(targetYToPlayerY) <= totalMoveLenght)
+                    {// Dikeyde gitmesi gereken hareket, bir turda yapabileceği
+                     //maksimum hareket sayısından küçük veya eşit ise
+                        tempCordY = targetY;
+                    }
+                    else
+                    {// Dikeyde gitmesi gereken hareket, bir turda yapabileceği
+                     //maksimum hareket sayısından büyük ise                                                               //hedefe olan mesafe toplam gideceği haktan büyükse
+                        if (targetYToPlayerY > 0)//  Hedef altına hareket pozitif yönde ise
+                        {//  + Y
+                            tempCordY += totalMoveLenght;
+                        }
+                        else                     //  Hedef altına hareket negatif yönde ise
+                        {//  - Y
+                            tempCordY -= totalMoveLenght;
+                        }
+                    }
+                }
+                PrivateGoldShow('Y', tempCordY, map);// Gidilen yolda gizli altın var ise görünür
+                this.UpdateCord(tempCordY, tempCordX);// Oyuncunun konumunu güncelle
+
+                // Hedefe ulaşıldı mı?
+                if (tempCordY == targetY && tempCordX == targetX)
+                {
+                    //Altını puan olarak ekle
+                    this.UpdatePlayerGoldValue(GetTargetedGoldValue() - this.cost);
+                    this.SetTotalAmountOfGoldEarned(GetTargetedGoldValue());
+                    //Altını sil
+                    map.RemoveGoldPoint(tempCordY, tempCordX);
+                    //Hedeflemeyi boşalt
+                    this.SetTargetedGoldValue(-1);
+                    this.SetRemainingSteps(-1);
+                    this.SetTargetedGoldCord(-1, -1);
+                    this.SetLog("Hedefine ulaştı.");
+
+                    map.SetPlayerRemainingSteps(-1, this.name);
+                    map.SetPlayerTarget(-1, -1, this.name);
+                }
+                // Hedefe ulaşılamadıysa bilgileri güncelle
+                else
+                {
+                    this.SetRemainingSteps(this.GetRemainingSteps() - 1);
+                    map.SetPlayerRemainingSteps(map.GetPlayerRemainingSteps(this.name) - 1, this.name); //Oyuncunun adım sayısını 1 azalt
+                    UpdatePlayerGoldValue((-1) * this.cost);
+                    this.SetLog("Hedefine ulaşması için " + map.GetPlayerRemainingSteps(this.name) + " adım kaldı.");
+                }
+            }
+            SetTotalAmountOfGoldSpent(this.cost);
+            SetTotalNumberOfSteps(1);
+        }
+
+        public bool IsDeath()
+        {
+            if (GetPlayerGold() <= 0)
+            {
+                this.SetLog("Oyuncunun altını bitti ve elendi.");
+                return true;
+            }
+            else
+                return false;
+        }
+
+        #endregion GAME FUNCTION
+
+        #region WRITE TXT
+
+        public void CreateFolder()
+        {
+            bool Kontrol = Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "/GameLog");//Exists klasör yolu verilen dizin i kontrol edip true veya false döner
+            if (Kontrol == false)
+            {
+                Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "/GameLog");
+            }
+        }
+
+        public void WriteToFile(string maptext)
+        {
+            CreateFolder();
+            string dosya_yolu = AppDomain.CurrentDomain.BaseDirectory + "/GameLog/" + this.name + ".txt";
+            //İşlem yapacağımız dosyanın yolunu belirtiyoruz.
+            FileStream fs = new FileStream(dosya_yolu, FileMode.Create, FileAccess.Write);
+            //Bir file stream nesnesi oluşturuyoruz. 1.parametre dosya yolunu,
+            //2.parametre dosya varsa açılacağını yoksa oluşturulacağını belirtir,
+            //3.parametre dosyaya erişimin veri yazmak için olacağını gösterir.
+            StreamWriter sw = new StreamWriter(fs);
+            //Yazma işlemi için bir StreamWriter nesnesi oluşturduk.
+            sw.WriteLine("##### Oyun alanı altın dağılımı #####\r\n");
+            sw.WriteLine("(!) 5: 5 değerinde altını ifade eder.  G-10: 10 değerinde gizli altını ifade eder.\r\n");
+            sw.WriteLine("(!) Yatay düzlem [X] ve dikey düzlem [Y] olarak adlandırılmaktadır.\r\n");
+            sw.WriteLine(maptext); ;
+            sw.WriteLine("##### Oyuncu Bilgileri #####");
+            sw.WriteLine("Oyuncu adı                      : " + this.name);
+            sw.WriteLine("Oyuncu hedef belirleme maliyeti : " + this.GetSearchCost());
+            sw.WriteLine("Oyuncu adım maliyeti            : " + this.cost);
+            sw.WriteLine("Oyuncu başlangıç altını         : " + this.startGold);
+            if (howManyGoldToShow != -1)
+                sw.WriteLine("Oyuncunun sırası geldiğinde açacağı gizli altın sayısı         : " + this.howManyGoldToShow);
+            sw.WriteLine("\r\n##### Oyun Sonucu #####");
+            sw.WriteLine("Toplam adım sayısı              : " + this.GetTotalNumberOfSteps());
+            sw.WriteLine("Toplam kazanılan altın          : " + this.GetTotalAmountOfGoldEarned());
+            sw.WriteLine("Toplam harcanan altın           : " + this.GetTotalAmountOfGoldSpent());
+            sw.WriteLine("Kasada bulunan altın            : " + this.GetPlayerGold());
+            sw.WriteLine("\r\n##### Oyun Bilgisi #####");
+            foreach (var item in this.GetLog())
+            {
+                sw.WriteLine(item);
+            }
+
+            sw.Flush();
+            //Veriyi tampon bölgeden dosyaya aktardık.
+            sw.Close();
+            fs.Close();
+            //İşimiz bitince kullandığımız nesneleri iade ettik.
+        }
+
+        #endregion WRITE TXT
+    }
+}
+//---------------------------------------------------------------------
+//Game/Player/Concrete/Players/APlayer.cs
+//---------------------------------------------------------------------
+using AltınOyunuCSharp.Game.Map.Abstract;
+using System;
+
+namespace AltınOyunuCSharp.Game.Player.Concrete.Players
+{
+    public class APlayer : Player
+    {
+        public APlayer(int gold, string name, int cordY, int cordX, int cost, int moveLenght, int searchCost, int gameY, int gameX) : base(gold, name, cordY, cordX, cost, moveLenght, searchCost, gameY, gameX)
+        {
+        }
+
+        public override void SearchForGold(IMap map)
+        {
+            int nearestGoldY = int.MaxValue, nearestGoldX = int.MaxValue; // Hedeflenen en yakın altının koordinatları
+            int nearestGoldDistance = int.MaxValue;  // Hedeflenen en yakın altının uzaklığı
+            int nearestGoldValue = Int32.MinValue;  // Hedeflenen en yakın altının değeri
+            int[,] goldArray = map.GetGoldMap();   // Altın matrisi
+
+            for (int goldY = 0; goldY < goldArray.GetLength(0); goldY++)
+            {
+                for (int goldX = 0; goldX < goldArray.GetLength(1); goldX++)
+                {
+                    if (goldArray[goldY, goldX] != 0)
+                    {
+                        int temp = Math.Abs(this.lastYCord - goldY) + Math.Abs(this.lastXCord - goldX);
+                        if (temp < nearestGoldDistance)
+                        {
+                            nearestGoldDistance = temp;
+                            nearestGoldY = goldY;
+                            nearestGoldX = goldX;
+                            nearestGoldValue = goldArray[goldY, goldX];
+                        }
+                    }
+                }
+            }
+
+            double x; //Oyuncunun altına ulaşmak için gitmesi gereken tur sayısı
+            x = ((double)nearestGoldDistance / this.moveLenght);
+            x = Math.Ceiling(x);
+
+            this.SetRemainingSteps(Convert.ToInt32(x));
+            this.SetTargetedGoldCord(nearestGoldY, nearestGoldX);
+            this.SetTargetedGoldValue(nearestGoldValue);
+
+            // Hedef belirleme maliyeti çıkartıldı.
+            this.SetGoldEarnedOnReachTarget(nearestGoldValue - ((this.GetRemainingSteps() * this.cost) + this.GetSearchCost()));
+            this.UpdatePlayerGoldValue((-1) * this.GetSearchCost());
+            this.SetTotalAmountOfGoldSpent(this.GetSearchCost());
+
+            this.SetLog("Hedef belirlemek için " + this.GetSearchCost() + " altın harcadı.");
+            //this.SetLog("Hedef: Y:" + nearestGoldY + " X:" + nearestGoldX + " olarak belirlendi.");
+            this.SetLog("Hedef: X:" + nearestGoldX + " Y:" + nearestGoldY + " olarak belirlendi.");
+            this.SetLog("Tahmini Kazanç: " + GetGoldEarnedOnReachTarget() + " Altının Degeri: " + this.GetTargetedGoldValue());
+
+            map.SetPlayerTarget(nearestGoldY, nearestGoldX, "A");
+            map.SetPlayerRemainingSteps(Convert.ToInt32(x), "A");
+        }
+    }
+}
+//---------------------------------------------------------------------
+//Game/Player/Concrete/Players/BPlayer.cs
+//---------------------------------------------------------------------
+using AltınOyunuCSharp.Game.Map.Abstract;
+using System;
+
+namespace AltınOyunuCSharp.Game.Player.Concrete.Players
+{
+    public class BPlayer : Player
+    {
+        public BPlayer(int gold, string name, int cordY, int cordX, int cost, int moveLenght, int searchCost, int gameY, int gameX) : base(gold, name, cordY, cordX, cost, moveLenght, searchCost, gameY, gameX)
+        {
+        }
+
+        public override void SearchForGold(IMap map)
+        {
+            int nearestGoldY = int.MaxValue, nearestGoldX = int.MaxValue; // Hedeflenen en yakın altının koordinatları
+            int nearestGoldProfit = int.MinValue;       // Hedeflenen altından elde edilen kar
+            int remainingSteps = int.MinValue;          // Hedeflenen altına ulaşmak için gereken tur sayısı
+            int nearestGoldValue = Int32.MinValue;      // Hedeflenen altının değeri
+            int nearestGoldPathLength = Int32.MaxValue; // Hedeflenen altına giden yolun uzunluğu
+            int[,] goldArray = map.GetGoldMap();        // Altın matrisi
+
+            for (int goldY = 0; goldY < goldArray.GetLength(0); goldY++)
+            {
+                for (int goldX = 0; goldX < goldArray.GetLength(1); goldX++)
+                {
+                    if (goldArray[goldY, goldX] != 0)
+                    {
+                        //Geçici olarak altının kaç kare uzaklıkta olduğunu tutar.
+                        int tempPathLength = Math.Abs(this.lastYCord - goldY) + Math.Abs(this.lastXCord - goldX);
+                        //Altına ulaşmak için gereken tur sayısı
+                        double x = ((double)tempPathLength / this.moveLenght);
+                        x = Math.Ceiling(x);
+                        int tempRemainingSteps = Convert.ToInt32(x);
+                        //Altından elde edilecek kar
+                        int tempProfit = goldArray[goldY, goldX] - (((tempRemainingSteps) * this.cost) + GetSearchCost());
+
+                        if (tempProfit >= nearestGoldProfit)
+                        {
+                            if (tempPathLength < nearestGoldPathLength && tempProfit == nearestGoldProfit)
+                            {
+                                nearestGoldPathLength = tempPathLength;
+                                remainingSteps = tempRemainingSteps;
+                                nearestGoldProfit = tempProfit;
+                                nearestGoldY = goldY;
+                                nearestGoldX = goldX;
+                                nearestGoldValue = goldArray[goldY, goldX];
+                            }
+                            if (tempProfit > nearestGoldProfit)
+                            {
+                                nearestGoldPathLength = tempPathLength;
+                                remainingSteps = tempRemainingSteps;
+                                nearestGoldProfit = tempProfit;
+                                nearestGoldY = goldY;
+                                nearestGoldX = goldX;
+                                nearestGoldValue = goldArray[goldY, goldX];
+                            }
+                        }
+                    }
+                }
+            }
+
+            this.SetRemainingSteps(remainingSteps);
+            this.SetTargetedGoldCord(nearestGoldY, nearestGoldX);
+            this.SetTargetedGoldValue(nearestGoldValue);
+
+            // Hedef belirleme maliyeti çıkartıldı.
+            this.SetGoldEarnedOnReachTarget(nearestGoldValue - ((this.GetRemainingSteps() * this.cost) + this.GetSearchCost()));
+            this.UpdatePlayerGoldValue((-1) * this.GetSearchCost());
+            this.SetTotalAmountOfGoldSpent(this.GetSearchCost());
+
+            this.SetLog("Hedef belirlemek için " + this.GetSearchCost() + " altın harcadı.");
+            //this.SetLog("Hedef: Y:" + nearestGoldY + " X:" + nearestGoldX + " olarak belirlendi.");
+            this.SetLog("Hedef: X:" + nearestGoldX + " Y:" + nearestGoldY + " olarak belirlendi.");
+            this.SetLog("Tahmini Kazanç: " + GetGoldEarnedOnReachTarget() + " Altının Degeri: " + this.GetTargetedGoldValue());
+
+            map.SetPlayerTarget(nearestGoldY, nearestGoldX, "B");
+            map.SetPlayerRemainingSteps(remainingSteps, "B");
+        }
+    }
+}
+//---------------------------------------------------------------------
+//Game/Player/Concrete/Players/CPlayer.cs
+//---------------------------------------------------------------------
+using AltınOyunuCSharp.Game.Map.Abstract;
+using System;
+
+namespace AltınOyunuCSharp.Game.Player.Concrete.Players
+{
+    public class CPlayer : Player
+    {
+        //private readonly int howManyGoldToShow; //Oyuncunun hamle başı kaç adet gizli altın açacağı
+
+        public CPlayer(int gold, string name, int cordY, int cordX, int cost, int moveLenght, int showGold, int searchCost, int gameY, int gameX) : base(gold, name, cordY, cordX, cost, moveLenght, searchCost, gameY, gameX)
+        {
+            this.howManyGoldToShow = showGold;
+        }
+
+        public override void SearchForGold(IMap map)
+        {
+            PrivateGoldShow(map); // Hedef belirlemeden önce belirlenen sayıda gizli altın açar.
+
+            int nearestGoldY = int.MaxValue, nearestGoldX = int.MaxValue;// Hedeflenen en yakın altının koordinatları
+            int nearestGoldProfit = int.MinValue;         // Hedeflenen altından elde edilen kar
+            int remainingSteps = int.MinValue;            // Hedeflenen altına ulaşmak için gereken tur sayısı
+            int nearestGoldValue = Int32.MinValue;        // Hedeflenen altının değeri
+            int nearestGoldPathLength = Int32.MaxValue;   // Hedeflenen altına giden yolun uzunluğu
+            int[,] goldArray = map.GetGoldMap();          // Altın matrisi
+
+            for (int goldY = 0; goldY < goldArray.GetLength(0); goldY++)
+            {
+                for (int goldX = 0; goldX < goldArray.GetLength(1); goldX++)
+                {
+                    if (goldArray[goldY, goldX] > 0)
+                    {
+                        //Geçici olarak altının kaç kare uzaklıkta olduğunu tutar.
+                        int tempPathLength = Math.Abs(this.lastYCord - goldY) + Math.Abs(this.lastXCord - goldX);
+                        //Altına ulaşmak için gereken tur sayısı
+                        double x = ((double)tempPathLength / this.moveLenght);
+                        x = Math.Ceiling(x);
+                        int tempRemainingSteps = Convert.ToInt32(x);
+                        //Altından elde edilecek kar
+                        int tempProfit = goldArray[goldY, goldX] - (((tempRemainingSteps) * this.cost) + GetSearchCost());
+
+                        if (tempProfit >= nearestGoldProfit)
+                        {
+                            if (tempPathLength < nearestGoldPathLength && tempProfit == nearestGoldProfit)
+                            {
+                                nearestGoldPathLength = tempPathLength;
+                                remainingSteps = tempRemainingSteps;
+                                nearestGoldProfit = tempProfit;
+                                nearestGoldY = goldY;
+                                nearestGoldX = goldX;
+                                nearestGoldValue = goldArray[goldY, goldX];
+                            }
+                            if (tempProfit > nearestGoldProfit)
+                            {
+                                nearestGoldPathLength = tempPathLength;
+                                remainingSteps = tempRemainingSteps;
+                                nearestGoldProfit = tempProfit;
+                                nearestGoldY = goldY;
+                                nearestGoldX = goldX;
+                                nearestGoldValue = goldArray[goldY, goldX];
+                            }
+                        }
+                    }
+                }
+            }
+
+            this.SetRemainingSteps(remainingSteps);
+            this.SetTargetedGoldCord(nearestGoldY, nearestGoldX);
+            this.SetTargetedGoldValue(nearestGoldValue);
+
+            // Hedef belirleme maliyeti çıkartıldı.
+            this.SetGoldEarnedOnReachTarget(nearestGoldValue - ((this.GetRemainingSteps() * this.cost) + this.GetSearchCost()));
+            this.UpdatePlayerGoldValue((-1) * this.GetSearchCost());
+            this.SetTotalAmountOfGoldSpent(this.GetSearchCost());
+
+            this.SetLog("Hedef belirlemek için " + this.GetSearchCost() + " altın harcadı.");
+            //this.SetLog("Hedef: Y:" + nearestGoldY + " X:" + nearestGoldX + " olarak belirlendi.");
+            this.SetLog("Hedef: X:" + nearestGoldX + " Y:" + nearestGoldY + " olarak belirlendi.");
+            this.SetLog("Tahmini Kazanç: " + GetGoldEarnedOnReachTarget() + " Altının Degeri: " + this.GetTargetedGoldValue());
+
+            map.SetPlayerTarget(nearestGoldY, nearestGoldX, "C");
+            map.SetPlayerRemainingSteps(remainingSteps, "C");
+        }
+
+        public void PrivateGoldShow(IMap map)
+        {//C oyuncusunun her tur en yakın 2 gizli altını görünür hale getirmesi
+            int control = 0;
+
+            while (control < this.howManyGoldToShow)
+            {
+                int nearestPrivateGoldY = Int32.MaxValue, nearestPrivateGoldX = Int32.MaxValue;
+                int nearestPrivateGoldPathLength = int.MaxValue;
+                int nearestPrivateGoldValue = -1;
+
+                if (map.GetPrivateGoldCount() > 0)
+                {
+                    int[,] goldArray = map.GetPrivateGoldMap();
+
+                    for (int goldY = 0; goldY < goldArray.GetLength(0); goldY++)
+                    {
+                        for (int goldX = 0; goldX < goldArray.GetLength(1); goldX++)
+                        {
+                            if (goldArray[goldY, goldX] > 0)
+                            {
+                                int tempPathLength = Math.Abs(this.lastYCord - goldY) + Math.Abs(this.lastXCord - goldX);
+                                if (tempPathLength < nearestPrivateGoldPathLength)
+                                {
+                                    nearestPrivateGoldPathLength = tempPathLength;
+                                    nearestPrivateGoldY = goldY;
+                                    nearestPrivateGoldX = goldX;
+                                    nearestPrivateGoldValue = goldArray[goldY, goldX];
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    break;
+                }
+
+                map.UpdateGoldMapPoint(nearestPrivateGoldY, nearestPrivateGoldX, nearestPrivateGoldValue);
+                map.RemovePrivateGoldPoint(nearestPrivateGoldY, nearestPrivateGoldX);
+                //this.SetLog("[Özellik] Y: " + nearestPrivateGoldY + " X:" + nearestPrivateGoldX + " koordinatında " + nearestPrivateGoldValue + " puanlık " + (control + 1) + ". gizli altın açıldı");
+                this.SetLog("[Özellik] X: " + nearestPrivateGoldX + " Y:" + nearestPrivateGoldY + " koordinatında " + nearestPrivateGoldValue + " puanlık " + (control + 1) + ". gizli altın açıldı");
+                control++;
+            }
+        }
+    }
+}
+//---------------------------------------------------------------------
+//Game/Player/Concrete/Players/DPlayer.cs
+//---------------------------------------------------------------------
+using AltınOyunuCSharp.Game.Map.Abstract;
+using System;
+
+namespace AltınOyunuCSharp.Game.Player.Concrete.Players
+{
+    public class DPlayer : Player
+    {
+        public DPlayer(int gold, string name, int cordY, int cordX, int cost, int moveLenght, int searchCost, int gameY, int gameX) : base(gold, name, cordY, cordX, cost, moveLenght, searchCost, gameY, gameX)
+        {
+        }
+
+        // D'nin diğer oyuncuların hedeflerine ulaşması için gereken tur sayısı
+        public int GetStepsOfOtherPlayersTarget(int[] dPlayerCord, int[] otherPlayerCord)
+        {
+            int steps = Math.Abs(dPlayerCord[0] - otherPlayerCord[0]) + Math.Abs(dPlayerCord[1] - otherPlayerCord[1]);
+            return Convert.ToInt32(Math.Ceiling((double)steps / this.moveLenght));
+        }
+
+        public override void SearchForGold(IMap map)
+        {
+            int nearestGoldY = int.MaxValue, nearestGoldX = int.MaxValue; // Hedeflenen en yakın altının koordinatları.
+            int nearestGoldProfit = int.MinValue;       // Hedeflenen altından elde edilen kar.
+            int remainingSteps = int.MinValue;          // Hedeflenen altına ulaşmak için gereken tur sayısı.
+            int nearestGoldValue = Int32.MinValue;      // Hedeflenen altının değeri.
+            int nearestGoldPathLength = Int32.MaxValue; // Hedeflenen altına giden yolun uzunluğu.
+            String whoseTarget = String.Empty;          // D hangi oyuncunun hedefini seçti.
+            int[] thisCord = this.GetLastCord();        // D oyuncusunun son konumu.
+
+            //Oyuncuların hedeflerinin koordinatları
+            int[] aPlayerTarget = map.GetPlayerTarget("A");
+            int[] bPlayerTarget = map.GetPlayerTarget("B");
+            int[] cPlayerTarget = map.GetPlayerTarget("C");
+
+            //D'nin diğer oyuncuların hedeflerine ulaşması için gereken tur sayısı
+            int remainingSteps_ATarget = GetStepsOfOtherPlayersTarget(thisCord, aPlayerTarget);
+            int remainingSteps_BTarget = GetStepsOfOtherPlayersTarget(thisCord, bPlayerTarget);
+            int remainingSteps_CTarget = GetStepsOfOtherPlayersTarget(thisCord, cPlayerTarget);
+
+            if (remainingSteps_ATarget < map.GetPlayerRemainingSteps("A") && map.GetPlayerRemainingSteps("A") != -1)
+            {// A'nın hedefini hedef belirleme.
+                whoseTarget = "A";
+                nearestGoldY = aPlayerTarget[0];
+                nearestGoldX = aPlayerTarget[1];
+                nearestGoldValue = map.GetGoldPointValue(aPlayerTarget[0], aPlayerTarget[1]);
+                remainingSteps = remainingSteps_ATarget;
+            }
+            else if (remainingSteps_BTarget < map.GetPlayerRemainingSteps("B") && map.GetPlayerRemainingSteps("B") != -1)
+            {// B'nın hedefini hedef belirleme.
+                whoseTarget = "B";
+                nearestGoldY = bPlayerTarget[0];
+                nearestGoldX = bPlayerTarget[1];
+                nearestGoldValue = map.GetGoldPointValue(bPlayerTarget[0], bPlayerTarget[1]);
+                remainingSteps = remainingSteps_BTarget;
+            }
+            else if (remainingSteps_CTarget < map.GetPlayerRemainingSteps("C") && map.GetPlayerRemainingSteps("C") != -1)
+            {// C'nın hedefini hedef belirleme.
+                whoseTarget = "C";
+                nearestGoldY = cPlayerTarget[0];
+                nearestGoldX = cPlayerTarget[1];
+                nearestGoldValue = map.GetGoldPointValue(cPlayerTarget[0], cPlayerTarget[1]);
+                remainingSteps = remainingSteps_CTarget;
+            }
+            else
+            {// D diğer oyuncuların hedefine ulaşamadığında kendine hedef belirleme
+                int[,] goldArray = map.GetGoldMap();
+                int[,] tempGoldArray;
+                tempGoldArray = (int[,])goldArray.Clone();
+                // Diğer oyuncuların hedeflerini matristen çıkar
+                if (map.GetPlayerRemainingSteps("A") != -1)
+                    tempGoldArray[aPlayerTarget[0], aPlayerTarget[1]] = 0;
+
+                if (map.GetPlayerRemainingSteps("B") != -1)
+                    tempGoldArray[bPlayerTarget[0], bPlayerTarget[1]] = 0;
+
+                if (map.GetPlayerRemainingSteps("C") != -1)
+                    tempGoldArray[cPlayerTarget[0], cPlayerTarget[1]] = 0;
+
+                // eğer diğer oyuncuların hedefleri çıkarıldığında hedeflenecek başka altın
+                //kalmıyor ise o altınları hedeflenebilir yap.
+                int goldCount = 0;
+                for (int i = 0; i < tempGoldArray.GetLength(0); i++)
+                {
+                    for (int j = 0; j < tempGoldArray.GetLength(0); j++)
+                    {
+                        if (tempGoldArray[i, j] != 0)
+                            goldCount++;
+                    }
+                }
+                if (goldCount == 0)
+                {
+                    tempGoldArray[aPlayerTarget[0], aPlayerTarget[1]] = map.GetGoldPointValue(aPlayerTarget[0], aPlayerTarget[1]);
+                    tempGoldArray[bPlayerTarget[0], bPlayerTarget[1]] = map.GetGoldPointValue(bPlayerTarget[0], bPlayerTarget[1]);
+                    tempGoldArray[cPlayerTarget[0], cPlayerTarget[1]] = map.GetGoldPointValue(cPlayerTarget[0], cPlayerTarget[1]);
+                }
+                for (int goldY = 0; goldY < tempGoldArray.GetLength(0); goldY++)
+                {
+                    for (int goldX = 0; goldX < tempGoldArray.GetLength(1); goldX++)
+                    {
+                        if (tempGoldArray[goldY, goldX] != 0)
+                        {
+                            //Geçici olarak altının kaç kare uzaklıkta olduğunu tutar.
+                            int tempPathLength = Math.Abs(this.lastYCord - goldY) + Math.Abs(this.lastXCord - goldX);
+                            //Altına ulaşmak için gereken tur sayısı
+                            double x = ((double)tempPathLength / this.moveLenght);
+                            x = Math.Ceiling(x);
+                            int tempRemainingSteps = Convert.ToInt32(x);
+                            //Altından elde edilecek kar
+                            int tempProfit = tempGoldArray[goldY, goldX] - (((tempRemainingSteps) * this.cost) + GetSearchCost());
+
+                            if (tempProfit >= nearestGoldProfit)
+                            {
+                                if (tempPathLength < nearestGoldPathLength && tempProfit == nearestGoldProfit)
+                                {
+                                    nearestGoldPathLength = tempPathLength;
+                                    remainingSteps = tempRemainingSteps;
+                                    nearestGoldProfit = tempProfit;
+                                    nearestGoldY = goldY;
+                                    nearestGoldX = goldX;
+                                    nearestGoldValue = tempGoldArray[goldY, goldX];
+                                }
+                                if (tempProfit > nearestGoldProfit)
+                                {
+                                    nearestGoldPathLength = tempPathLength;
+                                    remainingSteps = tempRemainingSteps;
+                                    nearestGoldProfit = tempProfit;
+                                    nearestGoldY = goldY;
+                                    nearestGoldX = goldX;
+                                    nearestGoldValue = tempGoldArray[goldY, goldX];
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            this.SetRemainingSteps(remainingSteps);
+            this.SetTargetedGoldCord(nearestGoldY, nearestGoldX);
+            this.SetTargetedGoldValue(nearestGoldValue);
+
+            // Hedef belirleme maliyeti çıkartıldı.
+            this.SetGoldEarnedOnReachTarget(nearestGoldValue - ((this.GetRemainingSteps() * this.cost) + this.GetSearchCost()));
+            this.UpdatePlayerGoldValue((-1) * this.GetSearchCost());
+            this.SetTotalAmountOfGoldSpent(this.GetSearchCost());
+
+            if (whoseTarget != String.Empty)
+            {
+                this.SetLog(whoseTarget + " oyuncusunun hedefine ondan önce ulaşılabilir.");
+                this.SetLog("Hedef belirlemek için " + this.GetSearchCost() + " altın harcadı.");
+                this.SetLog("Hedef " + whoseTarget + " Oyuncusunun hedefi olan: ");
+                //this.SetLog("Y:" + nearestGoldY + " X:" + nearestGoldX + " olarak belirlendi.");
+                this.SetLog("X:" + nearestGoldX + " Y:" + nearestGoldY + " olarak belirlendi.");
+                this.SetLog("Tahmini Kazanç: " + GetGoldEarnedOnReachTarget() + " Altının Degeri: " + this.GetTargetedGoldValue());
+            }
+            else
+            {
+                this.SetLog("Hedef belirlemek için " + this.GetSearchCost() + " altın harcadı.");
+                //this.SetLog("Hedef: Y:" + nearestGoldY + " X:" + nearestGoldX + " olarak belirlendi.");
+                this.SetLog("Hedef: X:" + nearestGoldX + " Y:" + nearestGoldY + " olarak belirlendi.");
+                this.SetLog("Tahmini Kazanç: " + GetGoldEarnedOnReachTarget() + " Altının Degeri: " + this.GetTargetedGoldValue());
+            }
+
+            map.SetPlayerTarget(nearestGoldY, nearestGoldX, "D");
+            map.SetPlayerRemainingSteps(remainingSteps, "D");
+        }
+    }
+}
+
+//---------------------------------------------------------------------
+//UI/GameScreen.cs
+//---------------------------------------------------------------------
+using AltınOyunuCSharp.Game.Map.Concrete; //Map sınıfının bulunduğu adres
+using AltınOyunuCSharp.Game.Player.Concrete; // Oyuncu sınıfının bulunduğu adres
+using AltınOyunuCSharp.Game.Player.Concrete.Players; //Oyuncuların sınıflarının bulunduğu adres
+using System;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace AltınOyunuCSharp.UI
+{
+    public partial class GameScreen : Form
+    {
+        private Bitmap bitmapBoard, bitmap;
+        private Graphics graphBoard, graph;
+        private readonly Image[] goldImages;
+        private readonly Image[] hiddenGoldImages;
+        private readonly Image aPlayerImage;
+        private readonly Image bPlayerImage;
+        private readonly Image cPlayerImage;
+        private readonly Image dPlayerImage;
+        private int squareEdge = 75; // Oyun alanı kare kenar uzunluğu, default: 75 pixel
+        private int cordNumberGuide; // Oyun alanı kılavuz numaralarının yerleşim uzunluğu. squareEdge / 2
+
+        public Form menuForm;
+        public Map map;
+        public APlayer aPlayer;
+        public BPlayer bPlayer;
+        public CPlayer cPlayer;
+        public DPlayer dPlayer;
+        private bool hiddenActive = false;
+
+        public GameScreen(Map gameMap, APlayer a, BPlayer b, CPlayer c, DPlayer d, Form menuForm)
+        {
+            this.menuForm = menuForm;
+            map = gameMap;
+            aPlayer = a;
+            bPlayer = b;
+            cPlayer = c;
+            dPlayer = d;
+            goldImages = new Image[4];
+            hiddenGoldImages = new Image[4];
+            cordNumberGuide = (squareEdge * 3) / 4;
+
+            goldImages[0] = global::AltınOyunuCSharp.Properties.Resources.coin5;
+            goldImages[1] = global::AltınOyunuCSharp.Properties.Resources.coin10;
+            goldImages[2] = global::AltınOyunuCSharp.Properties.Resources.coin15;
+            goldImages[3] = global::AltınOyunuCSharp.Properties.Resources.coin20;
+            hiddenGoldImages[0] = global::AltınOyunuCSharp.Properties.Resources.hiddenCoin5;
+            hiddenGoldImages[1] = global::AltınOyunuCSharp.Properties.Resources.hiddenCoin10;
+            hiddenGoldImages[2] = global::AltınOyunuCSharp.Properties.Resources.hiddenCoin15;
+            hiddenGoldImages[3] = global::AltınOyunuCSharp.Properties.Resources.hiddenCoin20;
+            aPlayerImage = global::AltınOyunuCSharp.Properties.Resources.playerA_front;
+            bPlayerImage = global::AltınOyunuCSharp.Properties.Resources.playerB_front;
+            cPlayerImage = global::AltınOyunuCSharp.Properties.Resources.playerC_front;
+            dPlayerImage = global::AltınOyunuCSharp.Properties.Resources.playerD_front;
+            InitializeComponent();
+        }
+
+        private void GameScreen_Load(object sender, EventArgs e)
+        {
+            //Oyun Formunun ekrana sığdırılması
+            this.Width = Screen.PrimaryScreen.WorkingArea.Width;
+            this.Height = Screen.PrimaryScreen.WorkingArea.Height;
+            this.Location = new Point(0, 0);
+            aPlayerKasa.Text = aPlayer.GetPlayerGold().ToString();
+            bPlayerKasa.Text = bPlayer.GetPlayerGold().ToString();
+            cPlayerKasa.Text = cPlayer.GetPlayerGold().ToString();
+            dPlayerKasa.Text = dPlayer.GetPlayerGold().ToString();
+            TimerIntervalNum.Value = tm.Interval;
+            GraphicBoardSetup();
+        }
+
+        private void GameScreen_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            menuForm.Show();
+        }
+
+        public void GraphicBoardSetup()
+        {
+            int mapy = map.GetMap().GetLength(0);
+            int mapx = map.GetMap().GetLength(1);
+            //Karelerin kenar boyutlarının, oyun alanının genişlik ve yüksekliğine göre
+            //ekrana sığabilecek max boyuta getirilmesi
+            while ((squareEdge * mapy) + cordNumberGuide > gamePictureBox.Height)
+            {
+                --squareEdge;
+                cordNumberGuide = squareEdge / 2;
+            }
+            while ((squareEdge * mapx) + cordNumberGuide > gamePictureBox.Width)
+            {
+                --squareEdge;
+                cordNumberGuide = squareEdge / 2;
+            }
+
+            //Picturebox'ın oyun alanı boyutlarına getirilmesi
+            gamePictureBox.Height = (squareEdge * mapy) + cordNumberGuide;
+            gamePictureBox.Width = (squareEdge * mapx) + cordNumberGuide;
+
+            //Picturebox'ın panel içerisinde ortalanması
+            int panelx = (((gamePanel.Width) - gamePictureBox.Width) / 2) + 10;
+            int panely = (((gamePanel.Height) - gamePictureBox.Height) / 2) + 10;
+            gamePictureBox.Location = new Point(panelx, panely);
+
+            //Oyun alanının oluşturulması ve çizdirilmesi
+            bitmapBoard = new Bitmap(gamePictureBox.Width, gamePictureBox.Height);
+            graphBoard = Graphics.FromImage(bitmapBoard);
+            Color penColor = Color.FromArgb(100, 100, 100);
+            Pen pen = new Pen(penColor, 2.0F);
+            SolidBrush brush = new SolidBrush(Color.Black);
+            Font font = new Font("Calibri", ((cordNumberGuide) / 2) + 1);
+            int gap = (squareEdge - cordNumberGuide) / 2;
+            for (int i = -1; i < mapy; i++)
+            {
+                for (int j = -1; j < mapx; j++)
+                {
+                    if (i == -1)
+                    {
+                        if (j == -1)
+                        {
+                        }
+                        else if (j == 0)
+                            graphBoard.DrawString(Convert.ToString(j), font, brush, cordNumberGuide + gap, 0);
+                        else
+                            graphBoard.DrawString(Convert.ToString(j), font, brush, (squareEdge * (j + 1)) - gap, 0);
+                    }
+                    else
+                    {
+                        if (j == -1 && i == 0)
+                            graphBoard.DrawString(Convert.ToString(i), font, brush, 0, cordNumberGuide + gap);
+                        else if (j == -1 && i > 0)
+                            graphBoard.DrawString(Convert.ToString(i), font, brush, 0, (squareEdge * (i + 1)) - gap);
+                        else if (j >= 0 && i >= 0)
+                            graphBoard.DrawRectangle(pen, (squareEdge * (j)) + cordNumberGuide, (squareEdge * (i)) + cordNumberGuide, squareEdge, squareEdge);
+                    }
+                }
+            }
+            graphBoard.DrawRectangle(pen, cordNumberGuide, cordNumberGuide, (squareEdge * mapx) - 1, (squareEdge * mapy) - 1);
+            graphBoard.Dispose();
+
+            // altın, player
+            bitmap = new Bitmap(bitmapBoard);
+            graph = Graphics.FromImage(bitmap);
+            for (int i = 0; i < mapy; i++)
+            {
+                for (int j = 0; j < mapx; j++)
+                {
+                    if (map.GetGoldPointValue(i, j) != 0)
+                        graph.DrawImage(goldImages[(map.GetGoldPointValue(i, j) / 5) - 1], (squareEdge * j) + cordNumberGuide, (squareEdge * i) + cordNumberGuide, squareEdge, squareEdge);
+                }
+            }
+            graph.DrawImage(aPlayerImage, cordNumberGuide, cordNumberGuide, squareEdge, squareEdge);
+            graph.DrawImage(bPlayerImage, squareEdge * (mapx - 1) + cordNumberGuide, cordNumberGuide, squareEdge, squareEdge);
+            graph.DrawImage(cPlayerImage, cordNumberGuide, squareEdge * (mapy - 1) + cordNumberGuide, squareEdge, squareEdge);
+            graph.DrawImage(dPlayerImage, squareEdge * (mapx - 1) + cordNumberGuide, squareEdge * (mapy - 1) + cordNumberGuide, squareEdge, squareEdge);
+            gamePictureBox.Image = bitmap;
+            CordGuide();
+        }
+
+        public void GraphicDraw()
+        {
+            graph = Graphics.FromImage(bitmap);
+            graph.Clear(Color.Transparent);
+            graph.DrawImage(bitmapBoard, 0, 0);
+            Pen pen = new Pen(Color.Red, 2);
+            for (int i = 0; i < map.GetMap().GetLength(0); i++)
+            {
+                for (int j = 0; j < map.GetMap().GetLength(1); j++)
+                {
+                    // Altın resimleri
+                    if (map.GetGoldPointValue(i, j) != 0)
+                        graph.DrawImage(goldImages[(map.GetGoldPointValue(i, j) / 5) - 1], (squareEdge * j) + cordNumberGuide, (squareEdge * i) + cordNumberGuide, squareEdge, squareEdge);
+                    // Gizli altın resimleri (eğer gizli altınlar gösterilmek istenmiş ise)
+                    else if (map.GetPrivateGoldPointValue(i, j) != 0 && hiddenActive == true)
+                    {
+                        graph.DrawImage(hiddenGoldImages[(map.GetPrivateGoldPointValue(i, j) / 5) - 1], (squareEdge * j) + cordNumberGuide, (squareEdge * i) + cordNumberGuide, squareEdge, squareEdge);
+                        graph.DrawRectangle(pen, (squareEdge * j) + cordNumberGuide + 1, (squareEdge * i) + cordNumberGuide + 1, squareEdge - 2, squareEdge - 2);
+                    }
+                    // Oyuncu resimleri
+                    if (aPlayer.GetPlayerMatris()[i, j] != 0)
+                        graph.DrawImage(aPlayerImage, (j * squareEdge) + cordNumberGuide, (i * squareEdge) + cordNumberGuide, squareEdge, squareEdge);
+                    else if (bPlayer.GetPlayerMatris()[i, j] != 0)
+                        graph.DrawImage(bPlayerImage, (j * squareEdge) + cordNumberGuide, (i * squareEdge) + cordNumberGuide, squareEdge, squareEdge);
+                    else if (cPlayer.GetPlayerMatris()[i, j] != 0)
+                        graph.DrawImage(cPlayerImage, (j * squareEdge) + cordNumberGuide, (i * squareEdge) + cordNumberGuide, squareEdge, squareEdge);
+                    else if (dPlayer.GetPlayerMatris()[i, j] != 0)
+                        graph.DrawImage(dPlayerImage, (j * squareEdge) + cordNumberGuide, (i * squareEdge) + cordNumberGuide, squareEdge, squareEdge);
+                }
+            }
+            gamePictureBox.Image = bitmap;
+        }
+
+        public void CordGuide()
+        {
+            Bitmap btm = new Bitmap(150, 150);
+            Graphics g = Graphics.FromImage(btm);
+            Pen pen = new Pen(Color.Black, 3);
+            Font font = new Font("Calibri", 19);
+            SolidBrush brush = new SolidBrush(Color.Black);
+
+            g.DrawLine(pen, (10 + 10), (10 + 10), (75 + 10), (10 + 10));
+            g.DrawLine(pen, (10 + 10), (10 + 10), (10 + 10), (75 + 10));
+            g.DrawLine(pen, (75 + 10), (10 + 10), (70 + 10), (4 + 10));
+            g.DrawLine(pen, (75 + 10), (10 + 10), (70 + 10), (14 + 10));
+            g.DrawLine(pen, (10 + 10), (75 + 10), (4 + 10), (70 + 10));
+            g.DrawLine(pen, (10 + 10), (75 + 10), (14 + 10), (70 + 10));
+            g.DrawString("Y", font, brush, (1 + 9), (76 + 5));
+            g.DrawString("X", font, brush, (76 + 9), (1 + 5));
+            gamePanel.BackgroundImage = btm;
+        }
+
+        public void PlayerDeathPictureDraw(Player player)
+        {
+            Bitmap bt = new Bitmap(1, 1);
+            Pen pen = new Pen(Color.Red, 5);
+            switch (player.GetName())
+            {
+                case "A":
+                    bt = new Bitmap(AplayerPicture.BackgroundImage);
+                    break;
+
+                case "B":
+                    bt = new Bitmap(BplayerPicture.BackgroundImage);
+                    break;
+
+                case "C":
+                    bt = new Bitmap(CplayerPicture.BackgroundImage);
+                    break;
+
+                case "D":
+                    bt = new Bitmap(DplayerPicture.BackgroundImage);
+                    break;
+            }
+            graph = Graphics.FromImage(bt);
+            graph.DrawLine(pen, 2, 2, bt.Width - 2, bt.Height - 2);
+            graph.DrawLine(pen, 2, bt.Height - 2, bt.Width - 2, 2);
+            switch (player.GetName())
+            {
+                case "A":
+                    AplayerPicture.BackgroundImage = bt;
+                    break;
+
+                case "B":
+                    BplayerPicture.BackgroundImage = bt;
+                    break;
+
+                case "C":
+                    CplayerPicture.BackgroundImage = bt;
+                    break;
+
+                case "D":
+                    DplayerPicture.BackgroundImage = bt;
+                    break;
+            }
+        }
+
+        private void TimerIntervalNum_ValueChanged(object sender, EventArgs e)
+        {
+            tm.Interval = Convert.ToInt32(TimerIntervalNum.Value);
+        }
+
+        public string GameOrderString(int order)
+        {
+            switch (order)
+            {
+                case 1: return "A";
+                case 2: return "B";
+                case 3: return "C";
+                case 4: return "D";
+                default:
+                    break;
+            }
+            return "";
+        }
+
+        private void Tm_Tick(object sender, EventArgs e)
+        {
+            switch (map.GetGameOrder())
+            {
+                case 1:
+                    if (aPlayer.IsDeath() == true)
+                    {
+                        map.RemovePlayersIsDeath(map.GetGameOrder());
+                        map.SetGameOrder();
+                        siradaki.Text = GameOrderString(map.GetGameOrder());
+                        PlayerDeathPictureDraw(aPlayer);
+                        aPlayer.SetPlayerMapValue(aPlayer.GetLastCord()[0], aPlayer.GetLastCord()[1], 0);
+                        GraphicDraw();
+                        ALog.Items.Clear();
+                        for (int i = aPlayer.GetLog().Count - 1; i >= 0; i--)
+                        {
+                            ALog.Items.Add(aPlayer.GetLog()[i]);
+                        }
+                        break;
+                    }
+                    aPlayer.Move(map);
+                    aPlayerKasa.Text = aPlayer.GetPlayerGold().ToString();
+                    if (aPlayer.IsDeath() == true)
+                    {
+                        map.RemovePlayersIsDeath(map.GetGameOrder());
+                        map.SetGameOrder();
+                        siradaki.Text = GameOrderString(map.GetGameOrder());
+                        PlayerDeathPictureDraw(aPlayer);
+                        aPlayer.SetPlayerMapValue(aPlayer.GetLastCord()[0], aPlayer.GetLastCord()[1], 0);
+                        GraphicDraw();
+                        ALog.Items.Clear();
+                        for (int i = aPlayer.GetLog().Count - 1; i >= 0; i--)
+                        {
+                            ALog.Items.Add(aPlayer.GetLog()[i]);
+                        }
+                        break;
+                    }
+                    GraphicDraw();
+                    ALog.Items.Clear();
+                    for (int i = aPlayer.GetLog().Count - 1; i >= 0; i--)
+                    {
+                        ALog.Items.Add(aPlayer.GetLog()[i]);
+                    }
+                    map.SetGameOrder();
+                    siradaki.Text = GameOrderString(map.GetGameOrder());
+                    break;
+
+                case 2:
+                    if (bPlayer.IsDeath() == true)
+                    {
+                        map.RemovePlayersIsDeath(map.GetGameOrder());
+                        map.SetGameOrder();
+                        siradaki.Text = GameOrderString(map.GetGameOrder());
+                        PlayerDeathPictureDraw(bPlayer);
+                        bPlayer.SetPlayerMapValue(bPlayer.GetLastCord()[0], bPlayer.GetLastCord()[1], 0);
+                        GraphicDraw();
+                        BLog.Items.Clear();
+                        for (int i = bPlayer.GetLog().Count - 1; i >= 0; i--)
+                        {
+                            BLog.Items.Add(bPlayer.GetLog()[i]);
+                        }
+                        break;
+                    }
+                    bPlayer.Move(map);
+                    bPlayerKasa.Text = bPlayer.GetPlayerGold().ToString();
+                    if (bPlayer.IsDeath() == true)
+                    {
+                        map.RemovePlayersIsDeath(map.GetGameOrder());
+                        map.SetGameOrder();
+                        siradaki.Text = GameOrderString(map.GetGameOrder());
+                        PlayerDeathPictureDraw(bPlayer);
+                        bPlayer.SetPlayerMapValue(bPlayer.GetLastCord()[0], bPlayer.GetLastCord()[1], 0);
+                        GraphicDraw();
+                        BLog.Items.Clear();
+                        for (int i = bPlayer.GetLog().Count - 1; i >= 0; i--)
+                        {
+                            BLog.Items.Add(bPlayer.GetLog()[i]);
+                        }
+                        break;
+                    }
+                    GraphicDraw();
+                    BLog.Items.Clear();
+                    for (int i = bPlayer.GetLog().Count - 1; i >= 0; i--)
+                    {
+                        BLog.Items.Add(bPlayer.GetLog()[i]);
+                    }
+                    map.SetGameOrder();
+                    siradaki.Text = GameOrderString(map.GetGameOrder());
+                    break;
+
+                case 3:
+                    if (cPlayer.IsDeath() == true)
+                    {
+                        map.RemovePlayersIsDeath(map.GetGameOrder());
+                        map.SetGameOrder();
+                        siradaki.Text = GameOrderString(map.GetGameOrder());
+                        PlayerDeathPictureDraw(cPlayer);
+                        cPlayer.SetPlayerMapValue(cPlayer.GetLastCord()[0], cPlayer.GetLastCord()[1], 0);
+                        GraphicDraw();
+                        CLog.Items.Clear();
+                        for (int i = cPlayer.GetLog().Count - 1; i >= 0; i--)
+                        {
+                            CLog.Items.Add(cPlayer.GetLog()[i]);
+                        }
+                        break;
+                    }
+                    cPlayer.Move(map);
+                    cPlayerKasa.Text = cPlayer.GetPlayerGold().ToString();
+                    if (cPlayer.IsDeath() == true)
+                    {
+                        map.RemovePlayersIsDeath(map.GetGameOrder());
+                        map.SetGameOrder();
+                        siradaki.Text = GameOrderString(map.GetGameOrder());
+                        PlayerDeathPictureDraw(cPlayer);
+                        cPlayer.SetPlayerMapValue(cPlayer.GetLastCord()[0], cPlayer.GetLastCord()[1], 0);
+                        GraphicDraw();
+                        CLog.Items.Clear();
+                        for (int i = cPlayer.GetLog().Count - 1; i >= 0; i--)
+                        {
+                            CLog.Items.Add(cPlayer.GetLog()[i]);
+                        }
+                        break;
+                    }
+                    GraphicDraw();
+                    CLog.Items.Clear();
+                    for (int i = cPlayer.GetLog().Count - 1; i >= 0; i--)
+                    {
+                        CLog.Items.Add(cPlayer.GetLog()[i]);
+                    }
+                    map.SetGameOrder();
+                    siradaki.Text = GameOrderString(map.GetGameOrder());
+                    break;
+
+                case 4:
+                    if (dPlayer.IsDeath() == true)
+                    {
+                        map.RemovePlayersIsDeath(map.GetGameOrder());
+                        map.SetGameOrder();
+                        siradaki.Text = GameOrderString(map.GetGameOrder());
+                        PlayerDeathPictureDraw(dPlayer);
+                        dPlayer.SetPlayerMapValue(dPlayer.GetLastCord()[0], dPlayer.GetLastCord()[1], 0);
+                        GraphicDraw();
+                        DLog.Items.Clear();
+                        for (int i = dPlayer.GetLog().Count - 1; i >= 0; i--)
+                        {
+                            DLog.Items.Add(dPlayer.GetLog()[i]);
+                        }
+                        break;
+                    }
+                    dPlayer.Move(map);
+                    dPlayerKasa.Text = dPlayer.GetPlayerGold().ToString();
+                    if (dPlayer.IsDeath() == true)
+                    {
+                        map.RemovePlayersIsDeath(map.GetGameOrder());
+                        map.SetGameOrder();
+                        siradaki.Text = GameOrderString(map.GetGameOrder());
+                        PlayerDeathPictureDraw(dPlayer);
+                        dPlayer.SetPlayerMapValue(dPlayer.GetLastCord()[0], dPlayer.GetLastCord()[1], 0);
+                        GraphicDraw();
+                        DLog.Items.Clear();
+                        for (int i = dPlayer.GetLog().Count - 1; i >= 0; i--)
+                        {
+                            DLog.Items.Add(dPlayer.GetLog()[i]);
+                        }
+                        break;
+                    }
+                    GraphicDraw();
+                    DLog.Items.Clear();
+                    for (int i = dPlayer.GetLog().Count - 1; i >= 0; i--)
+                    {
+                        DLog.Items.Add(dPlayer.GetLog()[i]);
+                    }
+                    map.SetGameOrder();
+                    siradaki.Text = GameOrderString(map.GetGameOrder());
+                    break;
+
+                default:
+                    break;
+            }
+
+            if (map.GetgameOver() == true)
+            {
+                tm.Stop();
+                MessageBox.Show(map.GetgameOverReason() + " Oyun bitti.");
+                aPlayer.SetLog(map.GetgameOverReason());
+                bPlayer.SetLog(map.GetgameOverReason());
+                cPlayer.SetLog(map.GetgameOverReason());
+                dPlayer.SetLog(map.GetgameOverReason());
+                aPlayer.SetLog("Oyun Bitti");
+                bPlayer.SetLog("Oyun Bitti");
+                cPlayer.SetLog("Oyun Bitti");
+                dPlayer.SetLog("Oyun Bitti");
+                ScoreBoard scoreBoard = new ScoreBoard(aPlayer, bPlayer, cPlayer, dPlayer, map, this);
+                scoreBoard.Show();
+            }
+        }
+
+        private void StartBtn_Click(object sender, EventArgs e)
+        {
+            if (StartBtn.Text == "Oyunu başlat")
+            {
+                StartBtn.Text = "Oyunu durdur";
+                tm.Start();
+            }
+            else
+            {
+                StartBtn.Text = "Oyunu başlat";
+                tm.Stop();
+            }
+        }
+
+        private void HiddenGoldBtn_Click(object sender, EventArgs e)
+        {
+            if (hiddenActive == true)
+            {
+                hiddenActive = false;
+                HiddenGoldBtn.Text = "Gizli altınları göster";
+            }
+            else
+            {
+                hiddenActive = true;
+                HiddenGoldBtn.Text = "Gizli altınları gizle";
+            }
+            GraphicDraw();
+        }
+    }
+}
+//---------------------------------------------------------------------
+//UI/ScoreBoard.cs
+//---------------------------------------------------------------------
+using AltınOyunuCSharp.Game.Map.Concrete; // Map sınıfının bulunduğu adres
+using AltınOyunuCSharp.Game.Player.Concrete.Players; // Oyuncu sınıflarının bulunduğu adres
+using System;
+using System.Windows.Forms;
+
+namespace AltınOyunuCSharp.UI
+{
+    public partial class ScoreBoard : Form
+    {
+        public Form gameForm;
+        private readonly APlayer aPlayer;
+        private readonly BPlayer bPlayer;
+        private readonly CPlayer cPlayer;
+        private readonly DPlayer dPlayer;
+        private readonly Map map;
+
+        public ScoreBoard(APlayer aPlayer, BPlayer bPlayer, CPlayer cPlayer, DPlayer dPlayer, Map map, Form gameForm)
+        {
+            this.aPlayer = aPlayer;
+            this.bPlayer = bPlayer;
+            this.cPlayer = cPlayer;
+            this.dPlayer = dPlayer;
+            this.map = map;
+            this.gameForm = gameForm;
+            InitializeComponent();
+        }
+
+        private void ScoreBoard_Load(object sender, EventArgs e)
+        {
+            label10.Text = aPlayer.GetTotalNumberOfSteps().ToString();
+            label11.Text = bPlayer.GetTotalNumberOfSteps().ToString();
+            label12.Text = cPlayer.GetTotalNumberOfSteps().ToString();
+            label13.Text = dPlayer.GetTotalNumberOfSteps().ToString();
+
+            label18.Text = aPlayer.GetTotalAmountOfGoldSpent().ToString();
+            label19.Text = bPlayer.GetTotalAmountOfGoldSpent().ToString();
+            label20.Text = cPlayer.GetTotalAmountOfGoldSpent().ToString();
+            label21.Text = dPlayer.GetTotalAmountOfGoldSpent().ToString();
+
+            label14.Text = aPlayer.GetTotalAmountOfGoldEarned().ToString();
+            label15.Text = bPlayer.GetTotalAmountOfGoldEarned().ToString();
+            label16.Text = cPlayer.GetTotalAmountOfGoldEarned().ToString();
+            label17.Text = dPlayer.GetTotalAmountOfGoldEarned().ToString();
+
+            label22.Text = aPlayer.GetPlayerGold().ToString();
+            label23.Text = bPlayer.GetPlayerGold().ToString();
+            label24.Text = cPlayer.GetPlayerGold().ToString();
+            label25.Text = dPlayer.GetPlayerGold().ToString();
+            ALog.DataSource = aPlayer.GetLog();
+            BLog.DataSource = bPlayer.GetLog();
+            CLog.DataSource = cPlayer.GetLog();
+            DLog.DataSource = dPlayer.GetLog();
+
+            aPlayer.WriteToFile(map.GetMapString());
+            bPlayer.WriteToFile(map.GetMapString());
+            cPlayer.WriteToFile(map.GetMapString());
+            dPlayer.WriteToFile(map.GetMapString());
+        }
+
+        private void ScoreBoard_FormClosing(object sender, FormClosingEventArgs e)
+        {
+        }
+    }
+}
+//---------------------------------------------------------------------
+//UI/Start.cs
+//---------------------------------------------------------------------
+using AltınOyunuCSharp.Game.Map.Concrete; // Map sınıfının bulunduğu adres
+using AltınOyunuCSharp.Game.Player.Concrete.Players; // Oyuncuların sınıflarının bulunduğu adres
+using AltınOyunuCSharp.UI;
+using System;
+using System.Windows.Forms;
+
+namespace AltınOyunuCSharp
+{
+    public partial class Start : Form
+    {
+        public Start()
+        {
+            InitializeComponent();
+        }
+
+        public Map map;
+        public APlayer aPlayer;
+        public BPlayer bPlayer;
+        public CPlayer cPlayer;
+        public DPlayer dPlayer;
+
+        private void StartGame_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            int cordX = Int32.Parse(CordXNum.Text);
+            int cordY = Int32.Parse(CordYNum.Text);
+            int costA = Int32.Parse(aCostNum.Text);
+            int costB = Int32.Parse(bCostNum.Text);
+            int costC = Int32.Parse(cCostNum.Text);
+            int costD = Int32.Parse(dCostNum.Text);
+            int targetCostA = Int32.Parse(aTargetCostNum.Text);
+            int targetCostB = Int32.Parse(bTargetCostNum.Text);
+            int targetCostC = Int32.Parse(cTargetCostNum.Text);
+            int targetCostD = Int32.Parse(dTargetCostNum.Text);
+            int moveLenght = Int32.Parse(MoveLenghtNum.Text);
+            int goldRate = Int32.Parse(GoldNum.Text);
+            int privateGoldRate = Int32.Parse(PrivateGoldNum.Text);
+            int startGold = Int32.Parse(StartGoldNum.Text);
+            int cGoldShow = Int32.Parse(cGoldShowNum.Text);
+
+            //Map Oluşturma
+            this.map = new Map(cordY, cordX);
+
+            // Player Modelleri //
+            this.aPlayer = new APlayer(startGold, "A", 0, 0, costA, moveLenght, targetCostA, cordY, cordX);
+            this.bPlayer = new BPlayer(startGold, "B", 0, (cordX - 1), costB, moveLenght, targetCostB, cordY, cordX);
+            this.cPlayer = new CPlayer(startGold, "C", (cordY - 1), 0, costC, moveLenght, cGoldShow, targetCostC, cordY, cordX);
+            this.dPlayer = new DPlayer(startGold, "D", (cordY - 1), (cordX - 1), costD, moveLenght, targetCostD, cordY, cordX);
+
+            // Map Player Yerleşimi
+            this.map.AddPlayer(0, 0, "A"); //Player A
+            this.map.AddPlayer(0, (cordX - 1), "B"); //Player B
+            this.map.AddPlayer((cordY - 1), 0, "C"); //Player C
+            this.map.AddPlayer((cordY - 1), (cordX - 1), "D"); //Player D
+
+            //Map Altın Yerleşimi
+            this.map.AddAllGold(goldRate, privateGoldRate);
+
+            GameScreen game = new GameScreen(this.map, this.aPlayer, this.bPlayer, this.cPlayer, this.dPlayer, this);
+
+            game.Show();
+        }
+
+        private void ExitGameBtn_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void Start_Load(object sender, EventArgs e)
+        {
+        }
+    }
+}
