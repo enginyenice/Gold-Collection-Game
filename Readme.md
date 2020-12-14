@@ -16,7 +16,7 @@ Oyun C# Programlama dili kullanılarak nesne tabanlı programlama mantığı ile
 
 |Dosya Adı| İçerik  |
 |--|--|
-|  YazLab-1-Proje-1.pdf  | [Proje Detayları](https://github.com/enginyenice/Altin-Toplama-Oyunu-YazLab-1-Proje-1/blob/master/D%C3%B6k%C3%BCmanlar/D%C3%B6k%C3%BCmanlar/PDF%20D%C3%B6k%C3%BCman.pdf) |
+|  YazLab-1-Proje-1.pdf  | [Proje Detayları](https://github.com/enginyenice/Altin-Toplama-Oyunu-YazLab-1-Proje-1/blob/master/D%C3%B6k%C3%BCmanlar/D%C3%B6k%C3%BCmanlar/YazLab-1-Proje-1.pdf) |
 |  190201137-190201133-Rapor.pdf  | [Projenin raporu](https://github.com/enginyenice/Altin-Toplama-Oyunu-YazLab-1-Proje-1/blob/master/D%C3%B6k%C3%BCmanlar/Proje%20Teslim%20Dosyalar%C4%B1/190201137-190201133-Rapor.pdf) |
 |  190201137-190201133-Kaba-Kod.pdf  | [Proje içerisinde yazıların kodların kaba kod çıktıları](https://github.com/enginyenice/Altin-Toplama-Oyunu-YazLab-1-Proje-1/blob/master/D%C3%B6k%C3%BCmanlar/Proje%20Teslim%20Dosyalar%C4%B1/190201137-190201133-Kaba-Kod.pdf) |
 |  190201137-190201133.zip  | [Proje dosyalarının bulunduğu zip dosyası](https://github.com/enginyenice/Altin-Toplama-Oyunu-YazLab-1-Proje-1/blob/master/D%C3%B6k%C3%BCmanlar/Proje%20Teslim%20Dosyalar%C4%B1/190201137-%20190201133-Proje.zip) ||
