@@ -5,20 +5,32 @@
 ## ALTIN TOPLAMA OYUNU
 ## CEMRE CAN KAYA - 190201137
 ## ENGİN YENİCE - 190201133
----
-### BRANCH LİSTESİ
-1. [master => Proje dosyalarının bulunduğu **branch**](https://github.com/nginY26/AltinOyunuYAZLAB-I-I)
-2. [Teslim-Dosyaları Projenin teslim edilmesi için gerekli dökümanların bulunduğu **branch**](https://github.com/nginY26/AltinOyunuYAZLAB-I-I/tree/Teslim-Dosyalar%C4%B1)
----
+
+
+## T.C.
+## KOCAELİ ÜNİVERSİTESİ
+## BİLGİSAYAR MÜHENDİSLİĞİ
+## YAZILIM LABORATUVARI-1 PROJE -1 
+## ALTIN TOPLAMA OYUNU
+## CEMRE CAN KAYA - 190201137
+## ENGİN YENİCE - 190201133
+
+
+
 ### PROJE HAKKINDA
 Oyun C# Programlama dili kullanılarak nesne tabanlı programlama mantığı ile geliştirildi. Oyun kullanıcının belirlediği m x n karelik bir oyun alanında ve belirlenen kurallara göre bir simülasyon şeklinde çalışmaktadır. Kullanıcı oyun alanının boyutunu ve oyuncuların özelliklerini belirledikten sonra oyun başlatılır oyun sonunda oyuncuların tüm hareketleri ve tüm bilgileri ekrana tablo olarak yansıtılır. Bu bilgiler her kullanıcı için ayrı ayrı dosyalara yazdırılır.	
 ### TESLİM EDİLEN DOSYALAR VE İÇERİKLERİ
+---
 
- 1. 190201137-190201133-Rapor.pdf      : Projenin raporu
- 2. 190201137-190201133-Kaba-Kod.pdf   : Proje içerisinde yazıların kodların kaba kod çıktıları
- 3. 190201137-190201133-Tüm-Kodlar.txt : Projenin tüm kodlarının kopyalandığı metin belgesi
- 4. readme.txt		  	    : Projenin nasıl çalıştırılacağı ve önemli notların bulunduğu metin belgesi	
- 5. 190201137-190201133.zip	    : Proje dosyalarının bulunduğu zip dosyası
+|Dosya Adı| İçerik  |
+|--|--|
+|  YazLab-1-Proje-1.pdf  | [Proje Detayları](https://github.com/enginyenice/Altin-Toplama-Oyunu-YazLab-1-Proje-1/blob/master/D%C3%B6k%C3%BCmanlar/D%C3%B6k%C3%BCmanlar/PDF%20D%C3%B6k%C3%BCman.pdf) |
+|  190201137-190201133-Rapor.pdf  | [Projenin raporu](https://github.com/enginyenice/Altin-Toplama-Oyunu-YazLab-1-Proje-1/blob/master/D%C3%B6k%C3%BCmanlar/Proje%20Teslim%20Dosyalar%C4%B1/190201137-190201133-Rapor.pdf) |
+|  190201137-190201133-Kaba-Kod.pdf  | [Proje içerisinde yazıların kodların kaba kod çıktıları](https://github.com/enginyenice/Altin-Toplama-Oyunu-YazLab-1-Proje-1/blob/master/D%C3%B6k%C3%BCmanlar/Proje%20Teslim%20Dosyalar%C4%B1/190201137-190201133-Kaba-Kod.pdf) |
+|  190201137-190201133.zip  | [Proje dosyalarının bulunduğu zip dosyası](https://github.com/enginyenice/Altin-Toplama-Oyunu-YazLab-1-Proje-1/blob/master/D%C3%B6k%C3%BCmanlar/Proje%20Teslim%20Dosyalar%C4%B1/190201137-%20190201133-Proje.zip) ||
+|  190201137-190201133-Tüm-Kodlar.txt | [Projenin tüm kodlarının kopyalandığı metin belgesi](https://github.com/enginyenice/Altin-Toplama-Oyunu-YazLab-1-Proje-1/blob/master/D%C3%B6k%C3%BCmanlar/Proje%20Teslim%20Dosyalar%C4%B1/190201137-190201133.txt) |
+|  readme.txt  | [Projenin nasıl çalıştırılacağı ve önemli notların bulunduğu metin belgesi](https://github.com/enginyenice/Altin-Toplama-Oyunu-YazLab-1-Proje-1/blob/master/D%C3%B6k%C3%BCmanlar/Proje%20Teslim%20Dosyalar%C4%B1/readme.txt)	
+
 
 ---
 ### PROJE NASIL ÇALIŞTIRILIR
